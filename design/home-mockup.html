@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MANTLE — Home (Mockup)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: #f3f2f1;
+    color: #323130;
+    line-height: 1.5;
+  }
+
+  /* Microsoft suite header */
+  .suite-header {
+    background: #2b2b2b;
+    color: white;
+    padding: 0 16px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 14px;
+  }
+  .suite-header .waffle { font-size: 18px; opacity: .8; cursor: pointer; }
+  .suite-header .product { font-weight: 600; }
+  .suite-header .spacer { flex: 1; }
+  .suite-header .user-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: #6264a7;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 12px;
+  }
+
+  /* Site header */
+  .site-header {
+    background: white;
+    padding: 16px 32px;
+    border-bottom: 1px solid #edebe9;
+  }
+  .site-header-row {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 12px;
+  }
+  .site-logo {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, #0078d4, #6264a7);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 700; font-size: 20px;
+  }
+  .site-title { font-size: 20px; font-weight: 600; }
+  .site-subtitle { font-size: 13px; color: #605e5c; }
+  .site-nav {
+    display: flex; gap: 4px;
+  }
+  .site-nav a {
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #323130;
+    font-size: 14px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .site-nav a:hover { background: #f3f2f1; }
+  .site-nav a.active {
+    color: #0078d4;
+    border-bottom: 2px solid #0078d4;
+    border-radius: 0;
+  }
+
+  /* Main */
+  .main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 32px;
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #0078d4 0%, #6264a7 100%);
+    color: white;
+    border-radius: 8px;
+    padding: 32px 40px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    box-shadow: 0 1.6px 3.6px rgba(0,0,0,0.13);
+  }
+  .day-counter {
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .day-counter .day-num {
+    font-size: 64px;
+    font-weight: 200;
+    line-height: 1;
+  }
+  .day-counter .day-label {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    opacity: .9;
+    margin-top: 4px;
+  }
+  .hero-text { flex: 1; }
+  .hero-phase {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    opacity: .9;
+    margin-bottom: 4px;
+  }
+  .hero-message {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .hero-sub {
+    font-size: 14px;
+    opacity: .95;
+  }
+
+  /* Stat cards */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1.6px 3.6px rgba(0,0,0,0.06);
+    border-left: 4px solid #0078d4;
+  }
+  .stat-card.green { border-left-color: #107c10; }
+  .stat-card.orange { border-left-color: #ca5010; }
+  .stat-card.purple { border-left-color: #6264a7; }
+  .stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #605e5c;
+    font-weight: 600;
+  }
+  .stat-value {
+    font-size: 32px;
+    font-weight: 600;
+    margin: 8px 0 4px;
+    color: #323130;
+  }
+  .stat-detail {
+    font-size: 13px;
+    color: #605e5c;
+  }
+  .stat-detail .up { color: #107c10; }
+  .stat-detail .down { color: #d13438; }
+
+  /* Content grid */
+  .content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+  }
+
+  /* Card */
+  .card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1.6px 3.6px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #edebe9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .card-subtitle {
+    font-size: 12px;
+    color: #605e5c;
+    margin-top: 2px;
+  }
+  .card-link {
+    font-size: 13px;
+    color: #0078d4;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .card-body { padding: 0; }
+
+  /* Equivalency Map preview */
+  .filter-bar {
+    padding: 12px 20px;
+    background: #faf9f8;
+    border-bottom: 1px solid #edebe9;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 13px;
+  }
+  .filter-pill {
+    padding: 4px 12px;
+    background: white;
+    border: 1px solid #d2d0ce;
+    border-radius: 16px;
+    font-size: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .filter-pill.active {
+    background: #deecf9;
+    border-color: #0078d4;
+    color: #0078d4;
+  }
+  .filter-label {
+    color: #605e5c;
+    font-weight: 500;
+    margin-right: 4px;
+  }
+  table.eq-map {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table.eq-map th {
+    text-align: left;
+    padding: 8px 16px;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #605e5c;
+    background: #faf9f8;
+    border-bottom: 1px solid #edebe9;
+  }
+  table.eq-map td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f3f2f1;
+    vertical-align: top;
+  }
+  table.eq-map tr:hover { background: #faf9f8; }
+  .arrow { color: #a19f9d; margin: 0 6px; }
+  .tool-name { font-weight: 600; color: #323130; }
+  .gotcha-text { font-size: 12px; color: #605e5c; line-height: 1.4; }
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .pill.high { background: #dff6dd; color: #107c10; }
+  .pill.partial { background: #fff4ce; color: #835c00; }
+  .pill.none { background: #fde7e9; color: #d13438; }
+  .category-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #f3f2f1;
+    color: #605e5c;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  /* Right column */
+  .quick-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 16px;
+  }
+  .quick-action {
+    background: #f3f2f1;
+    padding: 16px 12px;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    color: #323130;
+    transition: background 0.15s;
+  }
+  .quick-action:hover { background: #edebe9; }
+  .qa-icon { font-size: 24px; margin-bottom: 6px; display: block; }
+  .qa-label { font-size: 12px; font-weight: 600; }
+
+  .week-list { padding: 8px 0; }
+  .week-item {
+    padding: 12px 20px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border-bottom: 1px solid #f3f2f1;
+  }
+  .week-item:last-child { border-bottom: none; }
+  .week-icon {
+    width: 32px; height: 32px;
+    background: #deecf9;
+    color: #0078d4;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .week-icon.urgent { background: #fde7e9; color: #d13438; }
+  .week-icon.training { background: #dff6dd; color: #107c10; }
+  .week-content { flex: 1; }
+  .week-title { font-size: 13px; font-weight: 600; }
+  .week-meta { font-size: 12px; color: #605e5c; margin-top: 2px; }
+
+  /* Dashboard tile preview */
+  .dashboard-preview {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 24px;
+    box-shadow: 0 1.6px 3.6px rgba(0,0,0,0.06);
+  }
+  .dashboard-preview .card-title { margin-bottom: 16px; }
+  .mini-charts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .mini-chart {
+    background: #faf9f8;
+    border-radius: 6px;
+    padding: 16px;
+    text-align: center;
+  }
+  .donut {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    background: conic-gradient(#0078d4 0deg 234deg, #edebe9 234deg 360deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .donut::before {
+    content: '';
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: #faf9f8;
+    position: absolute;
+  }
+  .donut-num {
+    position: relative;
+    z-index: 1;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .donut.green { background: conic-gradient(#107c10 0deg 162deg, #edebe9 162deg 360deg); }
+  .donut.orange { background: conic-gradient(#ca5010 0deg 90deg, #edebe9 90deg 360deg); }
+  .donut.purple { background: conic-gradient(#6264a7 0deg 288deg, #edebe9 288deg 360deg); }
+  .mini-chart-label {
+    font-size: 12px;
+    color: #605e5c;
+    margin-top: 4px;
+  }
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 80px;
+    margin-bottom: 8px;
+  }
+  .bar {
+    flex: 1;
+    background: #0078d4;
+    border-radius: 2px 2px 0 0;
+    min-height: 8px;
+  }
+  .bar.green { background: #107c10; }
+  .bar.partial { background: #ca5010; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    color: #a19f9d;
+    font-size: 12px;
+  }
+
+  /* Mockup banner */
+  .mockup-banner {
+    background: #fff4ce;
+    border-bottom: 1px solid #f0d869;
+    padding: 8px 16px;
+    text-align: center;
+    font-size: 12px;
+    color: #835c00;
+  }
+</style>
+</head>
+<body>
+
+<div class="mockup-banner">
+  📐 <strong>MOCKUP — not live.</strong> This shows what the MANTLE SharePoint home page will look like once the platform is built. Numbers and content are illustrative.
+</div>
+
+<!-- Microsoft suite header -->
+<div class="suite-header">
+  <span class="waffle">⊞</span>
+  <span class="product">SharePoint</span>
+  <span class="spacer"></span>
+  <span class="user-avatar">CT</span>
+</div>
+
+<!-- Site header -->
+<div class="site-header">
+  <div class="site-header-row">
+    <div class="site-logo">M</div>
+    <div>
+      <div class="site-title">MANTLE</div>
+      <div class="site-subtitle">Manual · Acronyms · Notes · Transition · Logistics · Engagement</div>
+    </div>
+  </div>
+  <nav class="site-nav">
+    <a href="#" class="active">🏠 Home</a>
+    <a href="#">📋 Learn</a>
+    <a href="#">📊 Operate</a>
+    <a href="#">🎯 Align</a>
+    <a href="#">📈 Grow</a>
+    <a href="#">🔁 Handover</a>
+  </nav>
+</div>
+
+<!-- Main content -->
+<div class="main">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="day-counter">
+      <div class="day-num">12</div>
+      <div class="day-label">of 90 days</div>
+    </div>
+    <div class="hero-text">
+      <div class="hero-phase">Phase 1 · Learn</div>
+      <div class="hero-message">You're shadowing this week — focus is interviews and mapping the landscape.</div>
+      <div class="hero-sub">Next milestone: 30-day check-in with your supervisor on June 15. You're on pace.</div>
+    </div>
+  </div>
+
+  <!-- Stat cards -->
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-label">Stakeholders Met</div>
+      <div class="stat-value">7 / 18</div>
+      <div class="stat-detail"><span class="up">▲ 3 this week</span></div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Training Complete</div>
+      <div class="stat-value">42%</div>
+      <div class="stat-detail">3 of 7 required modules done</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-label">Open Tasks</div>
+      <div class="stat-value">11</div>
+      <div class="stat-detail">2 due this week</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-label">Equivalency Map</div>
+      <div class="stat-value">30</div>
+      <div class="stat-detail">tool mappings catalogued</div>
+    </div>
+  </div>
+
+  <!-- Content grid -->
+  <div class="content-grid">
+
+    <!-- Left: Equivalency Map preview -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Equivalency Map</div>
+          <div class="card-subtitle">What I knew in Google → What it's called in Microsoft</div>
+        </div>
+        <a href="#" class="card-link">Open full list →</a>
+      </div>
+      <div class="filter-bar">
+        <span class="filter-label">Filter:</span>
+        <span class="filter-pill active">All categories</span>
+        <span class="filter-pill">Chat</span>
+        <span class="filter-pill">Storage</span>
+        <span class="filter-pill">Project Mgmt</span>
+        <span class="filter-pill">From: Slack ✕</span>
+      </div>
+      <table class="eq-map">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Gotcha</th>
+            <th>Maturity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="category-tag">Chat</span></td>
+            <td><span class="tool-name">Slack</span></td>
+            <td><span class="arrow">→</span><span class="tool-name">Teams</span></td>
+            <td class="gotcha-text">Slack threads are first-class; Teams uses channel posts + replies which feels different.</td>
+            <td><span class="pill high">High</span></td>
+          </tr>
+          <tr>
+            <td><span class="category-tag">Chat</span></td>
+            <td><span class="tool-name">Slack Huddles</span></td>
+            <td><span class="arrow">→</span><span class="tool-name">Meet now</span></td>
+            <td class="gotcha-text">Started from channel header; both support screenshare.</td>
+            <td><span class="pill high">High</span></td>
+          </tr>
+          <tr>
+            <td><span class="category-tag">Chat</span></td>
+            <td><span class="tool-name">Slack Canvas</span></td>
+            <td><span class="arrow">→</span><span class="tool-name">Loop component</span></td>
+            <td class="gotcha-text">Loop has more block types and works across Teams + Outlook + Word.</td>
+            <td><span class="pill partial">Partial</span></td>
+          </tr>
+          <tr>
+            <td><span class="category-tag">Automation</span></td>
+            <td><span class="tool-name">Workflow Builder</span></td>
+            <td><span class="arrow">→</span><span class="tool-name">Power Automate</span></td>
+            <td class="gotcha-text">Power Automate has 1000+ connectors and works anywhere in M365.</td>
+            <td><span class="pill high">High</span></td>
+          </tr>
+          <tr>
+            <td><span class="category-tag">Chat</span></td>
+            <td><span class="tool-name">Slack /remind</span></td>
+            <td><span class="arrow">→</span><span class="tool-name">(no native)</span></td>
+            <td class="gotcha-text">Closest: Power Automate scheduled flow, To Do reminder, or Planner due date.</td>
+            <td><span class="pill none">None</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Right column -->
+    <div>
+      <div class="card" style="margin-bottom: 16px;">
+        <div class="card-header">
+          <div class="card-title">Quick Actions</div>
+        </div>
+        <div class="quick-actions">
+          <a href="#" class="quick-action">
+            <span class="qa-icon">📝</span>
+            <span class="qa-label">Log a Stakeholder</span>
+          </a>
+          <a href="#" class="quick-action">
+            <span class="qa-icon">📅</span>
+            <span class="qa-label">Submit Weekly Pulse</span>
+          </a>
+          <a href="#" class="quick-action">
+            <span class="qa-icon">📋</span>
+            <span class="qa-label">Open Task Board</span>
+          </a>
+          <a href="#" class="quick-action">
+            <span class="qa-icon">🔍</span>
+            <span class="qa-label">Search Acronyms</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">This Week</div>
+          <a href="#" class="card-link">All →</a>
+        </div>
+        <div class="week-list">
+          <div class="week-item">
+            <div class="week-icon urgent">!</div>
+            <div class="week-content">
+              <div class="week-title">1:1 with new supervisor</div>
+              <div class="week-meta">Tue 10:00 AM · 30 min · Teams meeting</div>
+            </div>
+          </div>
+          <div class="week-item">
+            <div class="week-icon">📞</div>
+            <div class="week-content">
+              <div class="week-title">Shadow program review</div>
+              <div class="week-meta">Wed 2:00 PM · 60 min · in-person</div>
+            </div>
+          </div>
+          <div class="week-item">
+            <div class="week-icon training">✓</div>
+            <div class="week-content">
+              <div class="week-title">FY26 Records Mgmt training</div>
+              <div class="week-meta">Due Friday · ~45 min</div>
+            </div>
+          </div>
+          <div class="week-item">
+            <div class="week-icon">💬</div>
+            <div class="week-content">
+              <div class="week-title">Coffee with peer coordinator</div>
+              <div class="week-meta">Thu 9:00 AM · 30 min · Building 28 cafe</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard preview -->
+  <div class="dashboard-preview">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <div>
+        <div class="card-title">Onboarding Dashboard</div>
+        <div class="card-subtitle">Auto-refreshes from your lists · powered by Power BI</div>
+      </div>
+      <a href="#" class="card-link">Expand →</a>
+    </div>
+    <div class="mini-charts">
+      <div class="mini-chart">
+        <div class="donut"><span class="donut-num">65%</span></div>
+        <div class="mini-chart-label">Plan Completion</div>
+      </div>
+      <div class="mini-chart">
+        <div class="donut green"><span class="donut-num">42%</span></div>
+        <div class="mini-chart-label">Training</div>
+      </div>
+      <div class="mini-chart">
+        <div class="donut orange"><span class="donut-num">25%</span></div>
+        <div class="mini-chart-label">Stale Stakeholders</div>
+      </div>
+      <div class="mini-chart">
+        <div class="bar-chart">
+          <div class="bar green" style="height: 70%"></div>
+          <div class="bar partial" style="height: 50%"></div>
+          <div class="bar" style="height: 90%"></div>
+          <div class="bar green" style="height: 40%"></div>
+          <div class="bar partial" style="height: 30%"></div>
+        </div>
+        <div class="mini-chart-label">Weekly Confidence</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  MANTLE · Mockup version 1.0 · Real platform builds in SharePoint
+</div>
+
+</body>
+</html>

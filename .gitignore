@@ -1,0 +1,17 @@
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor noise
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Local-only working files (anything PC populated should never be here)
+local/
+private/
+*.local.*
+*.private.*
