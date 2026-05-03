@@ -19,6 +19,10 @@ The name comes from the phrase *"passing the mantle"* — what happens at every 
 - **Not AI-dependent.** Copilot and other LLMs are tools used to *build* MANTLE; they are never runtime components users have to trust.
 - **Not multi-tenant in deployment** (one user today). But the data schema is built for scale, so adding more PCs requires no redesign.
 
+## Build approach
+
+MANTLE is built via PnP PowerShell automation against the live NASA tenant. There is no Microsoft 365 Developer Program tenant and no personal sandbox — provisioning, schema changes, and data backfills run as scripts directly against the production site (see `scripts/`). Cherrelle owns the IP for the design and tooling; the platform itself runs in NASA's tenant for now.
+
 ## What lives where
 
 | Where | What |

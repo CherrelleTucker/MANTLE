@@ -23,6 +23,25 @@ All data lives in SharePoint Lists within a single Communication Site (provision
 
 ---
 
+## Naming convention for the Title column
+
+SharePoint Lists' first column is always called `Title` internally and cannot be deleted or have its type changed. We rename it per List to be self-explanatory in lookups and cross-list views.
+
+**Caveat:** Some SharePoint tenants register "Name" as a Site Column, which prevents creating a new column called "Name" in any List on the site. To avoid that conflict, use **list-specific** renames (e.g., `Coordinator Name`, `Program Name`, `Tool Name`) rather than the generic "Name".
+
+| List | Title column renamed to |
+|------|------------------------|
+| PCs | `Coordinator Name` |
+| Programs | `Program Name` |
+| Tools | `Tool Name` |
+| Stakeholders | `Contact Name` |
+| Acronyms | `Acronym` |
+| Equivalency Map | `Mapping` (or leave as `Title`) |
+| Meetings | `Meeting Name` |
+| Decisions Log | `Decision` |
+| 30-60-90 Tasks | `Task` |
+| Trainee Profiles | `Profile Name` |
+
 ## Schema details
 
 ### `Programs`
@@ -33,10 +52,9 @@ All data lives in SharePoint Lists within a single Communication Site (provision
 | Center | Choice | MSFC, GSFC, JPL, ARC, LaRC, GRC, JSC, KSC, SSC, AFRC, WFF, MAF, HQ |
 | Status | Choice | Active, Inactive, Sunset |
 | Description | Multiple lines of text | Public-facing description |
-| Lead | Person or Group | Civil servant lead |
-| PM | Person or Group | Project Manager |
+| Barrios Lead | Person or Group | The PC's direct Barrios manager for this program |
+| PC Customer | Person or Group | The NASA civil servant the PC supports day-to-day |
 | Tools used | Lookup → Tools (multi) | Maintained as the program adopts/sunsets tools |
-| Last verified | Date | When the record was last reviewed |
 
 ### `PCs`
 | Field | Type | Notes |
@@ -44,7 +62,7 @@ All data lives in SharePoint Lists within a single Communication Site (provision
 | Title | Single line of text | Full name |
 | Email | Single line of text | NASA email |
 | Status | Choice | Active, Departed |
-| Employer | Choice | Barrios, ASRC Federal, BAH, SSAI, USRA, Other |
+| Contract | Choice (allow fill-in) | CPSS, Other — Barrios contract vehicle assigning the PC to NASA |
 | Hire date | Date | When they joined the contract |
 
 ### `Trainee Profiles`
@@ -68,7 +86,6 @@ All data lives in SharePoint Lists within a single Communication Site (provision
 | PC role | Choice | Lead, Co-lead, Participant, Observer, Optional |
 | PC responsibilities | Multiple lines of text | What the PC does for this meeting |
 | Resources | Multiple lines of text | Links and notes location |
-| Last verified | Date | |
 
 ### `Stakeholders`
 | Field | Type | Notes |
@@ -109,9 +126,9 @@ All data lives in SharePoint Lists within a single Communication Site (provision
 | Field | Type | Notes |
 |-------|------|-------|
 | Title | Single line of text | "From-Tool → To-Tool" |
-| Category | Choice | Same as Tools.Category |
-| From-Tool | Lookup → Tools | |
-| To-Tool | Lookup → Tools | |
+| Category | Choice | Same values as Tools.Category — represents the category of the *mapping* (often = From-Tool's category, but explicit so cross-category mappings can be coded too) |
+| From-Tool | Lookup → Tools | Primary `Title`, additional `Category`. Single value. The Tools list is the canonical catalog — adding a tool to Tools auto-makes it available here. |
+| To-Tool | Lookup → Tools | Primary `Title`, additional `Category`. Single value. Same pattern. |
 | What's the same | Multiple lines of text | |
 | Gotchas | Multiple lines of text | What differs that surprises people |
 | Maturity | Choice | High (1:1), Partial, None |

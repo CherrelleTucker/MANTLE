@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MANTLE Build Checklist</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: #f3f2f1;
+    color: #323130;
+    line-height: 1.55;
+    padding: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 28px; margin-bottom: 4px; color: #0078d4; }
+  .subtitle { color: #605e5c; font-size: 14px; margin-bottom: 24px; }
+  h2 {
+    font-size: 22px;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #0078d4;
+  }
+  h3 {
+    font-size: 18px;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    color: #323130;
+    background: white;
+    padding: 12px 16px;
+    border-radius: 6px;
+    border-left: 4px solid #6264a7;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  ul.checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0 12px;
+  }
+  ul.checklist li {
+    padding: 8px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    border-bottom: 1px solid #edebe9;
+  }
+  ul.checklist li:last-child { border-bottom: none; }
+  ul.checklist li.done > label {
+    text-decoration: line-through;
+    color: #a19f9d;
+  }
+  ul.checklist li.done > label .description,
+  ul.checklist li.done > label .meta { opacity: 0.5; }
+  ul.checklist input[type="checkbox"] {
+    margin-top: 4px;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    accent-color: #0078d4;
+    flex-shrink: 0;
+  }
+  ul.checklist label {
+    cursor: pointer;
+    flex: 1;
+  }
+  ul.checklist label .label-text {
+    display: block;
+  }
+  .description {
+    display: block;
+    color: #605e5c;
+    font-size: 13px;
+    font-style: italic;
+    margin-top: 2px;
+    line-height: 1.45;
+  }
+  .meta {
+    display: block;
+    color: #605e5c;
+    font-size: 12px;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  .meta-label {
+    font-weight: 600;
+    color: #323130;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 11px;
+  }
+  code {
+    background: #f3f2f1;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: 'Cascadia Code', 'Consolas', monospace;
+    font-size: 12px;
+  }
+  .gotcha {
+    background: #fff4ce;
+    border-left: 4px solid #ffb900;
+    padding: 12px 16px;
+    margin: 8px 0;
+    border-radius: 4px;
+  }
+  .gotcha strong { color: #835c00; }
+  .progress-bar {
+    background: white;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 16px;
+    z-index: 10;
+  }
+  .progress-track {
+    background: #edebe9;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 8px 0;
+  }
+  .progress-fill {
+    background: linear-gradient(90deg, #0078d4, #6264a7);
+    height: 100%;
+    transition: width 0.3s;
+  }
+  .progress-text { font-size: 13px; color: #605e5c; }
+  .progress-text strong { color: #0078d4; font-size: 16px; }
+  .reset-btn {
+    margin-top: 8px;
+    padding: 4px 12px;
+    background: white;
+    border: 1px solid #d2d0ce;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #605e5c;
+  }
+  .reset-btn:hover { background: #f3f2f1; }
+  .status-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .status-tag.todo { background: #fde7e9; color: #d13438; }
+</style>
+</head>
+<body>
+
+<h1>MANTLE Build Checklist</h1>
+<div class="subtitle">Walk through each list. Verify column names, types, choices, and descriptions. Boxes persist across page refreshes (browser-local).</div>
+
+<div class="progress-bar">
+  <div class="progress-text"><strong id="progress-percent">0%</strong> · <span id="progress-count">0 of 0 done</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width: 0%"></div></div>
+  <button class="reset-btn" onclick="if(confirm('Reset all checkboxes?')){localStorage.clear();location.reload();}">Reset all</button>
+</div>
+
+<h2>🦴 Mission 1 — Skeleton</h2>
+
+<h3>Equivalency Map (List)</h3>
+<ul class="checklist">
+  <li><input type="checkbox" id="em1"><label for="em1">
+    <span class="label-text">List exists, named <code>Equivalency Map</code></span>
+  </label></li>
+  <li><input type="checkbox" id="em2"><label for="em2">
+    <span class="label-text">Title column: leave as <code>Title</code>, OR rename to <code>Mapping</code></span>
+    <span class="description">The "From → To" pair this row maps. Used as the lookup key when other lists reference an equivalency entry.</span>
+  </label></li>
+  <li><input type="checkbox" id="em3"><label for="em3">
+    <span class="label-text"><strong>Category</strong> — Choice (no fill-in)</span>
+    <span class="description">The functional category of both tools. Drives grouping in views and filtering in dashboards.</span>
+    <span class="meta"><span class="meta-label">Choices:</span> Chat, Docs, Storage, Project Mgmt, Email, Calendar, Notes, Forms, Automation, Dashboards, Identity, Other</span>
+  </label></li>
+  <li><input type="checkbox" id="em4"><label for="em4">
+    <span class="label-text"><strong>From-Tool</strong> — Lookup → Tools</span>
+    <span class="description">The tool a coordinator is migrating away from. Filtered against the user's previous tools (Trainee Profile) to personalize the Equivalency Map view.</span>
+    <span class="meta"><span class="meta-label">Lookup config:</span> Primary <code>Title</code> (= Tool Name) · Additional <code>Category</code> · Single value · Source = every entry in the Tools list (auto-updates as you add tools there)</span>
+  </label></li>
+  <li><input type="checkbox" id="em5"><label for="em5">
+    <span class="label-text"><strong>To-Tool</strong> — Lookup → Tools</span>
+    <span class="description">The tool the destination program uses. Filtered against the program's <code>Tools used</code> to scope the equivalency map to relevant migrations only.</span>
+    <span class="meta"><span class="meta-label">Lookup config:</span> Primary <code>Title</code> (= Tool Name) · Additional <code>Category</code> · Single value · Same pattern as From-Tool</span>
+  </label></li>
+  <li><input type="checkbox" id="em6"><label for="em6">
+    <span class="label-text"><strong>What's the same</strong> — Multiple lines of text</span>
+    <span class="description">Capabilities that map cleanly between the two tools. Helps a coordinator feel oriented in the new ecosystem.</span>
+  </label></li>
+  <li><input type="checkbox" id="em7"><label for="em7">
+    <span class="label-text"><strong>Gotchas</strong> — Multiple lines of text</span>
+    <span class="description">What surprises people during migration. The most valuable field — the kind of thing nobody documents in vendor marketing material.</span>
+  </label></li>
+  <li><input type="checkbox" id="em8"><label for="em8">
+    <span class="label-text"><strong>Maturity</strong> — Choice (no fill-in)</span>
+    <span class="description">How clean the mapping is. Drives the colored pill display (green/yellow/red).</span>
+    <span class="meta"><span class="meta-label">Choices:</span> High, Partial, None</span>
+  </label></li>
+  <li><input type="checkbox" id="em9"><label for="em9">
+    <span class="label-text">31 rows imported (verify row 22 reads <code>Jira → Azure DevOps Boards</code>, not Asana/Planner)</span>
+  </label></li>
+</ul>
+
+<h3>Other tabs in Home channel</h3>
+<ul class="checklist">
+  <li><input type="checkbox" id="t1"><label for="t1">
+    <span class="label-text"><strong>30-60-90</strong> — Planner tab</span>
+    <span class="description">Visual Kanban for the new coordinator's onboarding tasks, organized by phase.</span>
+    <span class="meta"><span class="meta-label">Buckets:</span> Days 1-30, Days 31-60, Days 61-90</span>
+  </label></li>
+  <li><input type="checkbox" id="t2"><label for="t2">
+    <span class="label-text"><strong>MANTLE Notes</strong> — OneNote tab</span>
+    <span class="description">Free-form personal notebook for things that don't fit a structured List.</span>
+    <span class="meta"><span class="meta-label">Section:</span> Things I'm Learning</span>
+  </label></li>
+</ul>
+
+<h2>🧱 Mission 2 — Foundation Lists</h2>
+
+<h3>Tools (List)</h3>
+<ul class="checklist">
+  <li><input type="checkbox" id="tl1"><label for="tl1">
+    <span class="label-text">List exists, named <code>Tools</code></span>
+  </label></li>
+  <li><input type="checkbox" id="tl2"><label for="tl2">
+    <span class="label-text">Title renamed to <code>Tool Name</code></span>
+    <span class="description">Canonical name of the tool. Used as the lookup key by Equivalency Map, Trainee Profiles, and the Program↔Tool junction.</span>
+  </label></li>
+  <li><input type="checkbox" id="tl3"><label for="tl3">
+    <span class="label-text"><strong>Category</strong> — Choice (no fill-in)</span>
+    <span class="description">Functional grouping. Shared vocabulary with the Equivalency Map's Category column.</span>
+    <span class="meta"><span class="meta-label">Choices:</span> Chat, Docs, Storage, Project Mgmt, Email, Calendar, Notes, Forms, Automation, Dashboards, Identity, Other</span>
+  </label></li>
+  <li><input type="checkbox" id="tl4"><label for="tl4">
+    <span class="label-text"><strong>Vendor</strong> — Single line of text</span>
+    <span class="description">Company that produces the tool. Useful for vendor-level analytics ("how much of our stack is Microsoft vs. Google?").</span>
+  </label></li>
+  <li><input type="checkbox" id="tl5"><label for="tl5">
+    <span class="label-text"><strong>Description</strong> — Multiple lines of text</span>
+    <span class="description">One-sentence plain-language summary of what the tool does. Surfaces in tooltips and the lookup picker.</span>
+  </label></li>
+  <li><input type="checkbox" id="tl6"><label for="tl6">
+    <span class="label-text">60 rows imported</span>
+  </label></li>
+</ul>
+
+<h3>Programs (List)</h3>
+<ul class="checklist">
+  <li><input type="checkbox" id="pr1"><label for="pr1">
+    <span class="label-text">List exists, named <code>Programs</code></span>
+  </label></li>
+  <li><input type="checkbox" id="pr2"><label for="pr2">
+    <span class="label-text">Title renamed to <code>Program Name</code></span>
+    <span class="description">Official name of the NASA program/customer being supported. Lookup key referenced by Meetings, Stakeholders, Decisions Log, and PC↔Program History.</span>
+  </label></li>
+  <li><input type="checkbox" id="pr3"><label for="pr3">
+    <span class="label-text"><strong>Customer</strong> — Single line of text</span>
+    <span class="description">Sponsoring organization or top-level customer (e.g., ESDS, OCSDO, MSFC ST Office).</span>
+  </label></li>
+  <li><input type="checkbox" id="pr4"><label for="pr4">
+    <span class="label-text"><strong>Center</strong> — Choice (no fill-in)</span>
+    <span class="description">The NASA center hosting the program. Used for filtering ("show me all MSFC programs") and reporting.</span>
+    <span class="meta"><span class="meta-label">Choices:</span> MSFC, GSFC, JPL, ARC, LaRC, GRC, JSC, KSC, SSC, AFRC, WFF, MAF, HQ</span>
+  </label></li>
+  <li><input type="checkbox" id="pr5"><label for="pr5">
+    <span class="label-text"><strong>Status</strong> — Choice (no fill-in, default <code>Active</code>)</span>
+    <span class="description">Whether the program is currently active, paused, or wound down.</span>
+    <span class="meta"><span class="meta-label">Choices:</span> Active, Inactive, Sunset</span>
+  </label></li>
+  <li><input type="checkbox" id="pr6"><label for="pr6">
+    <span class="label-text"><strong>Description</strong> — Multiple lines of text</span>
+    <span class="description">Plain-language summary of the program's purpose, charter, or scope.</span>
+  </label></li>
+  <li><input type="checkbox" id="pr7"><label for="pr7">
+    <span class="label-text"><strong>Barrios Lead</strong> — Person or Group (allow people only)</span>
+    <span class="description">The PC's direct Barrios manager for this program.</span>
+  </label></li>
+  <li><input type="checkbox" id="pr8"><label for="pr8">
+    <span class="label-text"><strong>PC Customer</strong> — Person or Group (allow people only)</span>
+    <span class="description">The NASA civil servant the PC supports day-to-day. Often a Project Manager or Project Lead.</span>
+  </label></li>
+  <li><input type="checkbox" id="pr9"><label for="pr9">
+    <span class="label-text"><strong>Tools used</strong> — Lookup → Tools</span>
+    <span class="description">The tools this program currently uses. Drives the destination side of the Equivalency Map filter and feeds the Program↔Tool junction.</span>
+    <span class="meta"><span class="meta-label">Lookup config:</span> Primary <code>Title</code> (= Tool Name) · Additional <code>Category</code> · <strong>Allow multiple values</strong></span>
+  </label></li>
+  <li><input type="checkbox" id="pr10"><label for="pr10">
+    <span class="label-text">At least 1 row added (your current program)</span>
+  </label></li>
+</ul>
+
+<h3>PCs (List)</h3>
+<ul class="checklist">
+  <li><input type="checkbox" id="pc1"><label for="pc1">
+    <span class="label-text">List exists, named <code>PCs</code></span>
+  </label></li>
+  <li><input type="checkbox" id="pc2"><label for="pc2">
+    <span class="label-text">Title renamed to <code>Coordinator Name</code></span>
+    <span class="description">Display name of the Project Coordinator. Lookup key referenced by Trainee Profiles and PC↔Program History.</span>
+  </label></li>
+  <li><input type="checkbox" id="pc3"><label for="pc3">
+    <span class="label-text"><strong>Person</strong> — Person or Group (allow people only)</span>
+    <span class="description">The PC's M365 user reference. Pulls profile picture, email, org chart link from Entra. Lives only in the PCs list itself (Lookups can't reference Person columns).</span>
+  </label></li>
+  <li><input type="checkbox" id="pc4"><label for="pc4">
+    <span class="label-text"><strong>Email</strong> — Single line of text</span>
+    <span class="description">Backup contact email. Useful for PCs whose Person field can't be resolved (e.g., departed users archived from Entra).</span>
+  </label></li>
+  <li><input type="checkbox" id="pc5"><label for="pc5">
+    <span class="label-text"><strong>Status</strong> — Choice (no fill-in, default <code>Active</code>)</span>
+    <span class="description">Whether the PC is currently active in the role or has departed. Used to filter the catalog to currently-active PCs.</span>
+    <span class="meta"><span class="meta-label">Choices:</span> Active, Departed</span>
+  </label></li>
+  <li><input type="checkbox" id="pc6"><label for="pc6">
+    <span class="label-text"><strong>Contract</strong> — Choice <em>with allow fill-in</em> (default <code>CPSS</code>)</span>
+    <span class="description">The Barrios contract vehicle assigning the PC to NASA. Useful for filtering when MANTLE eventually scales across multiple Barrios contracts.</span>
+    <span class="meta"><span class="meta-label">Choices:</span> CPSS, Other</span>
+  </label></li>
+  <li><input type="checkbox" id="pc7"><label for="pc7">
+    <span class="label-text"><strong>Hire date</strong> — Date</span>
+    <span class="description">When the PC joined the contract. Anchors tenure analytics.</span>
+  </label></li>
+  <li><input type="checkbox" id="pc8"><label for="pc8">
+    <span class="label-text">Yourself added as a row, with <strong>both</strong> Coordinator Name (text) and Person (M365)</span>
+  </label></li>
+</ul>
+
+<h3>Trainee Profiles (List)</h3>
+<ul class="checklist">
+  <li><input type="checkbox" id="tp1"><label for="tp1">
+    <span class="label-text">List exists, named <code>Trainee Profiles</code></span>
+  </label></li>
+  <li><input type="checkbox" id="tp2"><label for="tp2">
+    <span class="label-text">Title renamed to <code>Profile Name</code></span>
+    <span class="description">Identifier for this profile, typically "PC name — Program name". Disambiguates when one PC has multiple historical assignments.</span>
+  </label></li>
+  <li><input type="checkbox" id="tp3"><label for="tp3">
+    <span class="label-text"><strong>PC</strong> — Lookup → PCs</span>
+    <span class="description">The Project Coordinator this profile belongs to.</span>
+    <span class="meta"><span class="meta-label">Lookup config:</span> Primary <code>Title</code> (= Coordinator Name) · Additional <code>Email</code> · Single value</span>
+  </label></li>
+  <li><input type="checkbox" id="tp4"><label for="tp4">
+    <span class="label-text"><strong>Current program</strong> — Lookup → Programs</span>
+    <span class="description">The program the PC is currently supporting. Drives the destination side of the Equivalency Map filter and scopes the user's view of Meetings, Stakeholders, etc.</span>
+    <span class="meta"><span class="meta-label">Lookup config:</span> Primary <code>Title</code> (= Program Name) · Additional <code>Customer</code> · Single value</span>
+  </label></li>
+  <li><input type="checkbox" id="tp5"><label for="tp5">
+    <span class="label-text"><strong>Start date in current role</strong> — Date</span>
+    <span class="description">When the PC started in this current assignment. Anchors the Day-N counter on the home page and the 30/60/90 task schedule.</span>
+  </label></li>
+  <li><input type="checkbox" id="tp6"><label for="tp6">
+    <span class="label-text"><strong>Tools they came from</strong> — Lookup → Tools</span>
+    <span class="description">Tools the PC used in their previous role/customer. Drives the source side of the personalized Equivalency Map filter ("show me Slack → Teams because that's the migration I'm making").</span>
+    <span class="meta"><span class="meta-label">Lookup config:</span> Primary <code>Title</code> (= Tool Name) · Additional <code>Category</code> · <strong>Allow multiple values</strong></span>
+  </label></li>
+  <li><input type="checkbox" id="tp7"><label for="tp7">
+    <span class="label-text"><strong>Previous role context</strong> — Multiple lines of text</span>
+    <span class="description">Optional free-form notes about the PC's prior assignment(s). Helps a successor understand what knowledge the predecessor brought in.</span>
+  </label></li>
+  <li><input type="checkbox" id="tp8"><label for="tp8">
+    <span class="label-text">One row added: yourself, fully linked</span>
+  </label></li>
+</ul>
+
+<h2>⚠️ Known gotchas (already encountered)</h2>
+
+<div class="gotcha"><strong>CSV import as Excel mojibake.</strong> Always re-export xlsx with UTF-8 encoding to preserve <code>→</code>, em-dashes, etc. Otherwise arrows show as <code>â†'</code>.</div>
+<div class="gotcha"><strong>Excel "From CSV" doesn't make a Table.</strong> SharePoint Lists' "From Excel" import requires a named Table. Use the PowerShell script we built, not just Save As.</div>
+<div class="gotcha"><strong>Site Column "Name" is reserved in NASA's tenant.</strong> Use list-specific names (Coordinator Name, Program Name, Tool Name).</div>
+<div class="gotcha"><strong>Lookup columns can't reference Choice or Person columns.</strong> Only text, number, date, and built-in columns are lookup-eligible. Maintain a text Title as the lookup key alongside Person columns for richness.</div>
+<div class="gotcha"><strong>Lookup picker shows internal field names.</strong> "Title" appears even after renaming. Picking it pulls the renamed display value — that's correct behavior.</div>
+<div class="gotcha"><strong>Title column type cannot be changed.</strong> Always Single line of text, can't be deleted. Hide it from forms if you want; rename freely.</div>
+
+<h2>⏳ Not yet built (Mission 3+)</h2>
+
+<h3>Mission 3 — Operational Lists</h3>
+<ul class="checklist">
+  <li><input type="checkbox" id="m31" disabled><label for="m31"><span class="label-text"><span class="status-tag todo">TODO</span><strong>Stakeholders</strong> — people the role touches</span></label></li>
+  <li><input type="checkbox" id="m32" disabled><label for="m32"><span class="label-text"><span class="status-tag todo">TODO</span><strong>Meetings</strong> — recurring meeting catalog per program</span></label></li>
+  <li><input type="checkbox" id="m33" disabled><label for="m33"><span class="label-text"><span class="status-tag todo">TODO</span><strong>Acronyms</strong> — searchable glossary</span></label></li>
+  <li><input type="checkbox" id="m34" disabled><label for="m34"><span class="label-text"><span class="status-tag todo">TODO</span><strong>Decisions Log</strong> — what was decided, by whom, when, why</span></label></li>
+</ul>
+
+<h3>Mission 4 — Tasks + Junctions</h3>
+<ul class="checklist">
+  <li><input type="checkbox" id="m41" disabled><label for="m41"><span class="label-text"><span class="status-tag todo">TODO</span><strong>30-60-90 Tasks</strong> — data behind your Planner board</span></label></li>
+  <li><input type="checkbox" id="m42" disabled><label for="m42"><span class="label-text"><span class="status-tag todo">TODO</span><strong>PC↔Program History</strong> — junction</span></label></li>
+  <li><input type="checkbox" id="m43" disabled><label for="m43"><span class="label-text"><span class="status-tag todo">TODO</span><strong>Program↔Tool</strong> — junction</span></label></li>
+</ul>
+
+<h3>Beyond — Forms + Power Automate + Power BI</h3>
+<ul class="checklist">
+  <li><input type="checkbox" id="b1" disabled><label for="b1"><span class="label-text"><span class="status-tag todo">TODO</span>Welcome Form (Microsoft Forms)</span></label></li>
+  <li><input type="checkbox" id="b2" disabled><label for="b2"><span class="label-text"><span class="status-tag todo">TODO</span>Power Automate: Welcome Form → Trainee Profile + 30-60-90 task seeding</span></label></li>
+  <li><input type="checkbox" id="b3" disabled><label for="b3"><span class="label-text"><span class="status-tag todo">TODO</span>Power Automate: Cookbook Export (Word document generation)</span></label></li>
+  <li><input type="checkbox" id="b4" disabled><label for="b4"><span class="label-text"><span class="status-tag todo">TODO</span>Power BI dashboard embedded in SharePoint home</span></label></li>
+</ul>
+
+<script>
+  const STORAGE_KEY = 'mantle-build-checklist-v1';
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]:not([disabled])');
+
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  checkboxes.forEach(cb => {
+    if (saved[cb.id]) {
+      cb.checked = true;
+      cb.closest('li').classList.add('done');
+    }
+  });
+
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      state[cb.id] = cb.checked;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      cb.closest('li').classList.toggle('done', cb.checked);
+      updateProgress();
+    });
+  });
+
+  function updateProgress() {
+    const total = checkboxes.length;
+    const done = Array.from(checkboxes).filter(cb => cb.checked).length;
+    const pct = total === 0 ? 0 : Math.round(done / total * 100);
+    document.getElementById('progress-percent').textContent = pct + '%';
+    document.getElementById('progress-count').textContent = `${done} of ${total} done`;
+    document.getElementById('progress-fill').style.width = pct + '%';
+  }
+  updateProgress();
+</script>
+
+</body>
+</html>

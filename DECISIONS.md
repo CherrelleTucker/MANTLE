@@ -86,6 +86,40 @@ Captures the *why* behind MANTLE's choices, so future maintainers (including fut
 
 ---
 
+## D11 — Lookup → Tools, not Choice, for any column referencing tools
+
+**Decision:** `From-Tool` and `To-Tool` columns in Equivalency Map (and any future "which tool" column anywhere) are Lookup → Tools, not Choice columns. The Tools list is the canonical tool catalog.
+
+**Why:** Choice columns that duplicate values from a catalog list create two sources of truth that drift. A new tool added to the Tools list should automatically appear everywhere it might be referenced. Manually maintaining parallel choice options is anti-pattern, doesn't scale, and is the kind of overhead that makes maintenance miserable.
+
+**General principle:** If the values are themselves *richer entities* (have their own attributes — Category, Vendor, Description, etc.) → use Lookup. If they're just labels (Status, Maturity, Center) → Choice is fine.
+
+**Trade-off accepted:** Two-step workflow when adding a tool that doesn't exist (must add to Tools list first, then reference in Equivalency Map). Worth it for data integrity. Prevents typos and "Microsoft Teams" vs "MS Teams" vs "Teams" fragmentation.
+
+**Caught when:** First user populating Equivalency Map columns by hand realized the Choice options didn't auto-populate from the Tools list and that maintaining them in parallel would be unsustainable. Schema corrected before scale.
+
+---
+
+## D12 — Provision Lists via PnP scripts, not Excel import, to control column internal names
+
+**Decision:** New SharePoint Lists are provisioned via PnP PowerShell (`Add-PnPField`), not via the SharePoint "From Excel" import path.
+
+**Why:** When a List is created via "From Excel", custom column internal names are auto-generated as `field_1`, `field_2`, `field_3`, etc., regardless of the display name. This forces every script that touches those columns to reference generic internal names and breaks readability for anyone reading the schema later.
+
+**Trade-off accepted:** Existing Lists provisioned via Excel import (`Equivalency Map Real`, `Tools`, etc.) keep their generic `field_N` internal names — re-provisioning would lose data. The mapping from internal name to intended display name is documented in `data-model/schemas.md`. New Lists going forward use PnP-provisioned, human-readable internal names.
+
+---
+
+## D13 — ASCII-only PowerShell scripts; Unicode constructed at runtime
+
+**Decision:** All `.ps1` files in `scripts/` are kept ASCII-only. Any Unicode characters needed at runtime (e.g., `→` arrow, middle dots, em-dashes) are constructed via `[char]0xXXXX` rather than embedded in source.
+
+**Why:** PowerShell 5.1 reads UTF-8-without-BOM files as Windows-1252, which mangles Unicode chars on load (the `→` arrow becomes `â†'`, etc.). Saving with a BOM works on 5.1 but is brittle across editors and git checkouts. Building Unicode at runtime (`[char]0x2192` for `→`) sidesteps the encoding question entirely.
+
+**Trade-off accepted:** Slightly less readable string literals in scripts. Worth it for portability across PowerShell 5.1 / 7+, Notepad / VS Code, and any future contributor's editor settings.
+
+---
+
 ## D10 — Naming: MANTLE
 
 **Decision:** The platform is named MANTLE — a backronym for **M**anual, **A**cronyms, **N**otes, **T**ransition, **L**ogistics, **E**ngagement.
