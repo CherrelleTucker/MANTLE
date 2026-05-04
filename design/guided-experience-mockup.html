@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MANTLE — Guided Experience Mockup</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: #F5F7FA;
+    color: #182039;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+
+  /* ============ Suite chrome (faked SharePoint) ============ */
+  .suite-header {
+    background: #182039;
+    color: white;
+    padding: 0 16px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .suite-header .waffle { font-size: 18px; opacity: .8; cursor: pointer; }
+  .suite-header .product { font-weight: 600; }
+  .suite-header .spacer { flex: 1; }
+  .suite-header .user-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: #0693E3;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 12px;
+  }
+
+  .site-header {
+    background: white;
+    padding: 16px 32px;
+    border-bottom: 1px solid #E4E4E4;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .site-logo {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, #182039, #0693E3);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 700; font-size: 20px;
+  }
+  .site-title { font-size: 20px; font-weight: 600; }
+  .site-subtitle { font-size: 13px; color: #615E5E; }
+  .nav-back {
+    margin-left: auto;
+    background: white;
+    border: 1px solid #C8C6C4;
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #182039;
+    text-decoration: none;
+    display: none;
+  }
+  .nav-back:hover { background: #F5F7FA; }
+  .page:not(#page-home) .nav-back { display: inline-block; }
+
+  /* ============ Page system ============ */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ============ Home page ============ */
+  .home-hero {
+    background: linear-gradient(135deg, #182039 0%, #0693E3 100%);
+    color: white;
+    padding: 80px 32px 60px;
+    text-align: center;
+  }
+  .home-hero .eyebrow {
+    font-size: 12px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 12px;
+  }
+  .home-hero h1 {
+    font-size: 48px;
+    font-weight: 200;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .home-hero .tagline {
+    font-size: 18px;
+    opacity: 0.95;
+    max-width: 720px;
+    margin: 0 auto;
+    font-weight: 300;
+  }
+
+  .button-row {
+    max-width: 920px;
+    margin: -40px auto 60px;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    position: relative;
+    z-index: 2;
+  }
+  .big-card {
+    background: white;
+    padding: 40px 32px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    text-align: center;
+    border: none;
+    font-family: inherit;
+    color: inherit;
+  }
+  .big-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+  }
+  .big-card .icon {
+    font-size: 56px;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .big-card .title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #182039;
+  }
+  .big-card .desc {
+    font-size: 14px;
+    color: #615E5E;
+    line-height: 1.5;
+  }
+  .big-card.onboard { border-top: 4px solid #182039; }
+  .big-card.offboard { border-top: 4px solid #E8B86A; }
+
+  .secondary-row {
+    max-width: 920px;
+    margin: 0 auto 80px;
+    padding: 0 32px;
+    text-align: center;
+  }
+  .secondary-row a {
+    color: #182039;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 0 12px;
+  }
+  .secondary-row a:hover { text-decoration: underline; }
+
+  /* ============ Onboarding / Offboarding pages ============ */
+  .ob-header {
+    background: linear-gradient(135deg, #182039 0%, #0693E3 100%);
+    color: white;
+    padding: 56px 32px 48px;
+    text-align: center;
+  }
+  .ob-header.offboard {
+    background: linear-gradient(135deg, #E8B86A 0%, #C99A4A 100%);
+  }
+  .ob-header .eyebrow {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 12px;
+  }
+  .ob-header h1 {
+    font-size: 36px;
+    font-weight: 300;
+    margin-bottom: 12px;
+  }
+  .ob-header .sub {
+    font-size: 16px;
+    opacity: 0.95;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .ob-body {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 32px 32px 80px;
+  }
+
+  .ob-section {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    padding: 28px 32px;
+    box-shadow: 0 1.6px 3.6px rgba(0,0,0,0.06);
+  }
+  .ob-section .num {
+    display: inline-block;
+    width: 28px; height: 28px;
+    background: #E1ECF7;
+    color: #182039;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-weight: 600;
+    font-size: 13px;
+    margin-right: 10px;
+  }
+  .offboard-page .ob-section .num {
+    background: #FAF1DC;
+    color: #E8B86A;
+  }
+  .ob-section h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .ob-section .lead {
+    font-size: 14px;
+    color: #615E5E;
+    margin-bottom: 16px;
+    margin-left: 38px;
+  }
+  .ob-section .body { margin-left: 38px; }
+
+  /* ============ Tool selector ============ */
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .tool-chip {
+    padding: 10px 14px;
+    background: #FAFBFD;
+    border: 2px solid #E4E4E4;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.1s;
+    user-select: none;
+  }
+  .tool-chip:hover { border-color: #182039; background: #F0F6FB; }
+  .tool-chip.selected {
+    background: #E1ECF7;
+    border-color: #182039;
+    color: #0F2541;
+    font-weight: 600;
+  }
+  .tool-chip.selected::after {
+    content: ' ✓';
+  }
+
+  /* ============ Stakeholder cards ============ */
+  .stakeholder-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .sk-card {
+    background: #FAFBFD;
+    padding: 16px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .sk-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0693E3, #182039);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .sk-info { font-size: 13px; min-width: 0; }
+  .sk-name { font-weight: 600; }
+  .sk-role { color: #615E5E; font-size: 12px; }
+
+  /* ============ Meetings preview ============ */
+  .meeting-list { margin-top: 12px; }
+  .meeting-row {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid #F5F7FA;
+    align-items: center;
+    font-size: 13px;
+  }
+  .meeting-row:last-child { border: none; }
+  .meeting-cadence {
+    font-size: 11px;
+    background: #FAFBFD;
+    color: #615E5E;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    font-weight: 600;
+  }
+  .meeting-name { font-weight: 600; }
+  .meeting-time { font-size: 12px; color: #615E5E; }
+  .meeting-role {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: #E1ECF7;
+    color: #182039;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ============ Timeline ============ */
+  .timeline {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .tl-phase {
+    background: #FAFBFD;
+    border-radius: 6px;
+    padding: 14px;
+    border-top: 3px solid #182039;
+  }
+  .tl-phase:nth-child(2) { border-top-color: #0693E3; }
+  .tl-phase:nth-child(3) { border-top-color: #107c10; }
+  .tl-phase h4 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #615E5E;
+    margin-bottom: 8px;
+  }
+  .tl-phase ul {
+    list-style: none;
+    padding: 0;
+    font-size: 13px;
+  }
+  .tl-phase li {
+    padding: 4px 0;
+    color: #182039;
+  }
+  .tl-phase li::before {
+    content: '○ ';
+    color: #A8A7A5;
+  }
+
+  /* ============ CTA button ============ */
+  .cta {
+    display: inline-block;
+    padding: 12px 28px;
+    background: #182039;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 12px;
+    font-family: inherit;
+  }
+  .cta:hover { background: #0F1A2E; }
+  .cta.large {
+    padding: 16px 36px;
+    font-size: 16px;
+  }
+  .cta.offboard { background: #E8B86A; }
+  .cta.offboard:hover { background: #A87420; }
+
+  /* ============ Quick add affordance ============ */
+  .quickadd {
+    background: #FAFBFD;
+    border: 1px dashed #c8c6c4;
+    border-radius: 6px;
+    padding: 14px;
+    color: #615E5E;
+    font-size: 13px;
+    margin-top: 12px;
+    cursor: pointer;
+  }
+  .quickadd:hover { border-color: #182039; color: #182039; }
+  .quickadd::before { content: '+ '; font-weight: 600; }
+
+  /* ============ Footer ============ */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    color: #A8A7A5;
+    font-size: 12px;
+    background: white;
+    border-top: 1px solid #E4E4E4;
+  }
+
+  /* ============ Working-style intelligence ============ */
+  .ws-questions {
+    background: #F0F6FB;
+    border-left: 4px solid #182039;
+    border-radius: 6px;
+    padding: 16px 18px;
+    margin-bottom: 18px;
+  }
+  .ws-questions h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0F2541;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .ws-questions ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 10px;
+  }
+  .ws-questions li {
+    font-size: 13px;
+    color: #182039;
+    font-style: italic;
+    padding: 3px 0;
+  }
+  .ws-questions li::before {
+    content: '“ ';
+    color: #182039;
+    font-style: normal;
+    font-weight: 600;
+  }
+  .ws-link {
+    background: none;
+    border: none;
+    color: #182039;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+  }
+  .ws-link:hover { text-decoration: underline; }
+
+  .ws-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    margin-top: 12px;
+  }
+  .ws-card {
+    background: #FAFBFD;
+    border: 1px solid #E4E4E4;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .ws-card-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .ws-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .ws-chip {
+    font-size: 11px;
+    background: white;
+    border: 1px solid #C8C6C4;
+    border-radius: 12px;
+    padding: 3px 9px;
+    color: #182039;
+    white-space: nowrap;
+  }
+  .ws-quirk {
+    font-size: 12px;
+    color: #615E5E;
+    font-style: italic;
+    border-top: 1px dashed #E4E4E4;
+    padding-top: 8px;
+    line-height: 1.4;
+  }
+
+  /* Capture status pills (offboarding) */
+  .capture-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #F5F7FA;
+  }
+  .capture-row:last-child { border: none; }
+  .status-pill {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .status-pill.captured {
+    background: #dff6dd;
+    color: #107c10;
+  }
+  .status-pill.missing {
+    background: #fff4ce;
+    color: #835c00;
+  }
+  .add-link {
+    font-size: 12px;
+    color: #E8B86A;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .add-link:hover { text-decoration: underline; }
+
+  /* ============ Mockup banner ============ */
+  .mockup-banner {
+    background: #fff4ce;
+    border-bottom: 1px solid #0693E3;
+    padding: 8px 16px;
+    text-align: center;
+    font-size: 12px;
+    color: #835c00;
+    position: sticky;
+    top: 48px;
+    z-index: 99;
+  }
+</style>
+</head>
+<body>
+
+<!-- Suite chrome -->
+<div class="suite-header">
+  <span class="waffle">⊞</span>
+  <span class="product">SharePoint</span>
+  <span class="spacer"></span>
+  <span class="user-avatar">CT</span>
+</div>
+
+<div class="mockup-banner">
+  📐 <strong>MOCKUP — clickable.</strong> Click the buttons. Multi-page experience inside one HTML file. Real platform would be SharePoint pages.
+</div>
+
+<!-- Site header -->
+<div class="site-header">
+  <div class="site-logo">M</div>
+  <div>
+    <div class="site-title">MANTLE</div>
+    <div class="site-subtitle">Manual · Acronyms · Notes · Transition · Logistics · Engagement</div>
+  </div>
+  <a href="#" class="nav-back" onclick="showPage('home'); return false;">← Back to home</a>
+</div>
+
+<!-- ============ HOME PAGE ============ -->
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <div class="eyebrow">NASA Project Coordinator Platform</div>
+    <h1>Welcome to MANTLE</h1>
+    <div class="tagline">Knowledge collected by every coordinator who's done this role before you, so you don't have to start cold.</div>
+  </div>
+
+  <div class="button-row">
+    <button class="big-card onboard" onclick="showPage('onboarding')">
+      <span class="icon">🚀</span>
+      <div class="title">I'm joining a new team</div>
+      <div class="desc">Walk me through who you are, what tools you use, how you communicate, and what my day-to-day looks like.</div>
+    </button>
+    <button class="big-card offboard" onclick="showPage('offboarding')">
+      <span class="icon">📦</span>
+      <div class="title">I'm wrapping up my role</div>
+      <div class="desc">Help me capture what I know so my replacement isn't lost. Generate a cookbook when I'm ready.</div>
+    </button>
+  </div>
+
+  <div class="secondary-row">
+    <a href="#">I've been here before</a>
+    ·
+    <a href="#">About MANTLE</a>
+    ·
+    <a href="#">Browse the Equivalency Map</a>
+  </div>
+</div>
+
+<!-- ============ ONBOARDING PAGE ============ -->
+<div class="page" id="page-onboarding">
+  <div class="ob-header">
+    <div class="eyebrow">Onboarding</div>
+    <h1>Welcome to the team!</h1>
+    <div class="sub">Let's set you up. Five minutes through this page and you'll know where to find what you need.</div>
+  </div>
+
+  <div class="ob-body">
+
+    <!-- 1. Confirm name + start date -->
+    <div class="ob-section">
+      <div><span class="num">1</span><h2>Tell us about you</h2></div>
+      <div class="lead">Confirm a few basics so we can personalize what you see.</div>
+      <div class="body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 540px;">
+          <div>
+            <label style="font-size: 12px; color: #615E5E; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Your name</label>
+            <input type="text" value="Cherrelle Tucker" style="width: 100%; padding: 8px 12px; border: 1px solid #C8C6C4; border-radius: 4px; font-size: 14px; margin-top: 4px;">
+          </div>
+          <div>
+            <label style="font-size: 12px; color: #615E5E; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Start date</label>
+            <input type="date" value="2026-05-15" style="width: 100%; padding: 8px 12px; border: 1px solid #C8C6C4; border-radius: 4px; font-size: 14px; margin-top: 4px;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Tools you came from -->
+    <div class="ob-section">
+      <div><span class="num">2</span><h2>What tools are you used to working with?</h2></div>
+      <div class="lead">Pick everything that applies. We'll show you what each maps to in your new team's stack.</div>
+      <div class="body">
+        <div class="tool-grid">
+          <div class="tool-chip" onclick="this.classList.toggle('selected')">Slack</div>
+          <div class="tool-chip selected" onclick="this.classList.toggle('selected')">Google Drive</div>
+          <div class="tool-chip selected" onclick="this.classList.toggle('selected')">Google Docs</div>
+          <div class="tool-chip selected" onclick="this.classList.toggle('selected')">Google Sheets</div>
+          <div class="tool-chip selected" onclick="this.classList.toggle('selected')">Gmail</div>
+          <div class="tool-chip" onclick="this.classList.toggle('selected')">Asana</div>
+          <div class="tool-chip" onclick="this.classList.toggle('selected')">Trello</div>
+          <div class="tool-chip" onclick="this.classList.toggle('selected')">Notion</div>
+          <div class="tool-chip" onclick="this.classList.toggle('selected')">Mattermost</div>
+          <div class="tool-chip" onclick="this.classList.toggle('selected')">Zoom</div>
+          <div class="tool-chip selected" onclick="this.classList.toggle('selected')">Apps Script</div>
+          <div class="tool-chip" onclick="this.classList.toggle('selected')">+ Other</div>
+        </div>
+        <p style="font-size: 13px; color: #615E5E; margin-top: 12px; font-style: italic;">5 selected. Your Equivalency Map will be filtered to these.</p>
+      </div>
+    </div>
+
+    <!-- 3. Your team -->
+    <div class="ob-section">
+      <div><span class="num">3</span><h2>Here's your team</h2></div>
+      <div class="lead">The people you'll be working with most. Names, roles, who to ask what.</div>
+      <div class="body">
+        <div class="stakeholder-row">
+          <div class="sk-card">
+            <div class="sk-avatar">SG</div>
+            <div class="sk-info">
+              <div class="sk-name">Sean Gregory</div>
+              <div class="sk-role">Project Manager · NSITE MO</div>
+            </div>
+          </div>
+          <div class="sk-card">
+            <div class="sk-avatar">EF</div>
+            <div class="sk-info">
+              <div class="sk-name">Elizabeth Fancher</div>
+              <div class="sk-role">IMPACT PC · cross-cutting</div>
+            </div>
+          </div>
+          <div class="sk-card">
+            <div class="sk-avatar">DB</div>
+            <div class="sk-info">
+              <div class="sk-name">Daris Borden</div>
+              <div class="sk-role">Barrios Lead</div>
+            </div>
+          </div>
+          <div class="sk-card">
+            <div class="sk-avatar">+5</div>
+            <div class="sk-info">
+              <div class="sk-name">5 more stakeholders</div>
+              <div class="sk-role">View all in Stakeholders →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. How they communicate -->
+    <div class="ob-section">
+      <div><span class="num">4</span><h2>How they communicate</h2></div>
+      <div class="lead">The recurring meetings you'll be in, what's expected of you.</div>
+      <div class="body">
+        <div class="meeting-list">
+          <div class="meeting-row">
+            <div class="meeting-cadence">Weekly</div>
+            <div>
+              <div class="meeting-name">NSITE MO Internal Planning</div>
+              <div class="meeting-time">Mondays 2-3pm CT · NSSTC Turing 1030</div>
+            </div>
+            <div class="meeting-role">Lead</div>
+          </div>
+          <div class="meeting-row">
+            <div class="meeting-cadence">Weekly</div>
+            <div>
+              <div class="meeting-name">SEP Tag-up</div>
+              <div class="meeting-time">Wednesdays 10-11am CT · virtual</div>
+            </div>
+            <div class="meeting-role">Lead</div>
+          </div>
+          <div class="meeting-row">
+            <div class="meeting-cadence">Monthly</div>
+            <div>
+              <div class="meeting-name">NSITE/OPERA Tag-up</div>
+              <div class="meeting-time">1st Tuesday · virtual</div>
+            </div>
+            <div class="meeting-role">Participant</div>
+          </div>
+          <div class="meeting-row">
+            <div class="meeting-cadence">Monthly</div>
+            <div>
+              <div class="meeting-name">SNWG Monthly</div>
+              <div class="meeting-time">Last Thursday 1-2pm CT · virtual</div>
+            </div>
+            <div class="meeting-role">Co-lead</div>
+          </div>
+        </div>
+        <p style="font-size: 13px; color: #615E5E; margin-top: 12px;">Plus 8 more in your Meetings catalog.</p>
+      </div>
+    </div>
+
+    <!-- 5. Day-to-day -->
+    <div class="ob-section">
+      <div><span class="num">5</span><h2>What your day-to-day can look like</h2></div>
+      <div class="lead">A starter 30-60-90 plan. Skip what doesn't fit; mark done as you go.</div>
+      <div class="body">
+        <div class="timeline">
+          <div class="tl-phase">
+            <h4>Days 1-30 · Learn</h4>
+            <ul>
+              <li>Meet your Barrios manager</li>
+              <li>Read the role baseline</li>
+              <li>Walk the meeting catalog</li>
+              <li>Browse the acronyms</li>
+              <li>Add your first 3 stakeholders</li>
+            </ul>
+          </div>
+          <div class="tl-phase">
+            <h4>Days 31-60 · Contribute</h4>
+            <ul>
+              <li>Take ownership of one deliverable</li>
+              <li>Propose 1 process improvement</li>
+              <li>Run your first 30-day retro</li>
+              <li>Build your stakeholder map</li>
+              <li>Document one weekly process</li>
+            </ul>
+          </div>
+          <div class="tl-phase">
+            <h4>Days 61-90 · Own</h4>
+            <ul>
+              <li>Lead a cross-team coordination</li>
+              <li>Implement one improvement</li>
+              <li>Run your 60-day review</li>
+              <li>Identify your "stupid questions" buddy</li>
+              <li>Plan next quarter's focus</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. How to work with each person -->
+    <div class="ob-section">
+      <div><span class="num">6</span><h2>How to work with each person</h2></div>
+      <div class="lead">Knowing each stakeholder's working preferences saves you months of friction. Here are the discovery questions to ask in your first 30 days — and what each person you've already met has shared so far.</div>
+      <div class="body">
+
+        <div class="ws-questions">
+          <h4>Discovery questions for new stakeholders</h4>
+          <ul>
+            <li>What's the best channel to reach you for non-urgent things?</li>
+            <li>When I'm editing a doc you own, do you want suggestions or direct edits?</li>
+            <li>What hours do you protect — and when's your hard stop?</li>
+            <li>Do you decide in real time, or do you need to think on it overnight?</li>
+            <li>Who else needs to be in the loop when we make a call together?</li>
+            <li>What's the fastest way to lose your trust?</li>
+          </ul>
+          <button class="ws-link">See all 8 questions →</button>
+        </div>
+
+        <div class="ws-grid">
+
+          <div class="ws-card">
+            <div class="ws-card-head">
+              <div class="sk-avatar">SG</div>
+              <div class="sk-info">
+                <div class="sk-name">Sean Gregory</div>
+                <div class="sk-role">Project Manager · NSITE MO</div>
+              </div>
+            </div>
+            <div class="ws-chips">
+              <span class="ws-chip">📧 Email</span>
+              <span class="ws-chip">✏️ Suggestions only</span>
+              <span class="ws-chip">🕘 ET 8-4 strict</span>
+              <span class="ws-chip">💡 Thinks overnight</span>
+            </div>
+            <div class="ws-quirk">Reads agenda before every meeting; calls cell first if urgent.</div>
+          </div>
+
+          <div class="ws-card">
+            <div class="ws-card-head">
+              <div class="sk-avatar">DB</div>
+              <div class="sk-info">
+                <div class="sk-name">Daris Borden</div>
+                <div class="sk-role">Barrios Lead</div>
+              </div>
+            </div>
+            <div class="ws-chips">
+              <span class="ws-chip">💬 Teams chat</span>
+              <span class="ws-chip">✏️ Direct edits welcome</span>
+              <span class="ws-chip">🕘 ET 9-5 flexible</span>
+              <span class="ws-chip">💡 Decides in real time</span>
+            </div>
+            <div class="ws-quirk">Wants weekly summary on Fridays; no surprises in 1:1s.</div>
+          </div>
+
+          <div class="ws-card">
+            <div class="ws-card-head">
+              <div class="sk-avatar">EF</div>
+              <div class="sk-info">
+                <div class="sk-name">Elizabeth Fancher</div>
+                <div class="sk-role">IMPACT PC · cross-cutting</div>
+              </div>
+            </div>
+            <div class="ws-chips">
+              <span class="ws-chip">🚶 In-person walk-over</span>
+              <span class="ws-chip">✏️ Comments only</span>
+              <span class="ws-chip">🕘 ET 8-6</span>
+              <span class="ws-chip">💡 Loops in deputy</span>
+            </div>
+            <div class="ws-quirk">Prefers verbal updates; uses phone for anything urgent.</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. CTA -->
+    <div class="ob-section" style="text-align: center; padding: 36px 32px;">
+      <h2 style="display: block; margin-bottom: 12px;">Ready?</h2>
+      <p style="color: #615E5E; margin-bottom: 16px;">When you save your profile, your 30-60-90 plan gets seeded and you'll see your dashboard.</p>
+      <button class="cta large">Save my profile and get started</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ OFFBOARDING PAGE ============ -->
+<div class="page offboard-page" id="page-offboarding">
+  <div class="ob-header offboard">
+    <div class="eyebrow">Offboarding</div>
+    <h1>Let's make sure your replacement isn't lost</h1>
+    <div class="sub">Small chunks. You don't have to dump everything today. Generate the final cookbook when you're ready.</div>
+  </div>
+
+  <div class="ob-body">
+
+    <!-- Progress indicator -->
+    <div class="ob-section" style="background: #fff4ce; border-left: 4px solid #ffb900;">
+      <div><span class="num">!</span><h2>Your handover is 35% complete</h2></div>
+      <div class="lead">Based on what you've already captured. Keep going — small additions add up.</div>
+      <div class="body">
+        <div style="background: #E4E4E4; height: 10px; border-radius: 5px; overflow: hidden;">
+          <div style="background: linear-gradient(90deg, #E8B86A, #ffb900); width: 35%; height: 100%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1. Stakeholders -->
+    <div class="ob-section">
+      <div><span class="num">1</span><h2>Capture your stakeholders</h2></div>
+      <div class="lead">The people your replacement needs to know about — name, role, why they matter.</div>
+      <div class="body">
+        <p style="font-size: 13px; color: #615E5E; margin-bottom: 8px;">You have <strong>8 stakeholders</strong> documented. <a href="#" style="color: #182039;">Review them →</a></p>
+        <div class="quickadd">Add another stakeholder</div>
+      </div>
+    </div>
+
+    <!-- 2. Meetings -->
+    <div class="ob-section">
+      <div><span class="num">2</span><h2>Document your meetings</h2></div>
+      <div class="lead">Recurring meetings you attend, with notes on what your role is and where the agendas live.</div>
+      <div class="body">
+        <p style="font-size: 13px; color: #615E5E; margin-bottom: 8px;">You have <strong>12 meetings</strong> documented. <a href="#" style="color: #182039;">Review them →</a></p>
+        <div class="quickadd">Add another meeting</div>
+      </div>
+    </div>
+
+    <!-- 3. Acronyms / decisions / lessons -->
+    <div class="ob-section">
+      <div><span class="num">3</span><h2>Acronyms, decisions, lessons</h2></div>
+      <div class="lead">The things that aren't written down anywhere. Tribal knowledge made structured.</div>
+      <div class="body">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+          <div style="background: #FAFBFD; padding: 14px; border-radius: 6px; text-align: center;">
+            <div style="font-size: 28px; font-weight: 600; color: #E8B86A;">23</div>
+            <div style="font-size: 12px; color: #615E5E; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;">Acronyms</div>
+          </div>
+          <div style="background: #FAFBFD; padding: 14px; border-radius: 6px; text-align: center;">
+            <div style="font-size: 28px; font-weight: 600; color: #E8B86A;">5</div>
+            <div style="font-size: 12px; color: #615E5E; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;">Decisions</div>
+          </div>
+          <div style="background: #FAFBFD; padding: 14px; border-radius: 6px; text-align: center;">
+            <div style="font-size: 28px; font-weight: 600; color: #E8B86A;">2</div>
+            <div style="font-size: 12px; color: #615E5E; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;">Lessons</div>
+          </div>
+        </div>
+        <div class="quickadd" style="margin-top: 16px;">Add an acronym, decision, or lesson</div>
+      </div>
+    </div>
+
+    <!-- 4. Quick capture -->
+    <div class="ob-section">
+      <div><span class="num">4</span><h2>5-minute Quick Capture</h2></div>
+      <div class="lead">Don't have time for full documentation? Answer one quick prompt — come back tomorrow for another.</div>
+      <div class="body">
+        <div style="background: #FAFBFD; padding: 20px; border-radius: 6px;">
+          <p style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">Today's prompt:</p>
+          <p style="font-size: 14px; color: #182039; margin-bottom: 12px; font-style: italic;">"Name one stakeholder your replacement needs to know about. (Name + one sentence on why.)"</p>
+          <textarea placeholder="Type a quick answer..." style="width: 100%; min-height: 80px; padding: 10px; border: 1px solid #C8C6C4; border-radius: 4px; font-family: inherit; font-size: 14px; resize: vertical;"></textarea>
+          <button class="cta offboard" style="margin-top: 12px;">Save and get tomorrow's prompt</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Capture each stakeholder's working style -->
+    <div class="ob-section">
+      <div><span class="num">5</span><h2>Capture each stakeholder's working style</h2></div>
+      <div class="lead">This is the highest-value handoff content. Your replacement will save weeks of friction if they know how each person prefers to work. ~5 mins per stakeholder.</div>
+      <div class="body">
+
+        <div style="margin-bottom: 16px;">
+          <p style="font-size: 13px; color: #615E5E; margin-bottom: 6px;"><strong style="color: #182039;">Working-style captured: 3 of 8 stakeholders</strong></p>
+          <div style="background: #E4E4E4; height: 8px; border-radius: 4px; overflow: hidden;">
+            <div style="background: linear-gradient(90deg, #E8B86A, #ffb900); width: 37.5%; height: 100%;"></div>
+          </div>
+        </div>
+
+        <div>
+
+          <div class="capture-row">
+            <div class="sk-avatar">SG</div>
+            <div class="sk-info">
+              <div class="sk-name">Sean Gregory</div>
+              <div class="sk-role">Project Manager · NSITE MO</div>
+            </div>
+            <span class="status-pill captured">✓ Captured</span>
+            <a class="add-link" href="#">Edit</a>
+          </div>
+
+          <div class="capture-row">
+            <div class="sk-avatar">DB</div>
+            <div class="sk-info">
+              <div class="sk-name">Daris Borden</div>
+              <div class="sk-role">Barrios Lead</div>
+            </div>
+            <span class="status-pill captured">✓ Captured</span>
+            <a class="add-link" href="#">Edit</a>
+          </div>
+
+          <div class="capture-row">
+            <div class="sk-avatar">EF</div>
+            <div class="sk-info">
+              <div class="sk-name">Elizabeth Fancher</div>
+              <div class="sk-role">IMPACT PC · cross-cutting</div>
+            </div>
+            <span class="status-pill captured">✓ Captured</span>
+            <a class="add-link" href="#">Edit</a>
+          </div>
+
+          <div class="capture-row">
+            <div class="sk-avatar">RW</div>
+            <div class="sk-info">
+              <div class="sk-name">Rahul Ramachandran</div>
+              <div class="sk-role">IMPACT Project Scientist</div>
+            </div>
+            <span class="status-pill missing">⚠ Missing</span>
+            <a class="add-link" href="#">Add details →</a>
+          </div>
+
+          <div class="capture-row">
+            <div class="sk-avatar">MM</div>
+            <div class="sk-info">
+              <div class="sk-name">Manil Maskey</div>
+              <div class="sk-role">SNWG MO Lead</div>
+            </div>
+            <span class="status-pill missing">⚠ Missing</span>
+            <a class="add-link" href="#">Add details →</a>
+          </div>
+
+        </div>
+
+        <p style="font-size: 12px; color: #615E5E; margin-top: 14px;">3 more stakeholders below. <a href="#" style="color: #E8B86A; font-weight: 600;">View all →</a></p>
+      </div>
+    </div>
+
+    <!-- 6. Generate cookbook -->
+    <div class="ob-section" style="text-align: center; padding: 36px 32px; background: linear-gradient(135deg, #E8B86A 0%, #C99A4A 100%); color: white;">
+      <h2 style="display: block; margin-bottom: 12px; color: white;">Ready to hand off?</h2>
+      <p style="margin-bottom: 16px; opacity: 0.95;">Generate a Word document cookbook from everything you've captured. Hand it to your replacement.</p>
+      <button class="cta large" style="background: white; color: #E8B86A;">Generate my cookbook</button>
+      <p style="font-size: 12px; opacity: 0.8; margin-top: 14px;">35% complete · We recommend reaching at least 60% before generating.</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  MANTLE · Guided Experience Mockup · Click cards/buttons to navigate
+</div>
+
+<script>
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
