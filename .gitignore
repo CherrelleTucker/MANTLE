@@ -15,3 +15,12 @@ local/
 private/
 *.local.*
 *.private.*
+
+# Generated cookbooks contain real NASA names/data - never commit (per D9)
+cookbooks/
+
+# Form response inbox contains submitter emails - never commit
+inbox/
+
+# Personal reports may contain stakeholder data
+reports/
