@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MANTLE -- Visual Build Guide</title>
+<style>
+  body {
+    margin: 0;
+    background: #F5F7FA;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: #182039;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* Suite chrome */
+  .suite { background: #182039; color: white; height: 48px; padding: 0 16px; display: flex; align-items: center; gap: 16px; font-size: 13px; }
+  .suite .product { font-weight: 600; }
+  .suite .cui { background: #E8B86A; color: #182039; padding: 3px 10px; border-radius: 3px; font-size: 11px; font-weight: 700; letter-spacing: .5px; }
+  .suite .spacer { flex: 1; }
+  .suite .avatar { width: 28px; height: 28px; border-radius: 50%; background: #4961A3; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+
+  .site-header { background: white; padding: 12px 32px; border-bottom: 1px solid #E4E4E4; display: flex; align-items: center; gap: 16px; }
+  .site-logo { width: 40px; height: 40px; background: #4961A3; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 16px; }
+  .site-title { font-weight: 600; font-size: 18px; }
+  .site-sub { color: #615E5E; font-size: 12px; }
+  .page-toggle { margin-left: auto; display: flex; gap: 4px; background: #F5F7FA; padding: 4px; border-radius: 6px; }
+  .page-toggle button { padding: 6px 14px; border: none; background: transparent; cursor: pointer; font-size: 13px; border-radius: 4px; color: #615E5E; font-weight: 600; }
+  .page-toggle button.active { background: #182039; color: white; }
+
+  .canvas { max-width: 1280px; margin: 0 auto; padding: 24px; }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* Top-of-file totals banner */
+  .totals {
+    background: white;
+    border-left: 6px solid #4961A3;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+  }
+  .totals h2 { margin: 0 0 8px 0; font-size: 18px; color: #182039; }
+  .totals p { margin: 4px 0; font-size: 13px; color: #333; }
+
+  /* Per-page totals header */
+  .page-totals {
+    background: #182039;
+    color: white;
+    padding: 14px 20px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+  .page-totals h2 { margin: 0 0 4px 0; font-size: 18px; color: white; }
+  .page-totals p { margin: 0; font-size: 13px; color: #E8B86A; }
+
+  /* Build block: one section = build card on top, preview below */
+  .build-block {
+    background: white;
+    border: 1px solid #E4E4E4;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .build-card {
+    background: #FAFBFC;
+    border-bottom: 1px solid #E4E4E4;
+    padding: 14px 18px;
+  }
+  .build-card .head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .step-badge {
+    background: #182039;
+    color: white;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    letter-spacing: .5px;
+  }
+  .step-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #182039;
+    flex: 1;
+  }
+  .time-est {
+    background: #E8B86A;
+    color: #182039;
+    font-weight: 700;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+  .chips { margin: 6px 0; }
+  .chip {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    margin: 2px 4px 2px 0;
+    border: 1px solid transparent;
+  }
+  .chip.section { background: #DFF6DD; color: #0E6B0E; border-color: #B7E4B5; }
+  .chip.webpart { background: #DEEBF7; color: #1E4F8C; border-color: #B6D2EC; }
+  .chip.view    { background: #FFE8CC; color: #8C4A00; border-color: #F0C896; }
+  .chip.url     { background: #E8E8E8; color: #444; border-color: #C8C8C8; font-family: 'Consolas', monospace; font-weight: 600; }
+  .chip.emp     { background: #F0E0FF; color: #5A2D8C; border-color: #D5BFEC; }
+
+  .props {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #333;
+  }
+  .props table { border-collapse: collapse; width: 100%; }
+  .props td { padding: 4px 8px; vertical-align: top; border-bottom: 1px solid #EEE; }
+  .props td.k { font-weight: 600; color: #4961A3; width: 180px; white-space: nowrap; }
+
+  /* Preview area mimics SharePoint section render */
+  .preview-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #888;
+    text-transform: uppercase;
+    padding: 8px 18px 0 18px;
+    background: #F5F7FA;
+  }
+  .preview {
+    background: #F5F7FA;
+    padding: 16px 18px 20px 18px;
+  }
+
+  /* Reused mockup primitives (constraint-true patterns) */
+  .sp-2col { display: table; width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 16px 0; }
+  .sp-2col-cell { display: table-cell; vertical-align: top; }
+  .sp-3col { display: table; width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 16px 0; }
+  .sp-3col-cell { display: table-cell; vertical-align: top; }
+  .sp-pane { background: white; padding: 14px; border-radius: 4px; border: 1px solid #E4E4E4; }
+
+  .empty-col {
+    background: repeating-linear-gradient(45deg, #fafafa, #fafafa 8px, #f0f0f0 8px, #f0f0f0 16px);
+    border: 2px dashed #ccc;
+    border-radius: 6px;
+    min-height: 140px;
+    padding: 16px;
+    color: #888;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .legend {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: #615E5E;
+    border: 1px solid #E4E4E4;
+  }
+  .legend strong { color: #182039; }
+</style>
+</head>
+<body>
+
+<div class="suite">
+  <span class="product">SharePoint</span>
+  <span class="cui">SYSTEM CONTAINS CUI</span>
+  <span class="spacer"></span>
+  <span class="avatar">CT</span>
+</div>
+
+<div class="site-header">
+  <div class="site-logo">M</div>
+  <div>
+    <div class="site-title">MANTLE -- Visual Build Guide</div>
+    <div class="site-sub">PCTransitionSandbox &middot; manual section-by-section build reference</div>
+  </div>
+  <div class="page-toggle">
+    <button class="active" onclick="showPage('home', event)">Home</button>
+    <button onclick="showPage('on', event)">Onboarding</button>
+    <button onclick="showPage('off', event)">Update/Offboarding</button>
+  </div>
+</div>
+
+<div class="canvas">
+
+  <div class="totals">
+    <h2>Total build time across all three pages: ~280-335 minutes</h2>
+    <p><strong>Home:</strong> ~75-90 min &middot; 7 sections (+ pre-work).</p>
+    <p><strong>Onboarding:</strong> ~95-115 min &middot; 8 sections (+ pre-work).</p>
+    <p><strong>Update/Offboarding:</strong> ~110-130 min &middot; 10 sections (+ pre-work).</p>
+  </div>
+
+  <div class="legend">
+    <strong>How to read this guide.</strong>
+    Each section has a <strong>build card</strong> (top) and a <strong>preview</strong> (bottom).
+    Build-card chips:
+    <span class="chip section">SECTION</span> green = native SP section template.
+    <span class="chip emp">EMPHASIS</span> purple = section background emphasis.
+    <span class="chip webpart">WEB PART</span> blue = native SP web part.
+    <span class="chip view">VIEW</span> orange = SharePoint list view name.
+    <span class="chip url">URL</span> grey = link target.
+    Preview = the constraint-true HTML rendering of what that section will look like once published.
+  </div>
+
+<!-- ============================================================
+     HOME PAGE
+     ============================================================ -->
+<div id="page-home" class="page active">
+
+  <div class="page-totals">
+    <h2>HOME &middot; 7 sections &middot; ~75-90 min total</h2>
+    <p>Pre-work (theme, archive old page, create new): ~10 min &middot; Publish + smoke test: ~5 min</p>
+  </div>
+
+  <!-- HOME S1 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 1 OF 7</span>
+        <span class="step-title">Hero band -- Welcome to MANTLE</span>
+        <span class="time-est">~7 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: OneColumn</span>
+        <span class="chip emp">EMPHASIS: Strong</span>
+        <span class="chip webpart">WEB PART: Hero (Layers, 1 layer)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Hero title</td><td>Welcome to MANTLE</td></tr>
+        <tr><td class="k">Hero subtitle</td><td>Manual . Acronyms . Notes . Transition . Logistics . Engagement</td></tr>
+        <tr><td class="k">Hero topic (optional)</td><td>Knowledge collected by every coordinator who has done this role before you.</td></tr>
+        <tr><td class="k">Call to action</td><td>OFF (path picker in Section 2 carries the CTA)</td></tr>
+        <tr><td class="k">Image</td><td>Wide, dark, low-detail banner from Site Assets</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#182039;padding:48px 32px;border-radius:8px;text-align:center;'>
+      <p style='color:#E8B86A;margin:0 0 12px 0;font-size:11px;font-weight:bold;letter-spacing:2.5px;'>MANUAL &middot; ACRONYMS &middot; NOTES &middot; TRANSITION &middot; LOGISTICS &middot; ENGAGEMENT</p>
+      <h2 style='color:#FFFFFF;margin:0 0 12px 0;font-size:34px;font-weight:300;'>Welcome to MANTLE</h2>
+      <p style='color:#FFFFFF;margin:0;font-size:16px;'>Knowledge collected by every coordinator who has done this role before you.</p>
+      </td></tr></table>
+    </div>
+  </div>
+
+  <!-- HOME S2 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 2 OF 7</span>
+        <span class="step-title">Path picker -- Onboarding vs Update/Offboarding</span>
+        <span class="time-est">~7 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: TwoColumn</span>
+        <span class="chip emp">EMPHASIS: None</span>
+        <span class="chip webpart">WEB PART: Call to Action x2</span>
+        <span class="chip webpart">FALLBACK: Hero (Tiles, 2 tiles)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Left CTA title</td><td>I'm joining a new team</td></tr>
+        <tr><td class="k">Left button</td><td>Start Onboarding</td></tr>
+        <tr><td class="k">Left URL</td><td><span class="chip url">/SitePages/Onboarding.aspx</span></td></tr>
+        <tr><td class="k">Right CTA title</td><td>I'm wrapping up my role</td></tr>
+        <tr><td class="k">Right button</td><td>Start Update/Offboarding</td></tr>
+        <tr><td class="k">Right URL</td><td><span class="chip url">/SitePages/Update-Offboarding.aspx</span></td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <table style='width:100%;border-collapse:separate;border-spacing:12px 0;'>
+      <tr>
+      <td style='width:50%;background:#4961A3;padding:28px;border-radius:8px;vertical-align:top;'>
+      <p style='color:#E8B86A;margin:0 0 8px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>FOR NEW PCs</p>
+      <h3 style='color:#FFFFFF;margin:0 0 12px 0;font-size:22px;'>I'm joining a new team</h3>
+      <p style='color:#FFFFFF;margin:0 0 16px 0;font-size:13px;'>Walk through who you are, what tools you use, how you communicate, and what your day looks like.</p>
+      <table style='border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#E8B86A;padding:10px 18px;border-radius:6px;'>
+      <a href='#' style='color:#182039;text-decoration:none;font-weight:bold;font-size:13px;'>Start Onboarding &rarr;</a>
+      </td></tr></table>
+      </td>
+      <td style='width:50%;background:#182039;padding:28px;border-radius:8px;vertical-align:top;'>
+      <p style='color:#E8B86A;margin:0 0 8px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>FOR EXITING PCs</p>
+      <h3 style='color:#E8B86A;margin:0 0 12px 0;font-size:22px;'>I'm wrapping up my role</h3>
+      <p style='color:#FFFFFF;margin:0 0 16px 0;font-size:13px;'>Capture what you know so your replacement isn't lost. Generate a cookbook when you're ready.</p>
+      <table style='border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#E8B86A;padding:10px 18px;border-radius:6px;'>
+      <a href='#' style='color:#182039;text-decoration:none;font-weight:bold;font-size:13px;'>Start Update/Offboarding &rarr;</a>
+      </td></tr></table>
+      </td>
+      </tr></table>
+    </div>
+  </div>
+
+  <!-- HOME S3 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 3 OF 7</span>
+        <span class="step-title">What MANTLE is + Quick stats</span>
+        <span class="time-est">~10 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: TwoColumn</span>
+        <span class="chip emp">EMPHASIS: Neutral</span>
+        <span class="chip webpart">LEFT: Text</span>
+        <span class="chip webpart">RIGHT: Text (or List, Compact)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Left eyebrow</td><td>WHAT MANTLE IS</td></tr>
+        <tr><td class="k">Left H3</td><td>A platform for coordinator-to-coordinator knowledge transfer</td></tr>
+        <tr><td class="k">Right H3</td><td>ACROSS ALL CONTRACTS</td></tr>
+        <tr><td class="k">Right rows</td><td>Stakeholders / Working styles / Meetings / Decisions / Cookbooks (placeholders, refresh quarterly)</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <div class="sp-2col">
+        <div class="sp-2col-cell">
+          <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>WHAT MANTLE IS</p>
+          <h3 style='color:#182039;margin:0 0 10px 0;font-size:20px;'>A platform for coordinator-to-coordinator knowledge transfer</h3>
+          <p style='color:#333;margin:0 0 10px 0;'>PCs leave, contracts shift, and institutional knowledge vanishes. MANTLE captures relationships, meetings, decisions, and unwritten rules &mdash; and packages it for the next person.</p>
+          <p style='color:#333;margin:0;'>Built by coordinators, for coordinators.</p>
+        </div>
+        <div class="sp-2col-cell">
+          <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+          <tr><td style='background:#FFFFFF;padding:18px;border-radius:8px;border:1px solid #E4E4E4;'>
+          <h3 style='color:#182039;margin:0 0 10px 0;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;'>ACROSS ALL CONTRACTS</h3>
+          <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+          <tr><td style='padding:6px 0;border-bottom:1px solid #EEE;color:#615E5E;font-size:13px;'>Stakeholders captured</td><td style='padding:6px 0;border-bottom:1px solid #EEE;text-align:right;color:#4961A3;font-weight:bold;font-size:18px;'>47</td></tr>
+          <tr><td style='padding:6px 0;border-bottom:1px solid #EEE;color:#615E5E;font-size:13px;'>Working styles documented</td><td style='padding:6px 0;border-bottom:1px solid #EEE;text-align:right;color:#4961A3;font-weight:bold;font-size:18px;'>23</td></tr>
+          <tr><td style='padding:6px 0;border-bottom:1px solid #EEE;color:#615E5E;font-size:13px;'>Meetings catalogued</td><td style='padding:6px 0;border-bottom:1px solid #EEE;text-align:right;color:#4961A3;font-weight:bold;font-size:18px;'>19</td></tr>
+          <tr><td style='padding:6px 0;color:#615E5E;font-size:13px;'>Cookbooks generated</td><td style='padding:6px 0;text-align:right;color:#E8B86A;font-weight:bold;font-size:18px;'>8</td></tr>
+          </table>
+          </td></tr></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOME S4 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 4 OF 7</span>
+        <span class="step-title">Three feature cards</span>
+        <span class="time-est">~10 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: ThreeColumn</span>
+        <span class="chip emp">EMPHASIS: None</span>
+        <span class="chip webpart">WEB PART: Text x3</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Card 1</td><td>Capture working styles &rarr; <span class="chip url">/Lists/Stakeholders</span></td></tr>
+        <tr><td class="k">Card 2</td><td>Generate cookbooks &rarr; <span class="chip url">/SitePages/MANTLE-Actions.aspx</span></td></tr>
+        <tr><td class="k">Card 3</td><td>Browse equivalencies &rarr; <span class="chip url">/Lists/EquivalencyMap</span></td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <div class="sp-3col">
+        <div class="sp-3col-cell">
+          <table style='width:100%;border-collapse:separate;border-spacing:0;'><tr>
+          <td style='background:#182039;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+          <td style='background:#FFFFFF;padding:16px;border-radius:0 6px 6px 0;border:1px solid #E4E4E4;border-left:0;'>
+          <h3 style='color:#182039;margin:0 0 6px 0;font-size:15px;'>Capture working styles</h3>
+          <p style='color:#615E5E;margin:0 0 10px 0;font-size:12px;'>Per-stakeholder discovery: 21 questions covering communication, decisions, deep work, feedback, conflict.</p>
+          <p style='margin:0;font-size:12px;'><a href='#' style='color:#4961A3;text-decoration:none;font-weight:bold;'>Open Stakeholders &rarr;</a></p>
+          </td></tr></table>
+        </div>
+        <div class="sp-3col-cell">
+          <table style='width:100%;border-collapse:separate;border-spacing:0;'><tr>
+          <td style='background:#E8B86A;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+          <td style='background:#FFFFFF;padding:16px;border-radius:0 6px 6px 0;border:1px solid #E4E4E4;border-left:0;'>
+          <h3 style='color:#182039;margin:0 0 6px 0;font-size:15px;'>Generate cookbooks</h3>
+          <p style='color:#615E5E;margin:0 0 10px 0;font-size:12px;'>One-click generation pulls everything you have documented into a Word document handoff.</p>
+          <p style='margin:0;font-size:12px;'><a href='#' style='color:#4961A3;text-decoration:none;font-weight:bold;'>MANTLE Actions &rarr;</a></p>
+          </td></tr></table>
+        </div>
+        <div class="sp-3col-cell">
+          <table style='width:100%;border-collapse:separate;border-spacing:0;'><tr>
+          <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+          <td style='background:#FFFFFF;padding:16px;border-radius:0 6px 6px 0;border:1px solid #E4E4E4;border-left:0;'>
+          <h3 style='color:#182039;margin:0 0 6px 0;font-size:15px;'>Browse equivalencies</h3>
+          <p style='color:#615E5E;margin:0 0 10px 0;font-size:12px;'>Cross-tool translations: Slack to Teams, Drive to OneDrive, Asana to Planner.</p>
+          <p style='margin:0;font-size:12px;'><a href='#' style='color:#4961A3;text-decoration:none;font-weight:bold;'>Open Equivalency Map &rarr;</a></p>
+          </td></tr></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOME S5 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 5 OF 7</span>
+        <span class="step-title">Quick links + Recent activity</span>
+        <span class="time-est">~12 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: TwoColumn</span>
+        <span class="chip emp">EMPHASIS: None</span>
+        <span class="chip webpart">LEFT: Quick Links (List)</span>
+        <span class="chip webpart">RIGHT: List (Stakeholders)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Left title</td><td>Quick links</td></tr>
+        <tr><td class="k">Left items</td><td>Stakeholders directory, Meetings catalogue, Acronym glossary, Tools, Equivalency Map, Trainee Profiles, 30-60-90 Tasks, MANTLE Actions, plus per-office filtered Stakeholder views (NSITE MO, ODSI, ST50, MSFC, External)</td></tr>
+        <tr><td class="k">Right list</td><td>Stakeholders</td></tr>
+        <tr><td class="k">Right view</td><td><span class="chip view">VIEW: Recent (sort Modified desc, top 10)</span></td></tr>
+        <tr><td class="k">Right title</td><td>Recent activity</td></tr>
+        <tr><td class="k">Toolbar</td><td>Off (or See all only) &middot; Command bar Off</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <div class="sp-2col">
+        <div class="sp-2col-cell"><div class="sp-pane">
+          <h3 style='color:#182039;margin:0 0 10px 0;font-size:16px;'>Quick links</h3>
+          <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+          <tr><td style='padding:8px 0;border-bottom:1px solid #F0F0F0;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>Stakeholders directory</a></td></tr>
+          <tr><td style='padding:8px 0;border-bottom:1px solid #F0F0F0;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>Meetings catalogue</a></td></tr>
+          <tr><td style='padding:8px 0;border-bottom:1px solid #F0F0F0;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>Acronym glossary</a></td></tr>
+          <tr><td style='padding:8px 0;border-bottom:1px solid #F0F0F0;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>Tools inventory</a></td></tr>
+          <tr><td style='padding:8px 0;border-bottom:1px solid #F0F0F0;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>Stakeholders -- NSITE MO</a></td></tr>
+          <tr><td style='padding:8px 0;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>Stakeholders -- ODSI</a></td></tr>
+          </table>
+        </div></div>
+        <div class="sp-2col-cell"><div class="sp-pane">
+          <h3 style='color:#182039;margin:0 0 10px 0;font-size:16px;'>Recent activity</h3>
+          <table style='width:100%;border-collapse:collapse;font-size:12px;'>
+          <tr style='background:#F5F7FA;'><td style='padding:6px;border-bottom:1px solid #E4E4E4;font-weight:600;'>Title</td><td style='padding:6px;border-bottom:1px solid #E4E4E4;font-weight:600;'>Person</td><td style='padding:6px;border-bottom:1px solid #E4E4E4;font-weight:600;'>Modified</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'>J. Morales</td><td style='padding:6px;border-bottom:1px solid #EEE;'>Jamie M.</td><td style='padding:6px;border-bottom:1px solid #EEE;'>2h ago</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'>D. Rao</td><td style='padding:6px;border-bottom:1px solid #EEE;'>Devon R.</td><td style='padding:6px;border-bottom:1px solid #EEE;'>yesterday</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'>S. Kim</td><td style='padding:6px;border-bottom:1px solid #EEE;'>Sara K.</td><td style='padding:6px;border-bottom:1px solid #EEE;'>2 days</td></tr>
+          </table>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOME S6 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 6 OF 7</span>
+        <span class="step-title">Visibility / who-can-see callout</span>
+        <span class="time-est">~5 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: OneColumn</span>
+        <span class="chip emp">EMPHASIS: Soft</span>
+        <span class="chip webpart">WEB PART: Text</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">H3</td><td>Who can see what's on this site</td></tr>
+        <tr><td class="k">Bulleted list</td><td>You / Other PCs assigned to the same contract / Your Barrios manager / MANTLE administrators</td></tr>
+        <tr><td class="k">Closing sentence</td><td>Items tagged Confidential are personal observations and never appear in public reports.</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#F0F4F9;padding:20px;border-radius:6px;'>
+      <h3 style='color:#182039;margin:0 0 8px 0;font-size:16px;'>Who can see what's on this site</h3>
+      <p style='color:#333;margin:0 0 6px 0;font-size:13px;'>MANTLE is internal to Barrios and your contract team. Stakeholder records, working styles, and decisions are visible to:</p>
+      <ul style='margin:6px 0 6px 20px;color:#333;font-size:13px;'>
+        <li>You</li><li>Other PCs assigned to the same contract</li><li>Your Barrios manager</li><li>MANTLE administrators</li>
+      </ul>
+      <p style='color:#333;margin:6px 0 0 0;font-size:13px;'>Items tagged Confidential are personal observations and never appear in public reports or external slides.</p>
+      </td></tr></table>
+    </div>
+  </div>
+
+  <!-- HOME S7 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 7 OF 7</span>
+        <span class="step-title">Internal-use-only footer</span>
+        <span class="time-est">~3 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: OneColumn</span>
+        <span class="chip emp">EMPHASIS: Soft</span>
+        <span class="chip webpart">WEB PART: Text (centered)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Bold lead</td><td>Internal use only.</td></tr>
+        <tr><td class="k">Body</td><td>MANTLE contains contract-sensitive context. Do not share pages or list exports outside Barrios or your contract team.</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#E8B86A;padding:14px 20px;border-radius:6px;text-align:center;'>
+      <p style='margin:0;color:#182039;font-size:13px;'><strong>Internal use only.</strong> MANTLE contains contract-sensitive context. Do not share pages or list exports outside Barrios or your contract team.</p>
+      </td></tr></table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================
+     ONBOARDING PAGE
+     ============================================================ -->
+<div id="page-on" class="page">
+
+  <div class="page-totals">
+    <h2>ONBOARDING &middot; 8 sections &middot; ~95-115 min total</h2>
+    <p>Pre-work (theme, find own PC ID, create per-PC views, create page): ~25 min &middot; Publish + smoke test: ~5 min</p>
+  </div>
+
+  <!-- ON S1 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 1 OF 8</span>
+        <span class="step-title">Hero scope band</span>
+        <span class="time-est">~6 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: OneColumn</span>
+        <span class="chip emp">EMPHASIS: Strong</span>
+        <span class="chip webpart">WEB PART: Hero (Layers, 1 layer)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Title</td><td>Welcome to MANTLE Onboarding</td></tr>
+        <tr><td class="k">Subtitle</td><td>You are being onboarded as a Project Coordinator for your assigned contract. Walk through the five steps below.</td></tr>
+        <tr><td class="k">CTA</td><td>OFF</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#182039;padding:40px;border-radius:8px;'>
+      <h2 style='color:#FFFFFF;margin:0 0 10px 0;font-size:28px;'>Welcome to MANTLE Onboarding</h2>
+      <p style='color:#FFFFFF;margin:0;font-size:15px;'>You are being onboarded as a Project Coordinator for your assigned contract. Walk through the five steps below.</p>
+      </td></tr></table>
+    </div>
+  </div>
+
+  <!-- ON S2 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 2 OF 8</span>
+        <span class="step-title">Step 1 -- Trainee Profile form</span>
+        <span class="time-est">~10 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: TwoColumn</span>
+        <span class="chip emp">EMPHASIS: None</span>
+        <span class="chip webpart">LEFT: Text + Button</span>
+        <span class="chip webpart">RIGHT: List (Trainee Profiles)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Eyebrow / H2</td><td>STEP 1 OF 5 / Set up your Trainee Profile</td></tr>
+        <tr><td class="k">Button label</td><td>Open Trainee Profile form</td></tr>
+        <tr><td class="k">Button URL</td><td><span class="chip url">/Lists/Trainee%20Profiles/NewForm.aspx</span></td></tr>
+        <tr><td class="k">Right list</td><td>Trainee Profiles</td></tr>
+        <tr><td class="k">Right view</td><td><span class="chip view">VIEW: All Items (or Mine, filter Created By = [Me])</span></td></tr>
+        <tr><td class="k">Right title</td><td>Your Trainee Profile</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <div class="sp-2col">
+        <div class="sp-2col-cell"><div class="sp-pane">
+          <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>STEP 1 OF 5</p>
+          <h2 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>Set up your Trainee Profile</h2>
+          <p style='color:#333;margin:0 0 12px 0;font-size:13px;'>Tell MANTLE who you are. Your name, contract, start date, and mentor. About 3 minutes.</p>
+          <table style='border-collapse:separate;border-spacing:0;'>
+          <tr><td style='background:#4961A3;padding:10px 18px;border-radius:4px;'>
+          <a href='#' style='color:#FFFFFF;text-decoration:none;font-weight:bold;font-size:13px;'>Open Trainee Profile form</a>
+          </td></tr></table>
+        </div></div>
+        <div class="sp-2col-cell"><div class="sp-pane">
+          <h3 style='color:#182039;margin:0 0 10px 0;font-size:14px;'>Your Trainee Profile</h3>
+          <table style='width:100%;border-collapse:collapse;font-size:12px;'>
+          <tr style='background:#F5F7FA;'><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Name</td><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Contract</td><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Start</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;color:#888;font-style:italic;' colspan='3'>(empty -- click button at left to fill in)</td></tr>
+          </table>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ON S3 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 3 OF 8</span>
+        <span class="step-title">Step 2 -- Working Styles Matrix (your PC EditForm)</span>
+        <span class="time-est">~10 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: TwoColumn</span>
+        <span class="chip emp">EMPHASIS: Neutral</span>
+        <span class="chip webpart">LEFT: Text + Button</span>
+        <span class="chip webpart">RIGHT: Text (instructions)</span>
+        <span class="chip view">VIEW: Coordinator Name = [Me]</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Eyebrow / H2</td><td>STEP 2 OF 5 / Tell us how you work</td></tr>
+        <tr><td class="k">Button label</td><td>Open Working Styles Matrix form</td></tr>
+        <tr><td class="k">Button URL (single-user)</td><td><span class="chip url">/Lists/PCs/EditForm.aspx?ID=N</span> (N = your PC row ID)</td></tr>
+        <tr><td class="k">Button URL (shared page)</td><td><span class="chip url">/Lists/PCs/AllItems.aspx</span> filtered to <strong>Coordinator Name = [Me]</strong></td></tr>
+        <tr><td class="k">If no PC row yet</td><td>Use <span class="chip url">/Lists/PCs/NewForm.aspx</span>; user sets Coordinator Name = themselves</td></tr>
+        <tr><td class="k">Right panel header</td><td>WHAT THE FORM ASKS</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <div class="sp-2col">
+        <div class="sp-2col-cell"><div class="sp-pane" style='background:#F0F4F9;'>
+          <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>STEP 2 OF 5</p>
+          <h2 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>Tell us how you work</h2>
+          <p style='color:#333;margin:0 0 12px 0;font-size:13px;'>21+ working-style answers. Communication, decisions, deep work, feedback, conflict. 10-15 minutes.</p>
+          <table style='border-collapse:separate;border-spacing:0;'>
+          <tr><td style='background:#4961A3;padding:10px 18px;border-radius:4px;'>
+          <a href='#' style='color:#FFFFFF;text-decoration:none;font-weight:bold;font-size:13px;'>Open Working Styles Matrix form</a>
+          </td></tr></table>
+        </div></div>
+        <div class="sp-2col-cell"><div class="sp-pane" style='background:#F0F4F9;'>
+          <h3 style='color:#182039;margin:0 0 8px 0;font-size:13px;'>WHAT THE FORM ASKS</h3>
+          <ul style='margin:6px 0 0 18px;color:#333;font-size:12px;'>
+            <li>Primary and secondary preferred channel</li>
+            <li>How you leave and receive edits in shared files</li>
+            <li>Decision timing</li>
+            <li>Deep-work style and rabbit-trail tendency</li>
+            <li>Feedback and recognition preferences</li>
+            <li>Conflict default move</li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ON S4 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 4 OF 8</span>
+        <span class="step-title">Step 3 -- My Tools</span>
+        <span class="time-est">~10 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: TwoColumn</span>
+        <span class="chip emp">EMPHASIS: None</span>
+        <span class="chip webpart">LEFT: Text + Button</span>
+        <span class="chip webpart">RIGHT: List (Tools)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Eyebrow / H2</td><td>STEP 3 OF 5 / What's in your toolkit</td></tr>
+        <tr><td class="k">Button label</td><td>Browse all Tools</td></tr>
+        <tr><td class="k">Button URL</td><td><span class="chip url">/Lists/Tools/AllItems.aspx</span></td></tr>
+        <tr><td class="k">Right view</td><td><span class="chip view">VIEW: My Tools</span> if Contract column exists, else <span class="chip view">VIEW: All Items</span></td></tr>
+        <tr><td class="k">Right title</td><td>Your contract's tools</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <div class="sp-2col">
+        <div class="sp-2col-cell"><div class="sp-pane">
+          <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>STEP 3 OF 5</p>
+          <h2 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>What's in your toolkit</h2>
+          <p style='color:#333;margin:0 0 12px 0;font-size:13px;'>The tools your contract runs on. Click any tool to open its full record.</p>
+          <table style='border-collapse:separate;border-spacing:0;'>
+          <tr><td style='background:#4961A3;padding:10px 18px;border-radius:4px;'>
+          <a href='#' style='color:#FFFFFF;text-decoration:none;font-weight:bold;font-size:13px;'>Browse all Tools</a>
+          </td></tr></table>
+        </div></div>
+        <div class="sp-2col-cell"><div class="sp-pane">
+          <h3 style='color:#182039;margin:0 0 8px 0;font-size:14px;'>Your contract's tools</h3>
+          <table style='width:100%;border-collapse:collapse;font-size:12px;'>
+          <tr style='background:#F5F7FA;'><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Tool</td><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Category</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'>Microsoft Teams</td><td style='padding:6px;border-bottom:1px solid #EEE;'>Communication</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'>SharePoint</td><td style='padding:6px;border-bottom:1px solid #EEE;'>Documents</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'>Planner</td><td style='padding:6px;border-bottom:1px solid #EEE;'>Tasks</td></tr>
+          </table>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ON S5 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 5 OF 8</span>
+        <span class="step-title">Step 4 -- My Stakeholders (interview workflow)</span>
+        <span class="time-est">~12 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: TwoColumn</span>
+        <span class="chip emp">EMPHASIS: None</span>
+        <span class="chip webpart">LEFT: Text + Button</span>
+        <span class="chip webpart">RIGHT: List (Stakeholders, "My Stakeholders" view)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Eyebrow / H2</td><td>STEP 4 OF 5 / Who you'll work with</td></tr>
+        <tr><td class="k">Button label</td><td>Add a new Stakeholder</td></tr>
+        <tr><td class="k">Button URL</td><td><span class="chip url">/Lists/Stakeholders/NewForm.aspx</span></td></tr>
+        <tr><td class="k">Right list</td><td>Stakeholders</td></tr>
+        <tr><td class="k">Right view</td><td><span class="chip view">VIEW: My Stakeholders (filter Owner = [Me])</span></td></tr>
+        <tr><td class="k">Visible columns</td><td>Title, Person, Role, Contracts, Modified</td></tr>
+        <tr><td class="k">Workflow</td><td>Click any row &rarr; opens display form &rarr; Edit &rarr; fill matrix questions during your 1:1</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <div class="sp-2col">
+        <div class="sp-2col-cell"><div class="sp-pane">
+          <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>STEP 4 OF 5</p>
+          <h2 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>Who you'll work with</h2>
+          <p style='color:#333;margin:0 0 8px 0;font-size:13px;'>Click a name on the right to open that record and capture working-style answers as you go.</p>
+          <p style='color:#615E5E;margin:0 0 12px 0;font-size:12px;font-style:italic;'>Tip: schedule a 30-minute "how do you work" call in your first two weeks.</p>
+          <table style='border-collapse:separate;border-spacing:0;'>
+          <tr><td style='background:#4961A3;padding:10px 18px;border-radius:4px;'>
+          <a href='#' style='color:#FFFFFF;text-decoration:none;font-weight:bold;font-size:13px;'>Add a new Stakeholder</a>
+          </td></tr></table>
+        </div></div>
+        <div class="sp-2col-cell"><div class="sp-pane">
+          <h3 style='color:#182039;margin:0 0 8px 0;font-size:14px;'>Your stakeholders</h3>
+          <table style='width:100%;border-collapse:collapse;font-size:12px;'>
+          <tr style='background:#F5F7FA;'><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Title</td><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Person</td><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Role</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;'>Jamie Morales</a></td><td style='padding:6px;border-bottom:1px solid #EEE;'>J. Morales</td><td style='padding:6px;border-bottom:1px solid #EEE;'>Senior PC</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;'>Devon Rao</a></td><td style='padding:6px;border-bottom:1px solid #EEE;'>D. Rao</td><td style='padding:6px;border-bottom:1px solid #EEE;'>PC Lead</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;'>Sara Kim</a></td><td style='padding:6px;border-bottom:1px solid #EEE;'>S. Kim</td><td style='padding:6px;border-bottom:1px solid #EEE;'>PM</td></tr>
+          </table>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ON S6 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 6 OF 8</span>
+        <span class="step-title">Step 5 -- My Meetings</span>
+        <span class="time-est">~10 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: TwoColumn</span>
+        <span class="chip emp">EMPHASIS: Neutral</span>
+        <span class="chip webpart">LEFT: Text + Button</span>
+        <span class="chip webpart">RIGHT: List (Meetings, "My Meetings" view)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Eyebrow / H2</td><td>STEP 5 OF 5 / Recurring meetings on your radar</td></tr>
+        <tr><td class="k">Button label</td><td>Add a meeting</td></tr>
+        <tr><td class="k">Button URL</td><td><span class="chip url">/Lists/Meetings/NewForm.aspx</span></td></tr>
+        <tr><td class="k">Right view</td><td><span class="chip view">VIEW: My Meetings (Contract = your contract)</span></td></tr>
+        <tr><td class="k">Visible columns</td><td>Title, Cadence, Contract, Person/Owner, Modified</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <div class="sp-2col">
+        <div class="sp-2col-cell"><div class="sp-pane" style='background:#F0F4F9;'>
+          <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>STEP 5 OF 5</p>
+          <h2 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>Recurring meetings on your radar</h2>
+          <p style='color:#333;margin:0 0 12px 0;font-size:13px;'>Sit in on each one once before participating. Add anything missing.</p>
+          <table style='border-collapse:separate;border-spacing:0;'>
+          <tr><td style='background:#4961A3;padding:10px 18px;border-radius:4px;'>
+          <a href='#' style='color:#FFFFFF;text-decoration:none;font-weight:bold;font-size:13px;'>Add a meeting</a>
+          </td></tr></table>
+        </div></div>
+        <div class="sp-2col-cell"><div class="sp-pane" style='background:#F0F4F9;'>
+          <h3 style='color:#182039;margin:0 0 8px 0;font-size:14px;'>Meetings on your contract</h3>
+          <table style='width:100%;border-collapse:collapse;font-size:12px;background:white;'>
+          <tr style='background:#F5F7FA;'><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Title</td><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Cadence</td><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Contract</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'>Weekly Standup</td><td style='padding:6px;border-bottom:1px solid #EEE;'>Weekly</td><td style='padding:6px;border-bottom:1px solid #EEE;'>IMPACT</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'>Monthly Review</td><td style='padding:6px;border-bottom:1px solid #EEE;'>Monthly</td><td style='padding:6px;border-bottom:1px solid #EEE;'>IMPACT</td></tr>
+          </table>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ON S7 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 7 OF 8</span>
+        <span class="step-title">How to refer back</span>
+        <span class="time-est">~5 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: OneColumn</span>
+        <span class="chip emp">EMPHASIS: Soft</span>
+        <span class="chip webpart">WEB PART: Text + Quick Links (List)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Quick Links title</td><td>Your shortcuts</td></tr>
+        <tr><td class="k">Items</td><td>My Trainee Profile / My PC Record (EditForm?ID=N) / My Stakeholders view URL / My Meetings view URL / Tools inventory</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#F0F4F9;padding:18px;border-radius:6px;'>
+      <h3 style='color:#182039;margin:0 0 6px 0;font-size:16px;'>How to find this page again</h3>
+      <p style='color:#333;margin:0 0 8px 0;font-size:13px;'>Bookmark, pin, or use Quick Launch. Each list has a "My ..." view:</p>
+      <table style='width:100%;border-collapse:separate;border-spacing:0;background:white;border-radius:4px;'>
+      <tr><td style='padding:8px 12px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>My Trainee Profile</a></td></tr>
+      <tr><td style='padding:8px 12px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>My PC Record</a></td></tr>
+      <tr><td style='padding:8px 12px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>My Stakeholders</a></td></tr>
+      <tr><td style='padding:8px 12px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>My Meetings</a></td></tr>
+      <tr><td style='padding:8px 12px;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>Tools inventory</a></td></tr>
+      </table>
+      </td></tr></table>
+    </div>
+  </div>
+
+  <!-- ON S8 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 8 OF 8</span>
+        <span class="step-title">Internal-use-only footer</span>
+        <span class="time-est">~3 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: OneColumn</span>
+        <span class="chip emp">EMPHASIS: Soft</span>
+        <span class="chip webpart">WEB PART: Text (centered)</span>
+      </div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#E8B86A;padding:14px 20px;border-radius:6px;text-align:center;'>
+      <p style='margin:0;color:#182039;font-size:13px;'><strong>Internal use only.</strong> MANTLE contains contract-sensitive context. Do not share pages or list exports outside Barrios or your contract team.</p>
+      </td></tr></table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================
+     UPDATE / OFFBOARDING PAGE
+     ============================================================ -->
+<div id="page-off" class="page">
+
+  <div class="page-totals">
+    <h2>UPDATE / OFFBOARDING &middot; 10 sections &middot; ~110-130 min total</h2>
+    <p>Pre-work (theme, confirm per-PC views, find own PC ID, create page): ~15 min &middot; Publish + smoke test: ~6 min</p>
+  </div>
+
+  <!-- OFF S1 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 1 OF 10</span>
+        <span class="step-title">Hero scope band</span>
+        <span class="time-est">~6 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: OneColumn</span>
+        <span class="chip emp">EMPHASIS: Strong</span>
+        <span class="chip webpart">WEB PART: Hero (Layers, 1 layer)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Title</td><td>Update / Offboarding</td></tr>
+        <tr><td class="k">Subtitle</td><td>Refresh your handoff data, or capture remaining knowledge before you go.</td></tr>
+        <tr><td class="k">Topic (optional)</td><td>QUARTERLY MAINTENANCE . FINAL HANDOFF . COOKBOOK READY</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#182039;padding:40px;border-radius:8px;'>
+      <h2 style='color:#E8B86A;margin:0 0 10px 0;font-size:28px;'>Update / Offboarding</h2>
+      <p style='color:#FFFFFF;margin:0;font-size:15px;'>Refresh your handoff data, or capture remaining knowledge before you go.</p>
+      </td></tr></table>
+    </div>
+  </div>
+
+  <!-- OFF S2 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 2 OF 10</span>
+        <span class="step-title">Why this page exists</span>
+        <span class="time-est">~8 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: TwoColumn</span>
+        <span class="chip emp">EMPHASIS: None</span>
+        <span class="chip webpart">LEFT: Text</span>
+        <span class="chip webpart">RIGHT: Image</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Eyebrow / H2</td><td>WHY THIS PAGE EXISTS / Your replacement should not be guessing</td></tr>
+        <tr><td class="k">Right image alt</td><td>Two coordinators in conversation during a handoff.</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <div class="sp-2col">
+        <div class="sp-2col-cell"><div class="sp-pane">
+          <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>WHY THIS PAGE EXISTS</p>
+          <h2 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>Your replacement should not be guessing</h2>
+          <p style='color:#333;margin:0 0 8px 0;font-size:13px;'>Whether you are moving to another contract or fully leaving the role, the people you have worked with do not have to be re-learned from scratch.</p>
+          <p style='color:#333;margin:0;font-size:13px;'>This page is also for quarterly maintenance. Keep records fresh so when handoff comes, your cookbook is already 80% written.</p>
+        </div></div>
+        <div class="sp-2col-cell">
+          <div class="empty-col">Image web part &middot; suggested: handoff conversation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFF S3 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 3 OF 10</span>
+        <span class="step-title">Phase 1 -- Stakeholders refresh</span>
+        <span class="time-est">~12 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: TwoColumn</span>
+        <span class="chip emp">EMPHASIS: None</span>
+        <span class="chip webpart">LEFT: Text + Button</span>
+        <span class="chip webpart">RIGHT: List (Stakeholders, "My Stakeholders" view)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Eyebrow / H2</td><td>PHASE 1 OF 4 / Stakeholders -- capture working styles for everyone you work with</td></tr>
+        <tr><td class="k">Button label</td><td>Add a stakeholder</td></tr>
+        <tr><td class="k">Button URL</td><td><span class="chip url">/Lists/Stakeholders/NewForm.aspx</span></td></tr>
+        <tr><td class="k">Right view</td><td><span class="chip view">VIEW: My Stakeholders (Owner = [Me])</span></td></tr>
+        <tr><td class="k">Update prompts</td><td>New people / role shifts / preference changes / mark Inactive on departures</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <div class="sp-2col">
+        <div class="sp-2col-cell"><div class="sp-pane">
+          <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>PHASE 1 OF 4</p>
+          <h2 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>Stakeholders refresh</h2>
+          <p style='color:#333;margin:0 0 8px 0;font-size:13px;'>Click any name on the right to update working-style answers. Mark departed people as Inactive rather than deleting.</p>
+          <p style='color:#4961A3;margin:8px 0 6px 0;font-size:11px;font-weight:bold;'>WHAT HAS CHANGED?</p>
+          <ul style='margin:0 0 12px 18px;color:#333;font-size:12px;'>
+            <li>New people on your contract</li>
+            <li>Role or org shifts</li>
+            <li>Working-style preference evolution</li>
+            <li>Departed people &rarr; Status = Inactive</li>
+          </ul>
+          <table style='border-collapse:separate;border-spacing:0;'>
+          <tr><td style='background:#4961A3;padding:10px 18px;border-radius:4px;'>
+          <a href='#' style='color:#FFFFFF;text-decoration:none;font-weight:bold;font-size:13px;'>Add a stakeholder</a>
+          </td></tr></table>
+        </div></div>
+        <div class="sp-2col-cell"><div class="sp-pane">
+          <h3 style='color:#182039;margin:0 0 8px 0;font-size:14px;'>Your stakeholders</h3>
+          <table style='width:100%;border-collapse:collapse;font-size:12px;'>
+          <tr style='background:#F5F7FA;'><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Title</td><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Person</td><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Modified</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;'>J. Morales</a></td><td style='padding:6px;border-bottom:1px solid #EEE;'>Jamie M.</td><td style='padding:6px;border-bottom:1px solid #EEE;'>3 days</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;'>D. Rao</a></td><td style='padding:6px;border-bottom:1px solid #EEE;'>Devon R.</td><td style='padding:6px;border-bottom:1px solid #EEE;'>1 wk</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;'>S. Kim</a></td><td style='padding:6px;border-bottom:1px solid #EEE;'>Sara K.</td><td style='padding:6px;border-bottom:1px solid #EEE;'>2 wk</td></tr>
+          </table>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFF S4 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 4 OF 10</span>
+        <span class="step-title">Phase 2 -- Meetings refresh</span>
+        <span class="time-est">~10 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: TwoColumn</span>
+        <span class="chip emp">EMPHASIS: Neutral</span>
+        <span class="chip webpart">LEFT: Text + Button</span>
+        <span class="chip webpart">RIGHT: List (Meetings, "My Meetings" view)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Eyebrow / H2</td><td>PHASE 2 OF 4 / Meetings -- keep the catalog current</td></tr>
+        <tr><td class="k">Button label</td><td>Add a meeting</td></tr>
+        <tr><td class="k">Button URL</td><td><span class="chip url">/Lists/Meetings/NewForm.aspx</span></td></tr>
+        <tr><td class="k">Right view</td><td><span class="chip view">VIEW: My Meetings (Contract-filtered)</span></td></tr>
+        <tr><td class="k">Deprecation rule</td><td>Set Status = Deprecated rather than deleting</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <div class="sp-2col">
+        <div class="sp-2col-cell"><div class="sp-pane" style='background:#F0F4F9;'>
+          <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>PHASE 2 OF 4</p>
+          <h2 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>Meetings refresh</h2>
+          <p style='color:#333;margin:0 0 12px 0;font-size:13px;'>Update cadence, owner, your role, agenda link. Set Status = Deprecated for ones that no longer happen.</p>
+          <table style='border-collapse:separate;border-spacing:0;'>
+          <tr><td style='background:#4961A3;padding:10px 18px;border-radius:4px;'>
+          <a href='#' style='color:#FFFFFF;text-decoration:none;font-weight:bold;font-size:13px;'>Add a meeting</a>
+          </td></tr></table>
+        </div></div>
+        <div class="sp-2col-cell"><div class="sp-pane" style='background:#F0F4F9;'>
+          <h3 style='color:#182039;margin:0 0 8px 0;font-size:14px;'>Meetings on your contract</h3>
+          <table style='width:100%;border-collapse:collapse;font-size:12px;background:white;'>
+          <tr style='background:#F5F7FA;'><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Title</td><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Cadence</td><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Person/Owner</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'>Standup</td><td style='padding:6px;border-bottom:1px solid #EEE;'>Daily</td><td style='padding:6px;border-bottom:1px solid #EEE;'>D. Rao</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'>Status</td><td style='padding:6px;border-bottom:1px solid #EEE;'>Weekly</td><td style='padding:6px;border-bottom:1px solid #EEE;'>J. Morales</td></tr>
+          </table>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFF S5 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 5 OF 10</span>
+        <span class="step-title">Phase 3 -- Acronyms (Knowledge)</span>
+        <span class="time-est">~10 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: TwoColumn</span>
+        <span class="chip emp">EMPHASIS: None</span>
+        <span class="chip webpart">LEFT: Text + Button</span>
+        <span class="chip webpart">RIGHT: List (Acronyms, "My Acronyms" view)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Eyebrow / H2</td><td>PHASE 3 OF 4 / Knowledge -- acronyms and unwritten rules</td></tr>
+        <tr><td class="k">Button label</td><td>Add an acronym</td></tr>
+        <tr><td class="k">Button URL</td><td><span class="chip url">/Lists/Acronyms/NewForm.aspx</span></td></tr>
+        <tr><td class="k">Right view</td><td><span class="chip view">VIEW: My Acronyms (Contract = your contract)</span></td></tr>
+        <tr><td class="k">Visible columns</td><td>Title, Expansion, Context, Contract, Modified</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <div class="sp-2col">
+        <div class="sp-2col-cell"><div class="sp-pane">
+          <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>PHASE 3 OF 4</p>
+          <h2 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>Acronyms</h2>
+          <p style='color:#333;margin:0 0 8px 0;font-size:13px;'>Each time you catch yourself defining an acronym in a meeting, that is one to add here.</p>
+          <table style='border-collapse:separate;border-spacing:0;'>
+          <tr><td style='background:#4961A3;padding:10px 18px;border-radius:4px;'>
+          <a href='#' style='color:#FFFFFF;text-decoration:none;font-weight:bold;font-size:13px;'>Add an acronym</a>
+          </td></tr></table>
+        </div></div>
+        <div class="sp-2col-cell"><div class="sp-pane">
+          <h3 style='color:#182039;margin:0 0 8px 0;font-size:14px;'>Acronyms on your contract</h3>
+          <table style='width:100%;border-collapse:collapse;font-size:12px;'>
+          <tr style='background:#F5F7FA;'><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Title</td><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Expansion</td><td style='padding:6px;font-weight:600;border-bottom:1px solid #E4E4E4;'>Context</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'>IMPACT</td><td style='padding:6px;border-bottom:1px solid #EEE;'>Inter-agency...</td><td style='padding:6px;border-bottom:1px solid #EEE;'>Contract name</td></tr>
+          <tr><td style='padding:6px;border-bottom:1px solid #EEE;'>NSITE</td><td style='padding:6px;border-bottom:1px solid #EEE;'>NASA Sci...</td><td style='padding:6px;border-bottom:1px solid #EEE;'>MO grouping</td></tr>
+          </table>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFF S6 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 6 OF 10</span>
+        <span class="step-title">Phase 4 -- Templates and forms</span>
+        <span class="time-est">~12 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: TwoColumn</span>
+        <span class="chip emp">EMPHASIS: Neutral</span>
+        <span class="chip webpart">LEFT: Text</span>
+        <span class="chip webpart">RIGHT: Highlighted Content (or Quick Links fallback)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Eyebrow / H2</td><td>PHASE 4 OF 4 / Templates and reference docs</td></tr>
+        <tr><td class="k">Highlighted Content source</td><td>This site &middot; Type: Documents</td></tr>
+        <tr><td class="k">Filter</td><td>Tags / Keywords Equals "Offboarding"</td></tr>
+        <tr><td class="k">Sort / Layout</td><td>Most recent &middot; List (compact) &middot; 6 items</td></tr>
+        <tr><td class="k">Fallback</td><td>Quick Links (List) &mdash; manually curated link to each .docx</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <div class="sp-2col">
+        <div class="sp-2col-cell"><div class="sp-pane" style='background:#F0F4F9;'>
+          <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>PHASE 4 OF 4</p>
+          <h2 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>Templates and reference docs</h2>
+          <ul style='margin:6px 0 0 18px;color:#333;font-size:13px;'>
+            <li>Stakeholder handoff template (one-pager)</li>
+            <li>Meeting cheat-sheet (two-pager)</li>
+            <li>Decisions one-pager</li>
+          </ul>
+        </div></div>
+        <div class="sp-2col-cell"><div class="sp-pane" style='background:#F0F4F9;'>
+          <h3 style='color:#182039;margin:0 0 8px 0;font-size:14px;'>Offboarding templates</h3>
+          <table style='width:100%;border-collapse:separate;border-spacing:0;background:white;border-radius:4px;'>
+          <tr><td style='padding:8px 12px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>Stakeholder handoff template.docx</a></td></tr>
+          <tr><td style='padding:8px 12px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>Meeting cheat-sheet.docx</a></td></tr>
+          <tr><td style='padding:8px 12px;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>Decisions one-pager.docx</a></td></tr>
+          </table>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFF S7 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 7 OF 10</span>
+        <span class="step-title">Final action -- Generate cookbook</span>
+        <span class="time-est">~10 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: OneColumn</span>
+        <span class="chip emp">EMPHASIS: Strong</span>
+        <span class="chip webpart">WEB PART: Text + Button</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Eyebrow / H2</td><td>FINAL STEP / Generate the cookbook</td></tr>
+        <tr><td class="k">Button label</td><td>Open MANTLE Actions</td></tr>
+        <tr><td class="k">Button URL</td><td><span class="chip url">/SitePages/MANTLE-Actions.aspx</span></td></tr>
+        <tr><td class="k">Alt button</td><td>View generator script &rarr; <span class="chip url">github.com/CherrelleTucker/MANTLE/blob/main/scripts/generate-cookbook.ps1</span></td></tr>
+        <tr><td class="k">Readiness rule</td><td>60%+ of stakeholders have working-style profile (PrimaryChannel) before generating</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#182039;padding:32px;border-radius:8px;'>
+      <p style='color:#E8B86A;margin:0 0 6px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>FINAL STEP</p>
+      <h2 style='color:#FFFFFF;margin:0 0 10px 0;font-size:24px;'>Generate the cookbook</h2>
+      <p style='color:#FFFFFF;margin:0 0 14px 0;font-size:14px;'>Pulls Stakeholders, Meetings, Acronyms, and your Working Styles into one Word document handoff.</p>
+      <table style='border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#E8B86A;padding:12px 22px;border-radius:6px;'>
+      <a href='#' style='color:#182039;text-decoration:none;font-weight:bold;font-size:14px;'>Open MANTLE Actions &rarr;</a>
+      </td></tr></table>
+      </td></tr></table>
+    </div>
+  </div>
+
+  <!-- OFF S8 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 8 OF 10</span>
+        <span class="step-title">Cookbook readiness panel</span>
+        <span class="time-est">~10 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: OneColumn</span>
+        <span class="chip emp">EMPHASIS: Soft</span>
+        <span class="chip webpart">WEB PART: Text + List x3 (compact)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Targets</td><td>Stakeholders 12+ / Working styles 60% / Meetings = all recurring / Acronyms 15+</td></tr>
+        <tr><td class="k">Lists embedded</td><td>Stakeholders, Meetings, Acronyms (each with per-PC view, toolbar = Compact to expose count)</td></tr>
+        <tr><td class="k">Fallback Option B</td><td>Pure-text checklist if toolbar count is hidden in your tenant</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#F0F4F9;padding:18px;border-radius:6px;'>
+      <h3 style='color:#182039;margin:0 0 8px 0;font-size:16px;'>Cookbook readiness</h3>
+      <p style='color:#333;margin:0 0 12px 0;font-size:13px;'>Counts from each list's compact toolbar. Targets are guidelines, not gates.</p>
+      <table style='width:100%;border-collapse:separate;border-spacing:8px 0;'>
+      <tr>
+      <td style='vertical-align:top;background:white;padding:12px;border-radius:4px;border:1px solid #E4E4E4;text-align:center;width:33%;'>
+      <p style='margin:0;color:#615E5E;font-size:11px;text-transform:uppercase;letter-spacing:1px;'>Stakeholders</p>
+      <p style='margin:6px 0 0 0;color:#4961A3;font-weight:bold;font-size:22px;'>7 / 12</p>
+      </td>
+      <td style='vertical-align:top;background:white;padding:12px;border-radius:4px;border:1px solid #E4E4E4;text-align:center;width:33%;'>
+      <p style='margin:0;color:#615E5E;font-size:11px;text-transform:uppercase;letter-spacing:1px;'>Meetings</p>
+      <p style='margin:6px 0 0 0;color:#4961A3;font-weight:bold;font-size:22px;'>8 / 8</p>
+      </td>
+      <td style='vertical-align:top;background:white;padding:12px;border-radius:4px;border:1px solid #E4E4E4;text-align:center;width:33%;'>
+      <p style='margin:0;color:#615E5E;font-size:11px;text-transform:uppercase;letter-spacing:1px;'>Acronyms</p>
+      <p style='margin:6px 0 0 0;color:#E8B86A;font-weight:bold;font-size:22px;'>4 / 15</p>
+      </td>
+      </tr></table>
+      </td></tr></table>
+    </div>
+  </div>
+
+  <!-- OFF S9 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 9 OF 10</span>
+        <span class="step-title">How to refer back</span>
+        <span class="time-est">~5 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: OneColumn</span>
+        <span class="chip emp">EMPHASIS: Soft</span>
+        <span class="chip webpart">WEB PART: Text + Quick Links (List)</span>
+      </div>
+      <div class="props"><table>
+        <tr><td class="k">Quick Links title</td><td>Your shortcuts</td></tr>
+        <tr><td class="k">Items</td><td>My Stakeholders / My Meetings / My Acronyms / My PC Record (EditForm?ID=N) / MANTLE Actions</td></tr>
+      </table></div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#F0F4F9;padding:18px;border-radius:6px;'>
+      <h3 style='color:#182039;margin:0 0 6px 0;font-size:16px;'>How to find this page again</h3>
+      <p style='color:#333;margin:0 0 8px 0;font-size:13px;'>Bookmark, pin, or use Quick Launch. Each list has a "My ..." view.</p>
+      <table style='width:100%;border-collapse:separate;border-spacing:0;background:white;border-radius:4px;'>
+      <tr><td style='padding:8px 12px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>My Stakeholders</a></td></tr>
+      <tr><td style='padding:8px 12px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>My Meetings</a></td></tr>
+      <tr><td style='padding:8px 12px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>My Acronyms</a></td></tr>
+      <tr><td style='padding:8px 12px;border-bottom:1px solid #EEE;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>My PC Record (Working Styles)</a></td></tr>
+      <tr><td style='padding:8px 12px;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:13px;'>MANTLE Actions</a></td></tr>
+      </table>
+      </td></tr></table>
+    </div>
+  </div>
+
+  <!-- OFF S10 -->
+  <div class="build-block">
+    <div class="build-card">
+      <div class="head">
+        <span class="step-badge">SECTION 10 OF 10</span>
+        <span class="step-title">Internal-use-only footer</span>
+        <span class="time-est">~3 min</span>
+      </div>
+      <div class="chips">
+        <span class="chip section">SECTION: OneColumn</span>
+        <span class="chip emp">EMPHASIS: Soft</span>
+        <span class="chip webpart">WEB PART: Text (centered)</span>
+      </div>
+    </div>
+    <div class="preview-label">PREVIEW</div>
+    <div class="preview">
+      <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+      <tr><td style='background:#E8B86A;padding:14px 20px;border-radius:6px;text-align:center;'>
+      <p style='margin:0;color:#182039;font-size:13px;'><strong>Internal use only.</strong> Stakeholder relationship notes and internal decisions are not for external sharing. Cookbooks are also internal-only.</p>
+      </td></tr></table>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<script>
+  function showPage(which, ev) {
+    document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+    document.getElementById('page-' + which).classList.add('active');
+    document.querySelectorAll('.page-toggle button').forEach(function(b){ b.classList.remove('active'); });
+    if (ev && ev.target) { ev.target.classList.add('active'); }
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>

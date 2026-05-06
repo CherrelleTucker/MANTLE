@@ -1,0 +1,30 @@
+﻿{
+  "elmType": "div",
+  "attributes": { "class": "ms-borderColor-neutralTertiary" },
+  "style": {
+    "padding": "12px",
+    "background-color": "#182039",
+    "border-radius": "6px",
+    "margin-bottom": "12px"
+  },
+  "children": [
+    {
+      "elmType": "div",
+      "txtContent": "Working Styles Matrix",
+      "style": {
+        "color": "#E8B86A",
+        "font-size": "16px",
+        "font-weight": "bold",
+        "margin-bottom": "6px"
+      }
+    },
+    {
+      "elmType": "div",
+      "txtContent": "Capture how this person prefers to communicate, work, think, and resolve conflict. The questions below come from the Barrios Working Styles Matrix. Answer what is known; leave the rest blank for now.",
+      "style": {
+        "color": "#FFFFFF",
+        "font-size": "13px"
+      }
+    }
+  ]
+}

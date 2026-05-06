@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MANTLE — Constraint-true mockup</title>
+<style>
+  /* This mockup uses ONLY HTML/CSS that survives the SharePoint Modern
+     Text web part sanitizer in published view. No gradients, no flex, no
+     grid, no emoji, no custom fonts, no hover states. Only:
+       - <table>, <tr>, <td>, <h2>, <h3>, <p>, <a>, <strong>, <em>
+       - inline styles: background, padding, border-radius, color,
+         font-size, font-weight, text-align, border-collapse, border-spacing
+       - sibling-td technique for accent stripes
+     What you see here is what SharePoint will actually render. */
+
+  /* Page chrome (fake SharePoint shell — NOT what the script controls) */
+  body {
+    margin: 0;
+    background: #F5F7FA;
+    font-family: 'Segoe UI', sans-serif;
+    color: #182039;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .suite { background: #182039; color: white; height: 48px; padding: 0 16px; display: flex; align-items: center; gap: 16px; font-size: 13px; }
+  .suite .product { font-weight: 600; }
+  .suite .cui { background: #E8B86A; color: #182039; padding: 3px 10px; border-radius: 3px; font-size: 11px; font-weight: 700; letter-spacing: .5px; }
+  .suite .spacer { flex: 1; }
+  .suite .avatar { width: 28px; height: 28px; border-radius: 50%; background: #4961A3; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+
+  .site-header { background: white; padding: 12px 32px; border-bottom: 1px solid #E4E4E4; display: flex; align-items: center; gap: 16px; }
+  .site-logo { width: 40px; height: 40px; background: #4961A3; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 16px; }
+  .site-title { font-weight: 600; font-size: 18px; }
+  .site-sub { color: #615E5E; font-size: 12px; }
+  .page-toggle { margin-left: auto; display: flex; gap: 4px; background: #F5F7FA; padding: 4px; border-radius: 6px; }
+  .page-toggle button { padding: 6px 14px; border: none; background: transparent; cursor: pointer; font-size: 13px; border-radius: 4px; color: #615E5E; }
+  .page-toggle button.active { background: #182039; color: white; }
+
+  /* Page canvas — mimics SharePoint Article layout container */
+  .canvas { max-width: 1200px; margin: 0 auto; padding: 24px; }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* Section + column helpers — these mimic SharePoint section CHROME, not
+     content. The actual CONTENT inside each section is the unmodified HTML
+     a Text web part would render. */
+  .sp-section { background: white; border-radius: 0; margin-bottom: 16px; padding: 16px 20px; }
+  .sp-section.no-pad { padding: 0; background: transparent; }
+  .sp-2col { display: table; width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 16px 0; }
+  .sp-2col-cell { display: table-cell; vertical-align: top; }
+  .sp-3col { display: table; width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 16px 0; }
+  .sp-3col-cell { display: table-cell; vertical-align: top; }
+
+  /* Annotation chips — these mark what writes each block; not part of the
+     SharePoint render */
+  .anno { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; margin-bottom: 6px; }
+  .anno.script { background: #dff6dd; color: #107c10; }
+  .anno.paste { background: #fff4ce; color: #876700; }
+  .anno.image { background: #e1ecf7; color: #2b5a8c; }
+
+  .empty-col {
+    background: repeating-linear-gradient(45deg, #fafafa, #fafafa 8px, #f0f0f0 8px, #f0f0f0 16px);
+    border: 2px dashed #ccc;
+    border-radius: 6px;
+    min-height: 180px;
+    padding: 16px;
+    color: #888;
+    font-size: 12px;
+    text-align: center;
+  }
+  .legend { background: white; padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; font-size: 12px; color: #615E5E; }
+  .legend strong { color: #182039; }
+</style>
+</head>
+<body>
+
+<div class="suite">
+  <span class="product">SharePoint</span>
+  <span class="cui">SYSTEM CONTAINS CUI</span>
+  <span class="spacer"></span>
+  <span class="avatar">CT</span>
+</div>
+
+<div class="site-header">
+  <div class="site-logo">M</div>
+  <div>
+    <div class="site-title">MANTLE</div>
+    <div class="site-sub">PCTransitionSandbox</div>
+  </div>
+  <div class="page-toggle">
+    <button class="active" onclick="showPage('home')">Home</button>
+    <button onclick="showPage('on')">Onboarding</button>
+    <button onclick="showPage('off')">Update/Offboarding</button>
+  </div>
+</div>
+
+<div class="canvas">
+
+  <div class="legend">
+    <strong>Constraint-true mockup.</strong> Only HTML/CSS that survives SharePoint's Text web part sanitizer is rendered.
+    <span class="anno script">SCRIPT</span> = filled by provisioning script.
+    <span class="anno paste">PASTE</span> = filled by manual paste-list step.
+    <span class="anno image">IMAGE</span> = empty until owner uploads via Image web part.
+  </div>
+
+<!-- ============================================================
+     HOME (6 sections)
+     ============================================================ -->
+<div id="page-home" class="page active">
+
+  <!-- S1 OneColumn — Hero band -->
+  <div class="sp-section">
+    <span class="anno script">SCRIPT · S1 / C1</span>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+    <tr><td style='background:#182039;padding:48px 32px;border-radius:8px;text-align:center;'>
+    <p style='color:#E8B86A;margin:0 0 12px 0;font-size:11px;font-weight:bold;letter-spacing:2.5px;'>MANUAL &middot; ACRONYMS &middot; NOTES &middot; TRANSITION &middot; LOGISTICS &middot; ENGAGEMENT</p>
+    <h2 style='color:#FFFFFF;margin:0 0 12px 0;font-size:34px;font-weight:300;'>Welcome to MANTLE</h2>
+    <p style='color:#FFFFFF;margin:0;font-size:16px;'>Knowledge collected by every coordinator who has done this role before you. Capture working styles, document meetings, generate cookbooks.</p>
+    </td></tr></table>
+  </div>
+
+  <!-- S2 OneColumn — Path picker (both tiles in one Text web part) -->
+  <div class="sp-section">
+    <span class="anno script">SCRIPT · S2 / C1</span>
+    <table style='width:100%;border-collapse:separate;border-spacing:12px 0;margin:8px 0;'>
+    <tr>
+    <td style='width:50%;background:#4961A3;padding:32px;border-radius:8px;vertical-align:top;'>
+    <p style='color:#E8B86A;margin:0 0 8px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>FOR NEW PCs</p>
+    <h3 style='color:#FFFFFF;margin:0 0 12px 0;font-size:24px;'>I'm joining a new team</h3>
+    <p style='color:#FFFFFF;margin:0 0 18px 0;font-size:14px;'>Walk through who you are, what tools you use, how you communicate, and what your day-to-day looks like.</p>
+    <table style='border-collapse:separate;border-spacing:0;'>
+    <tr><td style='background:#E8B86A;padding:12px 22px;border-radius:6px;'>
+    <a href='#' style='color:#182039;text-decoration:none;font-weight:bold;font-size:14px;'>Start Onboarding &rarr;</a>
+    </td></tr></table>
+    </td>
+    <td style='width:50%;background:#182039;padding:32px;border-radius:8px;vertical-align:top;'>
+    <p style='color:#E8B86A;margin:0 0 8px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>FOR EXISTING PCs</p>
+    <h3 style='color:#E8B86A;margin:0 0 12px 0;font-size:24px;'>I'm wrapping up my role</h3>
+    <p style='color:#FFFFFF;margin:0 0 18px 0;font-size:14px;'>Capture what you know so your replacement isn't lost. Generate a cookbook when you're ready.</p>
+    <table style='border-collapse:separate;border-spacing:0;'>
+    <tr><td style='background:#E8B86A;padding:12px 22px;border-radius:6px;'>
+    <a href='#' style='color:#182039;text-decoration:none;font-weight:bold;font-size:14px;'>Start Update/Offboarding &rarr;</a>
+    </td></tr></table>
+    </td>
+    </tr></table>
+  </div>
+
+  <!-- S3 TwoColumn — What MANTLE is (script) | Stats (paste) -->
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S3 / C1</span>
+        <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>WHAT MANTLE IS</p>
+        <h3 style='color:#182039;margin:0 0 12px 0;font-size:22px;'>A platform for coordinator-to-coordinator knowledge transfer</h3>
+        <p style='color:#333333;margin:0 0 12px 0;'>PCs leave, contracts shift, and institutional knowledge vanishes. MANTLE captures the relationships, meetings, decisions, and unwritten rules that make a working team actually work &mdash; and packages it for the next person.</p>
+        <p style='color:#333333;margin:0;'>Built by coordinators, for coordinators. Maintained by every PC who uses it.</p>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno paste">PASTE · S3 / C2</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+        <tr><td style='background:#F5F7FA;padding:22px;border-radius:8px;'>
+        <h3 style='color:#182039;margin:0 0 14px 0;font-size:13px;text-transform:uppercase;letter-spacing:1.5px;'>ACROSS ALL CONTRACTS</h3>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+        <tr><td style='padding:8px 0;border-bottom:1px solid #E4E4E4;color:#615E5E;font-size:14px;'>Stakeholders captured</td><td style='padding:8px 0;border-bottom:1px solid #E4E4E4;text-align:right;color:#4961A3;font-weight:bold;font-size:20px;'>47</td></tr>
+        <tr><td style='padding:8px 0;border-bottom:1px solid #E4E4E4;color:#615E5E;font-size:14px;'>Working styles documented</td><td style='padding:8px 0;border-bottom:1px solid #E4E4E4;text-align:right;color:#4961A3;font-weight:bold;font-size:20px;'>23</td></tr>
+        <tr><td style='padding:8px 0;border-bottom:1px solid #E4E4E4;color:#615E5E;font-size:14px;'>Meetings catalogued</td><td style='padding:8px 0;border-bottom:1px solid #E4E4E4;text-align:right;color:#4961A3;font-weight:bold;font-size:20px;'>19</td></tr>
+        <tr><td style='padding:8px 0;border-bottom:1px solid #E4E4E4;color:#615E5E;font-size:14px;'>Decisions logged</td><td style='padding:8px 0;border-bottom:1px solid #E4E4E4;text-align:right;color:#4961A3;font-weight:bold;font-size:20px;'>31</td></tr>
+        <tr><td style='padding:8px 0;color:#615E5E;font-size:14px;'>Cookbooks generated</td><td style='padding:8px 0;text-align:right;color:#E8B86A;font-weight:bold;font-size:20px;'>8</td></tr>
+        </table>
+        <p style='color:#888;margin:12px 0 0 0;font-size:11px;font-style:italic;'>Numbers shown are placeholders.</p>
+        </td></tr></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4 ThreeColumn — Three feature cards (1 script, 2 paste) -->
+  <div class="sp-section">
+    <div class="sp-3col">
+      <div class="sp-3col-cell">
+        <span class="anno script">SCRIPT · S4 / C1</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr>
+        <td style='background:#182039;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#FFFFFF;padding:20px;border-radius:0 6px 6px 0;'>
+        <h3 style='color:#182039;margin:0 0 8px 0;font-size:16px;'>Capture working styles</h3>
+        <p style='color:#615E5E;margin:0 0 12px 0;font-size:13px;'>Per-stakeholder discovery: 21 questions covering communication, decisions, deep work, feedback, conflict &mdash; captured in your first 1:1s.</p>
+        <p style='margin:0;font-size:13px;'><a href='#' style='color:#4961A3;text-decoration:none;font-weight:bold;'>Open Stakeholders &rarr;</a></p>
+        </td></tr></table>
+      </div>
+      <div class="sp-3col-cell">
+        <span class="anno paste">PASTE · S4 / C2</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr>
+        <td style='background:#E8B86A;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#FFFFFF;padding:20px;border-radius:0 6px 6px 0;'>
+        <h3 style='color:#182039;margin:0 0 8px 0;font-size:16px;'>Generate cookbooks</h3>
+        <p style='color:#615E5E;margin:0 0 12px 0;font-size:13px;'>One-click generation pulls everything you have documented into a Word document handoff. Your replacement reads it on day one.</p>
+        <p style='margin:0;font-size:13px;'><a href='#' style='color:#4961A3;text-decoration:none;font-weight:bold;'>MANTLE Actions &rarr;</a></p>
+        </td></tr></table>
+      </div>
+      <div class="sp-3col-cell">
+        <span class="anno paste">PASTE · S4 / C3</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr>
+        <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#FFFFFF;padding:20px;border-radius:0 6px 6px 0;'>
+        <h3 style='color:#182039;margin:0 0 8px 0;font-size:16px;'>Browse equivalencies</h3>
+        <p style='color:#615E5E;margin:0 0 12px 0;font-size:13px;'>Cross-tool translations: Slack to Teams, Drive to OneDrive, Asana to Planner. Find the local equivalent of what you already know.</p>
+        <p style='margin:0;font-size:13px;'><a href='#' style='color:#4961A3;text-decoration:none;font-weight:bold;'>Open Equivalency Map &rarr;</a></p>
+        </td></tr></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5 TwoColumn — Quick links (script) | Recent activity (paste) -->
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S5 / C1</span>
+        <h3 style='color:#182039;margin:0 0 12px 0;font-size:18px;'>Quick links</h3>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+        <tr><td style='padding:10px 0;border-bottom:1px solid #F0F0F0;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:14px;'>Stakeholders directory</a></td></tr>
+        <tr><td style='padding:10px 0;border-bottom:1px solid #F0F0F0;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:14px;'>Meetings catalogue</a></td></tr>
+        <tr><td style='padding:10px 0;border-bottom:1px solid #F0F0F0;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:14px;'>Acronym glossary</a></td></tr>
+        <tr><td style='padding:10px 0;border-bottom:1px solid #F0F0F0;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:14px;'>Decisions log</a></td></tr>
+        <tr><td style='padding:10px 0;border-bottom:1px solid #F0F0F0;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:14px;'>Tools inventory</a></td></tr>
+        <tr><td style='padding:10px 0;'><a href='#' style='color:#4961A3;text-decoration:none;font-size:14px;'>MANTLE Actions (admin)</a></td></tr>
+        </table>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno paste">PASTE · S5 / C2</span>
+        <h3 style='color:#182039;margin:0 0 12px 0;font-size:18px;'>Recent activity</h3>
+        <p style='color:#615E5E;margin:0 0 12px 0;font-size:13px;font-style:italic;'>Static placeholder until a live activity rollup is wired up.</p>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+        <tr><td style='padding:0 0 10px 0;'>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+        <tr>
+        <td style='background:#4961A3;width:3px;padding:0;border-radius:3px 0 0 3px;'>&nbsp;</td>
+        <td style='background:#F5F7FA;padding:10px 14px;border-radius:0 4px 4px 0;'>
+        <p style='color:#182039;margin:0 0 2px 0;font-size:13px;font-weight:bold;'>Cherrelle T. updated J. Morales' working style</p>
+        <p style='color:#888;margin:0;font-size:11px;'>2 hours ago &middot; Stakeholders</p>
+        </td></tr></table>
+        </td></tr>
+        <tr><td style='padding:0 0 10px 0;'>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+        <tr>
+        <td style='background:#E8B86A;width:3px;padding:0;border-radius:3px 0 0 3px;'>&nbsp;</td>
+        <td style='background:#F5F7FA;padding:10px 14px;border-radius:0 4px 4px 0;'>
+        <p style='color:#182039;margin:0 0 2px 0;font-size:13px;font-weight:bold;'>Devon R. generated cookbook for IMPACT</p>
+        <p style='color:#888;margin:0;font-size:11px;'>yesterday &middot; MANTLE Actions</p>
+        </td></tr></table>
+        </td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- S6 OneColumn — Footer -->
+  <div class="sp-section">
+    <span class="anno script">SCRIPT · S6 / C1</span>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;margin:8px 0 0 0;'>
+    <tr><td style='background:#E8B86A;padding:14px 20px;border-radius:6px;'>
+    <p style='margin:0;color:#182039;font-size:13px;'><strong>Internal use only.</strong> MANTLE contains contract-sensitive context. Do not share pages or list exports outside Barrios or your contract team.</p>
+    </td></tr></table>
+  </div>
+
+</div>
+
+<!-- ============================================================
+     ONBOARDING (12 sections)
+     ============================================================ -->
+<div id="page-on" class="page">
+
+  <!-- S1 Scope banner -->
+  <div class="sp-section">
+    <span class="anno script">SCRIPT · S1 / C1</span>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0 0 8px 0;'>
+    <tr><td style='background:#4961A3;padding:14px 20px;border-radius:8px;'>
+    <p style='color:#FFFFFF;margin:0;font-size:14px;'>You are being onboarded as a <strong>Project Coordinator</strong>. Edit the contract scope at the top of the Trainee Profile form.</p>
+    </td></tr></table>
+  </div>
+
+  <!-- S2 Hero band -->
+  <div class="sp-section">
+    <span class="anno script">SCRIPT · S2 / C1</span>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+    <tr><td style='background:#182039;padding:40px;border-radius:8px;'>
+    <h2 style='color:#FFFFFF;margin:0 0 12px 0;font-size:28px;'>Onboarding</h2>
+    <p style='color:#FFFFFF;margin:0;font-size:16px;'>Five minutes to get from "I just got my badge" to "I know where to find what I need."</p>
+    </td></tr></table>
+  </div>
+
+  <!-- S3 Intro + TR1 -->
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S3 / C1</span>
+        <p style='color:#333333;font-size:15px;margin:0 0 8px 0;'>This page is the five-minute orientation that gets you from <em>I just got my badge</em> to <em>I know where to find what I need</em>. Walk through each section in order. By the end you will have a profile, a starter 30-60-90 plan, and a map of who does what for the contract you have been assigned to.</p>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno paste">PASTE · S3 / C2</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr>
+        <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#FFFFFF;padding:18px;border-radius:0 4px 4px 0;'>
+        <h3 style='color:#182039;margin:0 0 10px 0;font-size:14px;'>WHO CAN SEE YOUR INPUT</h3>
+        <p style='margin:0 0 8px 0;color:#333333;font-size:13px;'>Data you save on this page is visible to:</p>
+        <table style='border-collapse:separate;border-spacing:0 4px;margin:0;'>
+        <tr><td style='background:#F5F7FA;padding:4px 8px;border-radius:3px;color:#333333;font-size:12px;'>You</td></tr>
+        <tr><td style='background:#F5F7FA;padding:4px 8px;border-radius:3px;color:#333333;font-size:12px;'>Your Barrios manager</td></tr>
+        <tr><td style='background:#F5F7FA;padding:4px 8px;border-radius:3px;color:#333333;font-size:12px;'>MANTLE administrators</td></tr>
+        </table>
+        <p style='margin:10px 0 0 0;color:#333333;font-size:12px;'>Stakeholder records you create are visible to other PCs <strong>only if</strong> you tag them with shared scope.</p>
+        </td></tr></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4 Checklist picker + TR2 -->
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S4 / C1</span>
+        <h2 style='color:#182039;margin:0 0 12px 0;font-size:22px;'>Pick a checklist to start</h2>
+        <table style='width:100%;border-collapse:separate;border-spacing:8px 0;'>
+        <tr>
+        <td style='vertical-align:top;'>
+        <table style='border-collapse:separate;border-spacing:0;margin:0;width:100%;'>
+        <tr><td style='background:#E8B86A;padding:14px 22px;border-radius:6px;text-align:center;'>
+        <a href='#' style='color:#182039;text-decoration:none;font-weight:bold;font-size:15px;'>Day 1 Checklist &rarr;</a>
+        </td></tr></table>
+        </td>
+        <td style='vertical-align:top;'>
+        <table style='border-collapse:separate;border-spacing:0;margin:0;width:100%;'>
+        <tr><td style='background:#E8B86A;padding:14px 22px;border-radius:6px;text-align:center;'>
+        <a href='#' style='color:#182039;text-decoration:none;font-weight:bold;font-size:15px;'>Week 1 Checklist &rarr;</a>
+        </td></tr></table>
+        </td>
+        <td style='vertical-align:top;'>
+        <table style='border-collapse:separate;border-spacing:0;margin:0;width:100%;'>
+        <tr><td style='background:#E8B86A;padding:14px 22px;border-radius:6px;text-align:center;'>
+        <a href='#' style='color:#182039;text-decoration:none;font-weight:bold;font-size:15px;'>30-Day Checklist &rarr;</a>
+        </td></tr></table>
+        </td>
+        </tr></table>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno paste">PASTE · S4 / C2</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr>
+        <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#FFFFFF;padding:18px;border-radius:0 4px 4px 0;'>
+        <h3 style='color:#182039;margin:0 0 10px 0;font-size:14px;'>NEED HELP?</h3>
+        <p style='margin:0 0 8px 0;color:#333333;font-size:13px;'><strong>Stuck on a checklist item?</strong></p>
+        <p style='margin:0 0 8px 0;color:#333333;font-size:13px;'>Reach your assigned mentor or post in the #pc-onboarding channel.</p>
+        <p style='margin:0;'><a href='#' style='color:#4961A3;font-weight:bold;'>Open #pc-onboarding &rarr;</a></p>
+        </td></tr></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5-S8 90-day arc step rows -->
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S5 / C1</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0 0 8px 0;'>
+        <tr>
+        <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#FFFFFF;padding:20px;border-radius:0 6px 6px 0;'>
+        <table style='border-collapse:separate;border-spacing:0;margin:0 0 8px 0;'>
+        <tr>
+        <td style='background:#182039;width:32px;height:32px;border-radius:16px;text-align:center;padding:0;'>
+        <span style='color:#FFFFFF;font-weight:bold;font-size:14px;'>1</span>
+        </td>
+        <td style='padding:0 0 0 12px;'>
+        <span style='color:#4961A3;font-size:11px;font-weight:bold;'>DAY 1 &mdash; LAND</span>
+        </td>
+        </tr></table>
+        <h3 style='color:#182039;margin:0 0 6px 0;font-size:18px;'>Get your accounts and meet your manager</h3>
+        <p style='margin:0;color:#333333;font-size:14px;'>Confirm your laptop, badge, and SharePoint access work. Sit down with your Barrios manager for a 30-minute intro to the contract you have been placed on.</p>
+        </td></tr></table>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno image">IMAGE UPLOAD · S5 / C2</span>
+        <div class="empty-col">Owner uploads a real Image web part here<br><em>Suggested: first day at desk</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S6 / C1</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0 0 8px 0;'>
+        <tr>
+        <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#FFFFFF;padding:20px;border-radius:0 6px 6px 0;'>
+        <table style='border-collapse:separate;border-spacing:0;margin:0 0 8px 0;'>
+        <tr>
+        <td style='background:#182039;width:32px;height:32px;border-radius:16px;text-align:center;padding:0;'>
+        <span style='color:#FFFFFF;font-weight:bold;font-size:14px;'>2</span>
+        </td>
+        <td style='padding:0 0 0 12px;'>
+        <span style='color:#4961A3;font-size:11px;font-weight:bold;'>WEEK 1 &mdash; LISTEN</span>
+        </td>
+        </tr></table>
+        <h3 style='color:#182039;margin:0 0 6px 0;font-size:18px;'>Sit in on every recurring meeting once</h3>
+        <p style='margin:0;color:#333333;font-size:14px;'>Do not speak &mdash; just listen. Note who runs each meeting, what gets decided there, and what is expected of the PC role.</p>
+        </td></tr></table>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno image">IMAGE UPLOAD · S6 / C2</span>
+        <div class="empty-col">Owner uploads a real Image web part here<br><em>Suggested: meeting room</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S7 / C1</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0 0 8px 0;'>
+        <tr>
+        <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#FFFFFF;padding:20px;border-radius:0 6px 6px 0;'>
+        <table style='border-collapse:separate;border-spacing:0;margin:0 0 8px 0;'>
+        <tr>
+        <td style='background:#182039;width:32px;height:32px;border-radius:16px;text-align:center;padding:0;'>
+        <span style='color:#FFFFFF;font-weight:bold;font-size:14px;'>3</span>
+        </td>
+        <td style='padding:0 0 0 12px;'>
+        <span style='color:#4961A3;font-size:11px;font-weight:bold;'>MONTH 1 &mdash; MAP</span>
+        </td>
+        </tr></table>
+        <h3 style='color:#182039;margin:0 0 6px 0;font-size:18px;'>Build your stakeholder map</h3>
+        <p style='margin:0;color:#333333;font-size:14px;'>Capture who matters, who owns what, and how each person prefers to work. Aim for 8-10 stakeholders with full working-style profiles.</p>
+        </td></tr></table>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno image">IMAGE UPLOAD · S7 / C2</span>
+        <div class="empty-col">Owner uploads a real Image web part here<br><em>Suggested: relationship diagram</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S8 / C1</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0 0 8px 0;'>
+        <tr>
+        <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#FFFFFF;padding:20px;border-radius:0 6px 6px 0;'>
+        <table style='border-collapse:separate;border-spacing:0;margin:0 0 8px 0;'>
+        <tr>
+        <td style='background:#182039;width:32px;height:32px;border-radius:16px;text-align:center;padding:0;'>
+        <span style='color:#FFFFFF;font-weight:bold;font-size:14px;'>4</span>
+        </td>
+        <td style='padding:0 0 0 12px;'>
+        <span style='color:#4961A3;font-size:11px;font-weight:bold;'>MONTH 3 &mdash; OWN</span>
+        </td>
+        </tr></table>
+        <h3 style='color:#182039;margin:0 0 6px 0;font-size:18px;'>Take ownership of one process end-to-end</h3>
+        <p style='margin:0;color:#333333;font-size:14px;'>Pick something the team does weekly &mdash; a status report, a coordination meeting, a deliverable hand-off &mdash; and own it without hand-holding.</p>
+        </td></tr></table>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno image">IMAGE UPLOAD · S8 / C2</span>
+        <div class="empty-col">Owner uploads a real Image web part here<br><em>Suggested: completing a deliverable</em></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S9 ThreeColumn reference -->
+  <div class="sp-section">
+    <div class="sp-3col">
+      <div class="sp-3col-cell">
+        <span class="anno script">SCRIPT · S9 / C1</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr><td style='background:#F5F7FA;padding:18px;border-radius:6px;'>
+        <h3 style='color:#182039;margin:0 0 8px 0;font-size:16px;'>People</h3>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0 0 12px 0;'>
+        <tr><td style='background:#E8B86A;height:2px;padding:0;font-size:0;line-height:0;'>&nbsp;</td></tr></table>
+        <p style='margin:6px 0;font-size:13px;'><a href='#' style='color:#4961A3;'>Stakeholders directory</a></p>
+        <p style='margin:6px 0;font-size:13px;'><a href='#' style='color:#4961A3;'>Org chart</a></p>
+        <p style='margin:6px 0;font-size:13px;'><a href='#' style='color:#4961A3;'>Mentors program</a></p>
+        <p style='margin:6px 0;font-size:13px;'><a href='#' style='color:#4961A3;'>PC alumni</a></p>
+        </td></tr></table>
+      </div>
+      <div class="sp-3col-cell">
+        <span class="anno paste">PASTE · S9 / C2</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr><td style='background:#F5F7FA;padding:18px;border-radius:6px;'>
+        <h3 style='color:#182039;margin:0 0 8px 0;font-size:16px;'>Process</h3>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0 0 12px 0;'>
+        <tr><td style='background:#E8B86A;height:2px;padding:0;font-size:0;line-height:0;'>&nbsp;</td></tr></table>
+        <p style='margin:6px 0;font-size:13px;'><a href='#' style='color:#4961A3;'>Recurring meetings</a></p>
+        <p style='margin:6px 0;font-size:13px;'><a href='#' style='color:#4961A3;'>Decisions log</a></p>
+        <p style='margin:6px 0;font-size:13px;'><a href='#' style='color:#4961A3;'>Acronyms</a></p>
+        <p style='margin:6px 0;font-size:13px;'><a href='#' style='color:#4961A3;'>Standard templates</a></p>
+        </td></tr></table>
+      </div>
+      <div class="sp-3col-cell">
+        <span class="anno paste">PASTE · S9 / C3</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr><td style='background:#F5F7FA;padding:18px;border-radius:6px;'>
+        <h3 style='color:#182039;margin:0 0 8px 0;font-size:16px;'>Tools</h3>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0 0 12px 0;'>
+        <tr><td style='background:#E8B86A;height:2px;padding:0;font-size:0;line-height:0;'>&nbsp;</td></tr></table>
+        <p style='margin:6px 0;font-size:13px;'><a href='#' style='color:#4961A3;'>Tool inventory</a></p>
+        <p style='margin:6px 0;font-size:13px;'><a href='#' style='color:#4961A3;'>Equivalency map</a></p>
+        <p style='margin:6px 0;font-size:13px;'><a href='#' style='color:#4961A3;'>Access requests</a></p>
+        <p style='margin:6px 0;font-size:13px;'><a href='#' style='color:#4961A3;'>Training paths</a></p>
+        </td></tr></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- S10 Mentors + TR3 -->
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S10 / C1</span>
+        <h2 style='color:#182039;margin:0 0 8px 0;font-size:22px;'>Your mentors</h2>
+        <p style='color:#333333;font-size:14px;margin:0 0 16px 0;'>Reach out within your first two weeks. Each mentor has done this role for at least 18 months.</p>
+        <table style='width:100%;border-collapse:separate;border-spacing:8px 0;'>
+        <tr>
+        <td style='vertical-align:top;width:25%;'>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr>
+        <td style='background:#182039;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#F5F7FA;padding:14px;border-radius:0 4px 4px 0;text-align:center;'>
+        <p style='margin:0 0 4px 0;color:#182039;font-weight:bold;font-size:14px;'>Jamie Morales</p>
+        <p style='margin:0;color:#615E5E;font-size:12px;'>Senior PC &middot; ECS V</p>
+        </td></tr></table>
+        </td>
+        <td style='vertical-align:top;width:25%;'>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr>
+        <td style='background:#182039;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#F5F7FA;padding:14px;border-radius:0 4px 4px 0;text-align:center;'>
+        <p style='margin:0 0 4px 0;color:#182039;font-weight:bold;font-size:14px;'>Devon Rao</p>
+        <p style='margin:0;color:#615E5E;font-size:12px;'>PC Lead &middot; IMPACT</p>
+        </td></tr></table>
+        </td>
+        <td style='vertical-align:top;width:25%;'>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr>
+        <td style='background:#182039;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#F5F7FA;padding:14px;border-radius:0 4px 4px 0;text-align:center;'>
+        <p style='margin:0 0 4px 0;color:#182039;font-weight:bold;font-size:14px;'>Sara Kim</p>
+        <p style='margin:0;color:#615E5E;font-size:12px;'>Former PC, now PM</p>
+        </td></tr></table>
+        </td>
+        <td style='vertical-align:top;width:25%;'>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr>
+        <td style='background:#182039;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#F5F7FA;padding:14px;border-radius:0 4px 4px 0;text-align:center;'>
+        <p style='margin:0 0 4px 0;color:#182039;font-weight:bold;font-size:14px;'>Terrell Choi</p>
+        <p style='margin:0;color:#615E5E;font-size:12px;'>PC &middot; MCSO</p>
+        </td></tr></table>
+        </td>
+        </tr></table>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno paste">PASTE · S10 / C2</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr>
+        <td style='background:#E8B86A;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#FFFFFF;padding:18px;border-radius:0 4px 4px 0;'>
+        <h3 style='color:#182039;margin:0 0 10px 0;font-size:14px;'>REMINDER</h3>
+        <p style='margin:0;color:#333333;font-size:13px;'>Onboarding data is internal-only. Do not share these pages or list exports outside Barrios or your contract team.</p>
+        </td></tr></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- S11 Checklist list + TR4 -->
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S11 / C1</span>
+        <h2 style='color:#182039;margin:0 0 8px 0;font-size:22px;'>Your onboarding checklist</h2>
+        <p style='color:#333333;font-size:14px;margin:0 0 16px 0;'>Items below live in the Trainee Profiles list. Open the list to sort, filter, and mark complete.</p>
+        <table style='border-collapse:separate;border-spacing:0;margin:8px 0;'>
+        <tr><td style='background:#E8B86A;padding:14px 22px;border-radius:6px;'>
+        <a href='#' style='color:#182039;text-decoration:none;font-weight:bold;font-size:15px;'>Open Trainee Profiles &rarr;</a>
+        </td></tr></table>
+        <p style='color:#615E5E;font-size:12px;font-style:italic;margin:8px 0 0 0;'>(Or, if owner adds a native List web part, an actual interactive list view appears here.)</p>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno paste">PASTE · S11 / C2</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:0;'>
+        <tr>
+        <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+        <td style='background:#FFFFFF;padding:18px;border-radius:0 4px 4px 0;'>
+        <h3 style='color:#182039;margin:0 0 10px 0;font-size:14px;'>YOUR PROGRESS</h3>
+        <p style='margin:0 0 6px 0;color:#333333;font-size:13px;'>Trainee profile <strong>[done]</strong></p>
+        <p style='margin:0 0 6px 0;color:#333333;font-size:13px;'>Day 1 checklist <strong>[done]</strong></p>
+        <p style='margin:0 0 6px 0;color:#333333;font-size:13px;'>Week 1 checklist <strong>[in progress]</strong></p>
+        <p style='margin:0 0 6px 0;color:#333333;font-size:13px;'>Stakeholder map <strong>[not started]</strong></p>
+        <p style='margin:0;color:#333333;font-size:13px;'>Working-style intake <strong>[not started]</strong></p>
+        </td></tr></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- S12 Footer -->
+  <div class="sp-section">
+    <span class="anno script">SCRIPT · S12 / C1</span>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;margin:8px 0 0 0;'>
+    <tr><td style='background:#E8B86A;padding:16px 20px;border-radius:6px;'>
+    <p style='margin:0;color:#182039;font-size:13px;'><strong>Internal use only.</strong> This page contains contract-sensitive context. Do not share externally, post to social media, or include in public reports.</p>
+    </td></tr></table>
+  </div>
+
+</div>
+
+<!-- ============================================================
+     UPDATE / OFFBOARDING (12 sections)
+     ============================================================ -->
+<div id="page-off" class="page">
+
+  <!-- S1 Scope banner -->
+  <div class="sp-section">
+    <span class="anno script">SCRIPT · S1 / C1</span>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+    <tr>
+    <td style='background:#182039;padding:14px 20px;border-radius:8px;'>
+    <p style='color:#FFFFFF;margin:0;font-size:14px;'>You are <strong style='color:#FFFFFF;'>updating handoff data</strong> for your contract. Coordinator: <strong style='color:#FFFFFF;'>You</strong>. <a href='#' style='color:#E8B86A;'>Change context &rarr;</a></p>
+    </td>
+    </tr>
+    </table>
+  </div>
+
+  <!-- S2 Hero band -->
+  <div class="sp-section">
+    <span class="anno script">SCRIPT · S2 / C1</span>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+    <tr>
+    <td style='background:#182039;padding:40px;border-radius:8px;'>
+    <h2 style='color:#E8B86A;margin:0 0 12px 0;font-size:28px;'>Update / Offboarding</h2>
+    <p style='color:#FFFFFF;margin:0;font-size:16px;'>Make sure your replacement isn't lost. Capture what you know, generate a cookbook when you're ready.</p>
+    </td>
+    </tr>
+    </table>
+  </div>
+
+  <!-- S3 Why this page exists + image -->
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S3 / C1</span>
+        <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>WHY THIS PAGE EXISTS</p>
+        <h3 style='color:#182039;margin:0 0 12px 0;font-size:22px;'>Your replacement shouldn't be guessing</h3>
+        <p style='color:#333333;margin:0 0 12px 0;'>Whether you're moving to another contract or fully leaving the role, the people you've worked with, the meetings you ran, and the decisions you helped settle don't have to be re-learned from scratch.</p>
+        <p style='color:#333333;margin:0;'>This page is also for <strong>quarterly maintenance</strong>: keep your stakeholder records fresh so when handoff time comes, the cookbook is already 80% written.</p>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno image">IMAGE UPLOAD · S3 / C2</span>
+        <div class="empty-col">Owner uploads a real Image web part here<br><em>Suggested: handoff conversation</em></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4 Four phases -->
+  <div class="sp-section">
+    <span class="anno script">SCRIPT · S4 / C1</span>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;margin:8px 0;'>
+    <tr>
+    <td style='width:25%;padding:0 6px 0 0;vertical-align:top;'>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+    <tr><td style='background:#4961A3;padding:18px 16px;border-radius:6px;text-align:center;'>
+    <a href='#' style='color:#FFFFFF;text-decoration:none;font-weight:bold;font-size:16px;'>People &rarr;</a>
+    </td></tr></table>
+    </td>
+    <td style='width:25%;padding:0 6px;vertical-align:top;'>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+    <tr><td style='background:#4961A3;padding:18px 16px;border-radius:6px;text-align:center;'>
+    <a href='#' style='color:#FFFFFF;text-decoration:none;font-weight:bold;font-size:16px;'>Process &rarr;</a>
+    </td></tr></table>
+    </td>
+    <td style='width:25%;padding:0 6px;vertical-align:top;'>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+    <tr><td style='background:#4961A3;padding:18px 16px;border-radius:6px;text-align:center;'>
+    <a href='#' style='color:#FFFFFF;text-decoration:none;font-weight:bold;font-size:16px;'>Knowledge &rarr;</a>
+    </td></tr></table>
+    </td>
+    <td style='width:25%;padding:0 0 0 6px;vertical-align:top;'>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;'>
+    <tr><td style='background:#E8B86A;padding:18px 16px;border-radius:6px;text-align:center;'>
+    <a href='#' style='color:#182039;text-decoration:none;font-weight:bold;font-size:16px;'>Generate &rarr;</a>
+    </td></tr></table>
+    </td>
+    </tr>
+    </table>
+    <p style='color:#615E5E;margin:8px 4px 0 4px;font-size:13px;'>Click any phase to open the relevant list. The final phase generates the cookbook.</p>
+  </div>
+
+  <!-- S5-S8 Transfer protocol steps -->
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S5 / C1</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:8px 0;'>
+        <tr>
+        <td style='width:48px;vertical-align:top;padding-right:12px;'>
+        <table style='border-collapse:separate;border-spacing:0;'>
+        <tr><td style='background:#182039;width:36px;height:36px;border-radius:18px;text-align:center;padding:0;'>
+        <p style='color:#FFFFFF;margin:0;font-weight:bold;font-size:14px;line-height:36px;'>1</p>
+        </td></tr></table>
+        </td>
+        <td style='vertical-align:top;'>
+        <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>STAKEHOLDERS FIRST</p>
+        <h3 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>Capture each stakeholder's working style</h3>
+        <p style='color:#333333;margin:0;'>For each person already in your Stakeholders list, fill in working-style fields: best channel, edit preferences, working hours, decision style, who else needs to be in the loop, fastest way to lose their trust.</p>
+        </td>
+        </tr>
+        </table>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno image">IMAGE UPLOAD · S5 / C2</span>
+        <div class="empty-col">Owner uploads a real Image web part here<br><em>Suggested: stakeholder profile</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S6 / C1</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:8px 0;'>
+        <tr>
+        <td style='width:48px;vertical-align:top;padding-right:12px;'>
+        <table style='border-collapse:separate;border-spacing:0;'>
+        <tr><td style='background:#182039;width:36px;height:36px;border-radius:18px;text-align:center;padding:0;'>
+        <p style='color:#FFFFFF;margin:0;font-weight:bold;font-size:14px;line-height:36px;'>2</p>
+        </td></tr></table>
+        </td>
+        <td style='vertical-align:top;'>
+        <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>THEN MEETINGS</p>
+        <h3 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>Document recurring meetings</h3>
+        <p style='color:#333333;margin:0;'>Cadence, who runs it, your role (lead / co-lead / participant), where the agenda lives. Anything your replacement would need to walk in cold and not look lost.</p>
+        </td>
+        </tr>
+        </table>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno image">IMAGE UPLOAD · S6 / C2</span>
+        <div class="empty-col">Owner uploads a real Image web part here<br><em>Suggested: calendar grid</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S7 / C1</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:8px 0;'>
+        <tr>
+        <td style='width:48px;vertical-align:top;padding-right:12px;'>
+        <table style='border-collapse:separate;border-spacing:0;'>
+        <tr><td style='background:#182039;width:36px;height:36px;border-radius:18px;text-align:center;padding:0;'>
+        <p style='color:#FFFFFF;margin:0;font-weight:bold;font-size:14px;line-height:36px;'>3</p>
+        </td></tr></table>
+        </td>
+        <td style='vertical-align:top;'>
+        <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>THEN KNOWLEDGE</p>
+        <h3 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>Acronyms, decisions, lessons</h3>
+        <p style='color:#333333;margin:0;'>The unwritten parts. Acronyms your replacement will hear in week one. Decisions that are settled (so they don't get re-litigated). Lessons you learned the hard way.</p>
+        </td>
+        </tr>
+        </table>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno image">IMAGE UPLOAD · S7 / C2</span>
+        <div class="empty-col">Owner uploads a real Image web part here<br><em>Suggested: sticky notes</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sp-section">
+    <div class="sp-2col">
+      <div class="sp-2col-cell">
+        <span class="anno script">SCRIPT · S8 / C1</span>
+        <table style='width:100%;border-collapse:separate;border-spacing:0;margin:8px 0;'>
+        <tr>
+        <td style='width:48px;vertical-align:top;padding-right:12px;'>
+        <table style='border-collapse:separate;border-spacing:0;'>
+        <tr><td style='background:#182039;width:36px;height:36px;border-radius:18px;text-align:center;padding:0;'>
+        <p style='color:#FFFFFF;margin:0;font-weight:bold;font-size:14px;line-height:36px;'>4</p>
+        </td></tr></table>
+        </td>
+        <td style='vertical-align:top;'>
+        <p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>FINALLY</p>
+        <h3 style='color:#182039;margin:0 0 8px 0;font-size:20px;'>Generate the cookbook</h3>
+        <p style='color:#333333;margin:0;'>Pulls all of the above into one Word document. Hand it to your replacement on day one. Recommended completeness: 60%+ of stakeholders have working-style profiles before generating.</p>
+        </td>
+        </tr>
+        </table>
+      </div>
+      <div class="sp-2col-cell">
+        <span class="anno image">IMAGE UPLOAD · S8 / C2</span>
+        <div class="empty-col">Owner uploads a real Image web part here<br><em>Suggested: finished document</em></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S9 Templates and forms -->
+  <div class="sp-section">
+    <span class="anno script">SCRIPT · S9 / C1</span>
+    <h3 style='color:#182039;margin:0 0 6px 0;font-size:20px;'>Templates and forms</h3>
+    <p style='color:#615E5E;margin:0 0 12px 0;font-size:14px;'>Tag any document in the site library with <strong>Offboarding</strong> to surface it here. Owner replaces these placeholders with real document links.</p>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;margin:12px 0;'>
+    <tr>
+    <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+    <td style='background:#f3f6fa;padding:18px;border-radius:0 4px 4px 0;'>
+    <h3 style='color:#182039;margin:0 0 6px 0;font-size:16px;'>Stakeholder handoff template</h3>
+    <p style='margin:0 0 4px 0;color:#333333;'>One-page Word template for capturing a stakeholder profile.</p>
+    <p style='margin:0;color:#615E5E;font-size:12px;font-style:italic;'>[document placeholder &mdash; owner replaces with link]</p>
+    </td></tr></table>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;margin:12px 0;'>
+    <tr>
+    <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+    <td style='background:#f3f6fa;padding:18px;border-radius:0 4px 4px 0;'>
+    <h3 style='color:#182039;margin:0 0 6px 0;font-size:16px;'>Meeting cheat-sheet</h3>
+    <p style='margin:0 0 4px 0;color:#333333;'>Two-page Word template summarizing a recurring meeting and its unwritten rules.</p>
+    <p style='margin:0;color:#615E5E;font-size:12px;font-style:italic;'>[document placeholder &mdash; owner replaces with link]</p>
+    </td></tr></table>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;margin:12px 0;'>
+    <tr>
+    <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+    <td style='background:#f3f6fa;padding:18px;border-radius:0 4px 4px 0;'>
+    <h3 style='color:#182039;margin:0 0 6px 0;font-size:16px;'>Decisions one-pager</h3>
+    <p style='margin:0 0 4px 0;color:#333333;'>One-page Word template for documenting a settled decision and its reasoning.</p>
+    <p style='margin:0;color:#615E5E;font-size:12px;font-style:italic;'>[document placeholder &mdash; owner replaces with link]</p>
+    </td></tr></table>
+  </div>
+
+  <!-- S10 Handoff tasks list -->
+  <div class="sp-section">
+    <span class="anno script">SCRIPT · S10 / C1</span>
+    <h3 style='color:#182039;margin:0 0 6px 0;font-size:20px;'>Your handoff tasks</h3>
+    <p style='color:#615E5E;margin:0 0 12px 0;font-size:14px;'>Live list. Sort and filter freely. (Showing the Stakeholders list as a stand-in until a dedicated Handoff Tasks list is created.)</p>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;margin:12px 0;'>
+    <tr><td style='background:#F5F7FA;padding:24px;border-radius:8px;text-align:center;'>
+    <p style='color:#615E5E;margin:0;font-style:italic;'>Native List web part renders here (interactive table view of Stakeholders) -- if it crashes on this tenant, an HTML "Open Stakeholders" button card is shown instead.</p>
+    </td></tr></table>
+  </div>
+
+  <!-- S11 Trust-rail card stack (full-width, 4 stacked) -->
+  <div class="sp-section">
+    <span class="anno script">SCRIPT · S11 / C1 (4 cards stacked, full-width)</span>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;margin:8px 0;'>
+    <tr>
+    <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+    <td style='background:#FFFFFF;padding:16px;border-radius:0 4px 4px 0;'>
+    <h3 style='color:#182039;margin:0 0 8px 0;font-size:13px;'>WHO CAN SEE YOUR INPUT</h3>
+    <p style='color:#333333;margin:0 0 8px 0;font-size:13px;'>Stakeholder, meeting, and decision data on this page is visible to:</p>
+    <p style='color:#333333;margin:0 0 4px 0;font-size:13px;'>&middot; You</p>
+    <p style='color:#333333;margin:0 0 4px 0;font-size:13px;'>&middot; Your replacement (when assigned)</p>
+    <p style='color:#333333;margin:0 0 4px 0;font-size:13px;'>&middot; Your Barrios manager</p>
+    <p style='color:#333333;margin:0;font-size:13px;'>&middot; MANTLE administrators</p>
+    </td></tr></table>
+
+    <table style='width:100%;border-collapse:separate;border-spacing:0;margin:8px 0;'>
+    <tr>
+    <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+    <td style='background:#FFFFFF;padding:16px;border-radius:0 4px 4px 0;'>
+    <h3 style='color:#182039;margin:0 0 8px 0;font-size:13px;'>COOKBOOK READINESS</h3>
+    <p style='color:#333333;margin:0 0 4px 0;font-size:13px;'>Stakeholders captured: <strong>7 / 12</strong></p>
+    <p style='color:#333333;margin:0 0 4px 0;font-size:13px;'>Working styles documented: <strong>3 / 12</strong></p>
+    <p style='color:#333333;margin:0 0 4px 0;font-size:13px;'>Meetings documented: <strong>8 / 8</strong></p>
+    <p style='color:#333333;margin:0 0 4px 0;font-size:13px;'>Decisions logged: <strong>4 / 6</strong></p>
+    <p style='color:#333333;margin:0;font-size:13px;'>Lessons captured: <strong>0 / 5</strong></p>
+    </td></tr></table>
+
+    <table style='width:100%;border-collapse:separate;border-spacing:0;margin:8px 0;'>
+    <tr>
+    <td style='background:#4961A3;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+    <td style='background:#FFFFFF;padding:16px;border-radius:0 4px 4px 0;'>
+    <h3 style='color:#182039;margin:0 0 8px 0;font-size:13px;'>NEED HELP?</h3>
+    <p style='color:#333333;margin:0;font-size:13px;'>Stuck on a working-style question? Open the discovery guide.</p>
+    </td></tr></table>
+
+    <table style='width:100%;border-collapse:separate;border-spacing:0;margin:8px 0;'>
+    <tr>
+    <td style='background:#E8B86A;width:4px;border-radius:4px 0 0 4px;padding:0;'>&nbsp;</td>
+    <td style='background:#FFFFFF;padding:16px;border-radius:0 4px 4px 0;'>
+    <h3 style='color:#182039;margin:0 0 8px 0;font-size:13px;'>REMINDER</h3>
+    <p style='color:#333333;margin:0;font-size:13px;'>Items tagged <strong>Confidential</strong> are personal observations and should never appear in public reports or external slides.</p>
+    </td></tr></table>
+  </div>
+
+  <!-- S12 Footer -->
+  <div class="sp-section">
+    <span class="anno script">SCRIPT · S12 / C1</span>
+    <table style='width:100%;border-collapse:separate;border-spacing:0;margin:8px 0 0 0;'>
+    <tr><td style='background:#E8B86A;padding:16px 20px;border-radius:6px;'>
+    <p style='margin:0;color:#182039;font-size:13px;'><strong>Internal use only.</strong> Stakeholder relationship notes and internal decisions on this page are not for external sharing under any circumstance.</p>
+    </td></tr></table>
+  </div>
+
+</div>
+
+</div>
+
+<script>
+  function showPage(which) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + which).classList.add('active');
+    document.querySelectorAll('.page-toggle button').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
