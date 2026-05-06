@@ -10,7 +10,9 @@ A SharePoint-native knowledge platform for NASA Project Coordinators. Captures t
 
 ## What KITCHEN is
 
-KITCHEN is a personal-scale platform that lives entirely inside Microsoft 365 (SharePoint Lists + native pages, with a PowerShell-driven build pipeline). It is the structured memory of a Project Coordinator role: who the stakeholders are, how each one prefers to be worked with, what meetings recur, which contract each artifact belongs to, and which tools the team uses (and what they map to in the tools the next PC came from). On request, it assembles that structured data into a Word document indistinguishable in style from the cookbooks NASA Barrios PCs write by hand.
+KITCHEN is a standardized, digital cookbook for Project Coordinators — with built-in prompts so you don't have to build a handoff from scratch. As you onboard, work, or wrap up a role, KITCHEN guides you through capturing the people you work with, the meetings you run, the working styles that make your team click, and the unwritten rules of your contract. When handoff time comes, the cookbook generates itself in one click.
+
+Under the hood: SharePoint Lists + native Modern pages, with a PowerShell-driven build pipeline for the initial schema. Once provisioned, it runs entirely inside Microsoft 365 — no servers, no extensions, no add-ins. The Word document it generates is indistinguishable in style from the cookbooks NASA Barrios PCs write by hand, except it took minutes instead of weeks.
 
 ## Why it exists
 
