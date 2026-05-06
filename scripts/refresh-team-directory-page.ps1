@@ -1,9 +1,9 @@
-# Refresh the "Team Directory" SharePoint page for MANTLE.
+# Refresh the "Team Directory" SharePoint page for KITCHEN.
 # Reads the Stakeholders list and renders a 3-column card grid keyed off
 # Title (Contact Name), Role, OrgOrTeam, Influence, plus working-style chips
 # from PreferredChannel / EditingPreference / WorkingHours.
 #
-# Assumes: Connect-PnPOnline -UseWebLogin already run against the MANTLE site.
+# Assumes: Connect-PnPOnline -UseWebLogin already run against the KITCHEN site.
 # Target site: https://nasa.sharepoint.com/teams/PCTransitionSandbox
 #
 # Cmdlet versions: legacy SharePointPnPPowerShellOnline (PS 5.1).
@@ -387,7 +387,7 @@ $gridHtml = $rowsHtml.ToString()
 # Header (navy gradient)
 $headerHtml = @"
 <div style='background: linear-gradient(135deg, $navy 0%, $blue 100%); color: white; padding: 56px 32px 48px; text-align: center; border-radius: 8px;'>
-  <div style='font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; opacity: 0.85; margin-bottom: 12px;'>MANTLE</div>
+  <div style='font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; opacity: 0.85; margin-bottom: 12px;'>KITCHEN</div>
   <h1 style='font-size: 36px; font-weight: 300; margin: 0 0 12px 0; color: white;'>Team Directory</h1>
   <div style='font-size: 16px; opacity: 0.95; max-width: 640px; margin: 0 auto;'>Your stakeholders, at a glance.</div>
 </div>
@@ -441,7 +441,7 @@ $summaryLineHtml = "<p style='text-align:center; font-size:13px; color:$textMute
 $footerHtml = @"
 <div style='background:white; border-top:3px solid $navy; padding:24px 28px; border-radius:8px; text-align:center; box-shadow: 0 1.6px 3.6px rgba(0,0,0,0.06);'>
   <p style='margin:0 0 12px 0; font-size:13px; color:$textMuted;'>Need to update someone or add a new stakeholder? Edit the underlying list.</p>
-  <a href='$urlMantleHome' style='display:inline-block; padding:10px 22px; background:$navy; color:white; border-radius:4px; text-decoration:none; font-weight:600; font-size:14px; margin:4px;'>&#8592; Back to MANTLE Home</a>
+  <a href='$urlMantleHome' style='display:inline-block; padding:10px 22px; background:$navy; color:white; border-radius:4px; text-decoration:none; font-weight:600; font-size:14px; margin:4px;'>&#8592; Back to KITCHEN Home</a>
   <a href='$urlStakeholders' style='display:inline-block; padding:10px 22px; background:white; color:$navy; border:1px solid $navy; border-radius:4px; text-decoration:none; font-weight:600; font-size:14px; margin:4px;'>Edit Stakeholders list</a>
   <a href='$urlStakeholdersNew' style='display:inline-block; padding:10px 22px; background:$gold; color:white; border-radius:4px; text-decoration:none; font-weight:600; font-size:14px; margin:4px;'>+ Add stakeholder</a>
 </div>

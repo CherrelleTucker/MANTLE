@@ -1,4 +1,4 @@
-# Generate MANTLE Cookbook for a Project Coordinator
+# Generate KITCHEN Cookbook for a Project Coordinator
 # Pulls everything a PC needs day-one (program facts, stakeholders, meetings,
 # acronyms, decisions, tasks, equivalency map) and writes a Word document.
 #
@@ -254,7 +254,7 @@ if ($prevToolIds.Count -gt 0) {
 if (-not $OutputPath) {
     $dateStamp = (Get-Date).ToString("yyyy-MM-dd")
     $safeName = ($pcName -replace '[^a-zA-Z0-9_-]', '_')
-    $outDir = "C:\Users\cjtucke3\Documents\Personal\Career\MANTLE\cookbooks"
+    $outDir = "C:\Users\cjtucke3\Documents\Personal\Career\KITCHEN\cookbooks"
     if (-not (Test-Path $outDir)) { New-Item -ItemType Directory -Path $outDir | Out-Null }
     $OutputPath = Join-Path $outDir "$($safeName)_$dateStamp.docx"
 }
@@ -273,7 +273,7 @@ try {
 
     # --- Cover page ---
     $sel.Style = "Title"
-    $sel.TypeText("MANTLE Cookbook")
+    $sel.TypeText("KITCHEN Cookbook")
     $sel.TypeParagraph()
 
     $sel.Style = "Subtitle"

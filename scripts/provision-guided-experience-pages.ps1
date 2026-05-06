@@ -1,5 +1,5 @@
-# Provision the MANTLE Guided Experience pages: Home, Onboarding, Offboarding.
-# Assumes: Connect-PnPOnline -UseWebLogin already run against the MANTLE site.
+# Provision the KITCHEN Guided Experience pages: Home, Onboarding, Offboarding.
+# Assumes: Connect-PnPOnline -UseWebLogin already run against the KITCHEN site.
 # Target site: https://nasa.sharepoint.com/teams/PCTransitionSandbox
 #
 # Cmdlet versions:
@@ -176,13 +176,13 @@ function Add-NavIfMissing {
 }
 
 # ===========================================================================
-# PAGE 1: MANTLE Home
+# PAGE 1: KITCHEN Home
 # ===========================================================================
 Write-Host ""
-Write-Host "=== PAGE 1: MANTLE Home ===" -ForegroundColor Cyan
+Write-Host "=== PAGE 1: KITCHEN Home ===" -ForegroundColor Cyan
 
-$homeName  = "MANTLE Home"
-$homeTitle = "MANTLE Home"
+$homeName  = "KITCHEN Home"
+$homeTitle = "KITCHEN Home"
 
 $homeStatus = Ensure-Page -Name $homeName -Title $homeTitle
 
@@ -191,7 +191,7 @@ $homeStatus = Ensure-Page -Name $homeName -Title $homeTitle
 $homeHeroHtml = @"
 <div style='background: linear-gradient(135deg, $navy 0%, $blue 100%); padding: 80px 32px 60px; text-align: center; border-radius: 8px;'>
   <div style='font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #FFFFFF; margin-bottom: 8px; text-shadow: 0 1px 2px rgba(0,0,0,0.3); opacity: 0.95;'>NASA Project Coordinator Platform</div>
-  <h1 style='font-size: 48px; font-weight: 600; line-height: 1.1; margin: 0 0 10px 0; color: #FFFFFF; text-shadow: 0 2px 4px rgba(0,0,0,0.4);'>Welcome to MANTLE</h1>
+  <h1 style='font-size: 48px; font-weight: 600; line-height: 1.1; margin: 0 0 10px 0; color: #FFFFFF; text-shadow: 0 2px 4px rgba(0,0,0,0.4);'>Welcome to KITCHEN</h1>
   <div style='font-size: 14px; letter-spacing: 1.5px; color: #FFFFFF; margin: 0 0 18px 0; text-shadow: 0 1px 2px rgba(0,0,0,0.35); font-weight: 500;'>MANUAL &nbsp;&middot;&nbsp; ACRONYMS &nbsp;&middot;&nbsp; NOTES &nbsp;&middot;&nbsp; TRANSITION &nbsp;&middot;&nbsp; LOGISTICS &nbsp;&middot;&nbsp; ENGAGEMENT</div>
   <div style='font-size: 18px; color: #FFFFFF; max-width: 720px; margin: 0 auto; font-weight: 400; text-align: center; text-shadow: 0 1px 3px rgba(0,0,0,0.35);'>Knowledge collected by every coordinator who's done this role before you, so you don't have to start cold.</div>
 </div>
@@ -229,7 +229,7 @@ $homeSecondaryHtml = @"
 <div style='max-width: 920px; margin: 0 auto; padding: 24px 16px 40px; text-align: center; font-size: 14px;'>
   <a href='$urlTraineeProfiles' style='color: $navy; text-decoration: none; margin: 0 12px;'>I've been here before</a>
   <span style='color: $textMuted;'>&#183;</span>
-  <a href='$urlMantleActions' style='color: $navy; text-decoration: none; margin: 0 12px;'>About MANTLE</a>
+  <a href='$urlMantleActions' style='color: $navy; text-decoration: none; margin: 0 12px;'>About KITCHEN</a>
   <span style='color: $textMuted;'>&#183;</span>
   <a href='$urlEquivalency' style='color: $navy; text-decoration: none; margin: 0 12px;'>Browse the Equivalency Map</a>
 </div>
@@ -823,9 +823,9 @@ $offCookbookHtml = @"
   <h2 style='display: block; margin: 0 0 12px 0; color: white; font-weight: 600;'>Ready to hand off?</h2>
   <p style='margin: 0 0 16px 0; opacity: 0.95;'>Generate a Word document cookbook from everything you've captured. Hand it to your replacement.</p>
   <p style='font-size: 13px; margin: 0 0 16px 0; opacity: 0.95;'>Today this is a PowerShell script (Power Automate not yet enabled). Run it from a connected PnP session:</p>
-  <pre style='display:inline-block; text-align:left; font-family:Consolas,monospace; background: rgba(0,0,0,0.18); padding: 10px 14px; border-radius: 4px; color: white; font-size: 13px; margin: 0 0 16px 0;'>. "C:\Users\cjtucke3\Documents\Personal\Career\MANTLE\scripts\generate-cookbook.ps1"</pre>
+  <pre style='display:inline-block; text-align:left; font-family:Consolas,monospace; background: rgba(0,0,0,0.18); padding: 10px 14px; border-radius: 4px; color: white; font-size: 13px; margin: 0 0 16px 0;'>. "C:\Users\cjtucke3\Documents\Personal\Career\KITCHEN\scripts\generate-cookbook.ps1"</pre>
   <div>
-    <a href='$urlMantleActions' style='display: inline-block; padding: 14px 30px; background: white; color: $goldDark; border-radius: 4px; text-decoration: none; font-size: 15px; font-weight: 600;'>See all MANTLE Actions</a>
+    <a href='$urlMantleActions' style='display: inline-block; padding: 14px 30px; background: white; color: $goldDark; border-radius: 4px; text-decoration: none; font-size: 15px; font-weight: 600;'>See all KITCHEN Actions</a>
   </div>
   <p style='font-size: 12px; opacity: 0.85; margin: 14px 0 0 0;'>We recommend reaching at least 60% capture before generating.</p>
 </div>

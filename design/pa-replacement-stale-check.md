@@ -33,7 +33,7 @@ This is the cleanest of the three to migrate — the flow is naturally scheduled
 4. **Condition** if `length(varStale) > 0`:
    - **Create HTML table** from `varStale`.
    - **Office 365 Outlook — Send an email (V2)** to the Owner (or to each Owner via grouping; for a per-PC flow, simplify and email a single recipient).
-5. *(Optional)* **OneNote (Business) — Create page in a section** to log the report into the PC's MANTLE notebook.
+5. *(Optional)* **OneNote (Business) — Create page in a section** to log the report into the PC's KITCHEN notebook.
 6. *(Optional)* **Microsoft Teams — Post a message in a chat or channel** to ping the PC.
 
 **Connector requirements:** SharePoint, Office 365 Outlook, OneNote (Business), Teams — all standard.

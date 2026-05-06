@@ -36,9 +36,9 @@ PA on its own can't generate a Word document with rich styling — the typical p
 ## 3. Migration steps (script -> flow)
 
 1. Build a `.docx` template by hand in Word: cover page + headings + content controls for every dynamic field. Add Repeating Section content controls around the table rows for Stakeholders, Meetings, Acronyms, etc.
-2. Save to `SharePoint > MANTLE > Templates > Cookbook.docx`.
+2. Save to `SharePoint > KITCHEN > Templates > Cookbook.docx`.
 3. Build the PA flow per the action sequence above. Use a single test PC end-to-end to validate.
-4. Update the MANTLE home page button "Generate my cookbook" to point at the flow's run-only URL instead of instructing users to open PowerShell.
+4. Update the KITCHEN home page button "Generate my cookbook" to point at the flow's run-only URL instead of instructing users to open PowerShell.
 5. Keep the script available as a fallback (e.g., when the flow's premium connector budget runs out, or for offline/disconnected use).
 
 ## 4. Trade-offs

@@ -11,14 +11,14 @@ $listsToHideFromNav = @(
     "PC-Program History",
     "Program-Tool",
     "Equivalency Map",
-    "_BROKEN MANTLE Home"
+    "_BROKEN KITCHEN Home"
 )
 
 $keepInNav = @(
-    "MANTLE Home",
+    "KITCHEN Home",
     "Onboarding",
     "Offboarding",
-    "MANTLE Actions",
+    "KITCHEN Actions",
     "Equivalency Map Real"
 )
 

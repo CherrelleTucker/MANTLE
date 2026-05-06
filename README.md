@@ -1,20 +1,22 @@
-# MANTLE
+# KITCHEN
 
-**M**anual - **A**cronyms - **N**otes - **T**ransition - **L**ogistics - **E**ngagement
+**K**nowledge - **I**nterviews - **T**ransitions - **C**ookbooks - **H**andoffs - **E**quivalencies - **N**etwork
+
+*Let's get Cooking.*
 
 A SharePoint-native knowledge platform for NASA Project Coordinators. Captures the working styles, stakeholders, meetings, contract context, and tool equivalencies that make a working team actually work — and produces a Word "cookbook" handoff document when a PC transitions out.
 
 ---
 
-## What MANTLE is
+## What KITCHEN is
 
-MANTLE is a personal-scale platform that lives entirely inside Microsoft 365 (SharePoint Lists + native pages, with a PowerShell-driven build pipeline). It is the structured memory of a Project Coordinator role: who the stakeholders are, how each one prefers to be worked with, what meetings recur, which contract each artifact belongs to, and which tools the team uses (and what they map to in the tools the next PC came from). On request, it assembles that structured data into a Word document indistinguishable in style from the cookbooks NASA Barrios PCs write by hand.
+KITCHEN is a personal-scale platform that lives entirely inside Microsoft 365 (SharePoint Lists + native pages, with a PowerShell-driven build pipeline). It is the structured memory of a Project Coordinator role: who the stakeholders are, how each one prefers to be worked with, what meetings recur, which contract each artifact belongs to, and which tools the team uses (and what they map to in the tools the next PC came from). On request, it assembles that structured data into a Word document indistinguishable in style from the cookbooks NASA Barrios PCs write by hand.
 
 ## Why it exists
 
 Institutional knowledge vanishes when Project Coordinators rotate off a contract. Six months of pattern-matching — *"the branch chief hates being CC'd but expects to be looped in"*, *"this PI answers email in ten minutes but goes silent on Teams"* — leaves with the person who learned it. The replacement starts cold and relearns the same lessons.
 
-MANTLE captures the relationships, decisions, and unwritten rules in structured form so they survive turnover. The platform is invisible to the replacement until the outgoing PC chooses to reveal it; what they hand over looks like a polished cookbook.
+KITCHEN captures the relationships, decisions, and unwritten rules in structured form so they survive turnover. The platform is invisible to the replacement until the outgoing PC chooses to reveal it; what they hand over looks like a polished cookbook.
 
 ## Architecture (high level)
 
@@ -66,7 +68,7 @@ A 21-question intake across four categories — **Communication**, **Working**, 
 ## Repo structure
 
 ```
-MANTLE/
+KITCHEN/
 ├── README.md                     <- this file
 ├── ARCHITECTURE.md               <- three-tier model, entities, sitemap, capability map
 ├── DECISIONS.md                  <- design decisions and their rationale (D1-D13)
@@ -77,14 +79,14 @@ MANTLE/
 │   ├── build-checklist.md / .html
 │   └── equivalency-map-seed.csv
 ├── naming/
-│   └── backronym-history.md      <- MANTLE etymology, alternatives considered
+│   └── backronym-history.md      <- KITCHEN etymology, alternatives considered
 ├── scripts/                      <- PowerShell build/maintenance pipeline
 │   │   --- Provision pages ---
 │   ├── provision-home-native.ps1
 │   ├── provision-onboarding-native.ps1
 │   ├── provision-update-offboarding-native.ps1
 │   ├── provision-guided-experience-pages.ps1
-│   ├── provision-mantle-actions-page.ps1
+│   ├── provision-mantle-actions-page.ps1     (filename preserved; provisions the "KITCHEN Actions" page)
 │   ├── provision-mission-3-lists.ps1
 │   ├── provision-mission-4-lists.ps1
 │   ├── refresh-acronym-glossary-page.ps1
@@ -92,7 +94,7 @@ MANTLE/
 │   ├── refresh-team-directory-page.ps1
 │   ├── cleanup-obsolete-pages.ps1
 │   │   --- Refactor schema ---
-│   ├── overhaul-mantle-schema-wave1.ps1
+│   ├── overhaul-mantle-schema-wave1.ps1     (filename preserved; KITCHEN schema overhaul)
 │   ├── add-working-styles-matrix-fields.ps1
 │   ├── add-stakeholder-working-style-fields.ps1
 │   ├── add-missing-admin-tools.ps1
@@ -113,7 +115,8 @@ MANTLE/
 │   │   --- Operational ---
 │   ├── check-stale-stakeholders.ps1
 │   ├── process-welcome-responses.ps1
-│   └── generate-cookbook.ps1
+│   ├── generate-cookbook.ps1
+│   └── rename-platform-mantle-to-kitchen.ps1 (one-shot SharePoint display-name rename)
 └── design/                       <- mockups, recipes, JSON formatters, methodology
     ├── working-style-discovery.md             (the matrix and how to use it)
     ├── page-recipe-home.md
@@ -145,14 +148,14 @@ MANTLE/
 
 This is a **design and provisioning artifact**, not a runnable application. The scripts target a specific SharePoint site URL hardcoded in each file (currently a NASA tenant site); they would need adaptation to run against any other tenant. The design documents, page recipes, JSON form layouts, and the Working Styles Matrix methodology are reusable independently of the provisioning pipeline.
 
-If you are reading this to understand how MANTLE works, start with `ARCHITECTURE.md`, then `DECISIONS.md`, then `design/working-style-discovery.md`.
+If you are reading this to understand how KITCHEN works, start with `ARCHITECTURE.md`, then `DECISIONS.md`, then `design/working-style-discovery.md`.
 
 If you are reading this to clone the build, expect to: replace site URLs in every script, re-run the provisioning scripts in order (Wave 1 schema -> field additions -> formatters -> page scaffolds), then assemble the guided pages by hand against the recipes in `design/page-recipe-*.md`.
+
+## A note on URLs and filenames
+
+The platform was previously named MANTLE. The rename to KITCHEN is a display-only change — the GitHub repo URL, local working directory, SharePoint site slug, SharePoint page URL slugs (`MANTLE-Home.aspx`, `MANTLE-Actions.aspx`), and several PowerShell filenames retain the old token to preserve bookmark stability and avoid breaking existing references. New documentation, page titles, and prose use KITCHEN.
 
 ## Privacy
 
 Public repo, design only. No personally identifiable information, internal contact details, internal URLs, or customer-specific cookbook content is committed here. Real cookbook content lives only in the SharePoint tenant with appropriate access controls (see `DECISIONS.md` D9).
-
-## Naming note (future direction)
-
-The platform is informally called **MANTLE** today, derived from "passing the mantle". A rename to **KITCHEN** is under consideration — it aligns more naturally with the cookbook metaphor that defines the centerpiece feature (a PC writes recipes; the platform compiles the cookbook). No rename has been performed in the repo yet; this is a flagged future direction, not a pending change.

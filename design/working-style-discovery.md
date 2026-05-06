@@ -1,6 +1,6 @@
 # Working Style Discovery
 
-A methodology for new Project Coordinators landing on MANTLE: a 21-question Working Styles Matrix to learn how each stakeholder actually likes to be worked with, why each question matters, and how to capture the answers so the next PC doesn't have to start from zero.
+A methodology for new Project Coordinators landing on KITCHEN: a 21-question Working Styles Matrix to learn how each stakeholder actually likes to be worked with, why each question matters, and how to capture the answers so the next PC doesn't have to start from zero.
 
 ---
 
@@ -266,4 +266,4 @@ Finally: if anything the stakeholder said contradicts what's already in the row 
 
 ## 5. The aggregate value
 
-Each capture is, first and foremost, for you and your stakeholder — it makes your day-to-day work smoother. But because the Stakeholders list lives on the platform, every capture also feeds the bigger picture. Across PCs and customers, MANTLE starts to see real patterns: which orgs run on email vs Teams, which leaders want recommendations vs options, which thinker-types cluster in which branches, where escalation paths are fragile, where training would actually move the needle. Barrios gets staffing intelligence. Onboarding gets sharper. The next PC who lands on your customer inherits a working model instead of a blank slate. You're solving today's problem and building tomorrow's institutional knowledge in the same conversation.
+Each capture is, first and foremost, for you and your stakeholder — it makes your day-to-day work smoother. But because the Stakeholders list lives on the platform, every capture also feeds the bigger picture. Across PCs and customers, KITCHEN starts to see real patterns: which orgs run on email vs Teams, which leaders want recommendations vs options, which thinker-types cluster in which branches, where escalation paths are fragile, where training would actually move the needle. Barrios gets staffing intelligence. Onboarding gets sharper. The next PC who lands on your customer inherits a working model instead of a blank slate. You're solving today's problem and building tomorrow's institutional knowledge in the same conversation.

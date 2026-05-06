@@ -1,6 +1,6 @@
-# MANTLE Onboarding Page -- GUI Build Recipe
+# KITCHEN Onboarding Page -- GUI Build Recipe
 
-Manual, drag-and-drop SharePoint Modern build recipe for the MANTLE Onboarding page. Target persona: a NEW PC arriving to MANTLE who does not know what the previous PC left behind, does not want to edit list grids directly, and wants to FILL OUT FORMS to capture and review their onboarding context.
+Manual, drag-and-drop SharePoint Modern build recipe for the KITCHEN Onboarding page. Target persona: a NEW PC arriving to KITCHEN who does not know what the previous PC left behind, does not want to edit list grids directly, and wants to FILL OUT FORMS to capture and review their onboarding context.
 
 - **Site**: https://nasa.sharepoint.com/teams/PCTransitionSandbox
 - **Site type**: Group-connected. OneColumn / TwoColumn / ThreeColumn / Vertical section available.
@@ -139,10 +139,10 @@ Mockup reference: Onboarding page S1 + S2 collapsed. Welcomes the new PC and sta
    - **Number of layers**: **1**.
 5. Click the single hero tile -> Details pane:
    - **Image**: upload or link a wide, dark, low-detail banner. Site Assets is fine.
-   - **Title**: `Welcome to MANTLE Onboarding`
+   - **Title**: `Welcome to KITCHEN Onboarding`
    - **Subtitle**: `You are being onboarded as a Project Coordinator for your assigned contract. Walk through the five steps below.`
    - **Call to action**: Off (each step section has its own CTA).
-   - **Show topic**: optional. If on: `MANUAL . ACRONYMS . NOTES . TRANSITION . LOGISTICS . ENGAGEMENT`
+   - **Show topic**: optional. If on: `KNOWLEDGE . INTERVIEWS . TRANSITIONS . COOKBOOKS . HANDOFFS . EQUIVALENCIES . NETWORK`
 6. Close the panel.
 
 **Why this works**: the Hero web part is the only native component that renders a true full-bleed banner at the top of a Modern page; Strong section emphasis gives it the brand-deep backdrop.
@@ -163,7 +163,7 @@ Mockup reference: Onboarding page S1 + S2 collapsed. Welcomes the new PC and sta
 2. **Left column** -> **+** -> **Text**. Type:
    - Style **Heading 4** (acts as eyebrow): `STEP 1 OF 5`
    - Style **Heading 2**: `Set up your Trainee Profile`
-   - Style **Normal**: `Tell MANTLE who you are. The Trainee Profile captures your name, contract assignment, start date, mentor, and the basics your manager and other PCs need to find you. This takes about 3 minutes.`
+   - Style **Normal**: `Tell KITCHEN who you are. The Trainee Profile captures your name, contract assignment, start date, mentor, and the basics your manager and other PCs need to find you. This takes about 3 minutes.`
    - **Normal**: `Click the button below to open the Trainee Profile form. After you save, your record will appear in the panel on the right.`
 3. Below the Text web part (still in left column), **+** -> **Button**. In the panel:
    - **Label**: `Open Trainee Profile form`
@@ -197,7 +197,7 @@ The PCs list holds 23 working-style fields per the Wave 1 schema. The user fills
 2. **Left column** -> **Text**:
    - Heading 4: `STEP 2 OF 5`
    - Heading 2: `Tell us how you work`
-   - Normal: `MANTLE captures 21+ working-style answers per person -- communication channels, decision timing, deep-work habits, feedback preferences, conflict defaults, and more. Your answers help your contract teammates work with you on day one.`
+   - Normal: `KITCHEN captures 21+ working-style answers per person -- communication channels, decision timing, deep-work habits, feedback preferences, conflict defaults, and more. Your answers help your contract teammates work with you on day one.`
    - Normal: `Plan for 10-15 minutes. Save as you go; the form lets you return later.`
 3. **Button** below the Text:
    - **Label**: `Open Working Styles Matrix form`
@@ -328,7 +328,7 @@ A new PC will want to come back to this page repeatedly during their first month
    - Heading 3: `How to find this page again`
    - Normal: `You will refer back to your onboarding context for weeks. Three ways to come back fast:`
    - Numbered list:
-     - `Bookmark this page in your browser. Use a memorable name like "MANTLE Onboarding".`
+     - `Bookmark this page in your browser. Use a memorable name like "KITCHEN Onboarding".`
      - `Pin this URL to your favorites bar.`
      - `Use the Quick Launch nav on the left -- "Onboarding" is listed there.`
    - Normal: `Each list also has a "My ..." view, so you can hop straight to your own records:`
@@ -358,7 +358,7 @@ Mirrors the Home recipe Section 7. Trust signal.
 1. **+** -> **One column** -> emphasis **Soft**.
 2. **+** -> **Text**. Single paragraph, center-aligned:
    - Bold: `Internal use only.`
-   - Normal: ` MANTLE contains contract-sensitive context. Do not share pages or list exports outside Barrios or your contract team.`
+   - Normal: ` KITCHEN contains contract-sensitive context. Do not share pages or list exports outside Barrios or your contract team.`
 
 **Why this works**: same Soft-emphasis Text web part as Home, for visual consistency.
 

@@ -1,6 +1,6 @@
 # Design Decisions Log
 
-Captures the *why* behind MANTLE's choices, so future maintainers (including future-self) don't relitigate settled questions.
+Captures the *why* behind KITCHEN's choices, so future maintainers (including future-self) don't relitigate settled questions.
 
 ---
 
@@ -26,9 +26,9 @@ Captures the *why* behind MANTLE's choices, so future maintainers (including fut
 
 ## D3 — AI is a build-time tool, never a runtime component
 
-**Decision:** Copilot, Claude, and any other LLM are used to accelerate building MANTLE (generate JSON formatters, draft Power Automate flow steps, summarize source documents). They are never embedded as a feature users have to trust.
+**Decision:** Copilot, Claude, and any other LLM are used to accelerate building KITCHEN (generate JSON formatters, draft Power Automate flow steps, summarize source documents). They are never embedded as a feature users have to trust.
 
-**Why:** AI output is non-deterministic. Making a platform's functionality depend on an LLM means the platform breaks when the LLM hallucinates, the license is revoked, or the model changes behavior. Users of MANTLE need deterministic answers from their own data.
+**Why:** AI output is non-deterministic. Making a platform's functionality depend on an LLM means the platform breaks when the LLM hallucinates, the license is revoked, or the model changes behavior. Users of KITCHEN need deterministic answers from their own data.
 
 **Trade-off accepted:** Platform feels less "magic." Replaced by good IA, native filtering, and dashboards.
 
@@ -44,9 +44,9 @@ Captures the *why* behind MANTLE's choices, so future maintainers (including fut
 
 ---
 
-## D5 — Never frame MANTLE as a replacement for cookbooks
+## D5 — Never frame KITCHEN as a replacement for cookbooks
 
-**Decision:** External communication, both written and verbal, never positions MANTLE as replacing cookbooks. It produces them.
+**Decision:** External communication, both written and verbal, never positions KITCHEN as replacing cookbooks. It produces them.
 
 **Why:** Many PCs have invested significant work in their cookbooks and feel ownership over them. Suggesting replacement creates resistance. Framing as production keeps the cookbook artifact sacred and lets each PC retain authorial pride. If Barrios eventually decides to standardize and replace, that is their decision to make and announce.
 
@@ -64,7 +64,7 @@ Captures the *why* behind MANTLE's choices, so future maintainers (including fut
 
 ## D7 — Asynchronous design, not synchronous handoff
 
-**Decision:** MANTLE supports two independent user modes (incoming, outgoing) that do not require coordination between the two parties. An outgoing PC can populate the platform with no successor identified; an incoming PC can use the platform with no predecessor available.
+**Decision:** KITCHEN supports two independent user modes (incoming, outgoing) that do not require coordination between the two parties. An outgoing PC can populate the platform with no successor identified; an incoming PC can use the platform with no predecessor available.
 
 **Why:** Real-world transitions rarely have clean overlap. The platform's value is *persistent role knowledge that survives turnover*, not *a tool for outgoing-meets-incoming dialogue*.
 
@@ -120,8 +120,8 @@ Captures the *why* behind MANTLE's choices, so future maintainers (including fut
 
 ---
 
-## D10 — Naming: MANTLE
+## D10 — Naming: KITCHEN
 
-**Decision:** The platform is named MANTLE — a backronym for **M**anual, **A**cronyms, **N**otes, **T**ransition, **L**ogistics, **E**ngagement.
+**Decision:** The platform is named KITCHEN — a backronym for **K**nowledge, **I**nterviews, **T**ransitions, **C**ookbooks, **H**andoffs, **E**quivalencies, **N**etwork. Tagline: *Let's get Cooking.*
 
-**Why:** "Passing the mantle" is the cultural phrase for handoff. The name does communication work the moment someone hears it. Avoids collision with NASA mission names. See `naming/backronym-history.md` for alternatives considered.
+**Why:** The cookbook metaphor is the centerpiece feature (a PC writes recipes; the platform compiles the cookbook), and KITCHEN aligns the platform name with that metaphor end-to-end. Avoids collision with NASA mission names. See `naming/backronym-history.md` for alternatives considered.

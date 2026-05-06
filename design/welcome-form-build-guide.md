@@ -1,6 +1,6 @@
 # Welcome Form + Intake — Build Guide
 
-This is the click-by-click implementation guide for the MANTLE Welcome Form and the intake processing that creates a Trainee Profile and seeds 30-60-90 tasks. Source of truth for behavior is `design/welcome-flow.md`; data shapes come from `data-model/schemas.md`.
+This is the click-by-click implementation guide for the KITCHEN Welcome Form and the intake processing that creates a Trainee Profile and seeds 30-60-90 tasks. Source of truth for behavior is `design/welcome-flow.md`; data shapes come from `data-model/schemas.md`.
 
 ---
 
@@ -22,7 +22,7 @@ This is the click-by-click implementation guide for the MANTLE Welcome Form and 
 |------|-------|
 | M365 work account on the NASA tenant | already provisioned |
 | SharePoint site | `https://nasa.sharepoint.com/teams/PCTransitionSandbox` |
-| All MANTLE Lists exist | `PCs`, `Trainee Profiles`, `Programs`, `30-60-90 Tasks`, `Tools`, `Stakeholders`, `Meetings`, `Acronyms`, `Decisions Log` |
+| All KITCHEN Lists exist | `PCs`, `Trainee Profiles`, `Programs`, `30-60-90 Tasks`, `Tools`, `Stakeholders`, `Meetings`, `Acronyms`, `Decisions Log` |
 | Microsoft Forms | `https://forms.office.com` (confirmed accessible) |
 | PowerShell 5.1+ with `PnP.PowerShell` module installed | local laptop; `Install-Module PnP.PowerShell -Scope CurrentUser` |
 | Permissions | Edit on the SharePoint site; ability to download Forms responses to Excel; mailbox to send confirmation emails from |
@@ -34,7 +34,7 @@ Before you start: confirm the internal SharePoint column names by opening each L
 
 ## 3. Phase 1 — Build the Welcome Form
 
-Go to `https://forms.office.com` → **+ New Form**. Title it **MANTLE — Welcome**. Description: *"Welcome. You're in the right place. MANTLE — Manual, Acronyms, Notes, Transition, Logistics, Engagement. Two minutes to set you up."*
+Go to `https://forms.office.com` → **+ New Form**. Title it **KITCHEN — Welcome**. Description: *"Welcome. You're in the right place. KITCHEN — Knowledge, Interviews, Transitions, Cookbooks, Handoffs, Equivalencies, Network. Two minutes to set you up."*
 
 Form **Settings** (gear icon, top right):
 - *Who can fill out this form*: **Only people in my organization can respond**
@@ -133,7 +133,7 @@ If the Forms branching UI fights you, the cleanest fallback is: **on Q1, route i
 
 ### Publish & share
 
-Click **Collect responses**. Set audience to **Only people in my organization can respond**. Copy the link. On the MANTLE SharePoint home page, paste it as a hero button labeled **Start here**. Optionally embed in the Teams channel via **+ → Forms → Add an existing form → Collect responses**.
+Click **Collect responses**. Set audience to **Only people in my organization can respond**. Copy the link. On the KITCHEN SharePoint home page, paste it as a hero button labeled **Start here**. Optionally embed in the Teams channel via **+ → Forms → Add an existing form → Collect responses**.
 
 ---
 
@@ -143,8 +143,8 @@ This is the active intake path until Power Automate is unblocked. The script is 
 
 ### Where Form responses live
 
-- **Native:** in the Form itself — `forms.office.com` → MANTLE — Welcome → **Responses** tab.
-- **Excel summary (auto-linked):** in **Responses** → click **Open in Excel**. Forms creates a workbook in the OneDrive of the Form's owner at `OneDrive - NASA / Apps / Microsoft Forms / MANTLE — Welcome / MANTLE — Welcome (Responses).xlsx`. New responses append automatically. This file is what the script reads.
+- **Native:** in the Form itself — `forms.office.com` → KITCHEN — Welcome → **Responses** tab.
+- **Excel summary (auto-linked):** in **Responses** → click **Open in Excel**. Forms creates a workbook in the OneDrive of the Form's owner at `OneDrive - NASA / Apps / Microsoft Forms / KITCHEN — Welcome / KITCHEN — Welcome (Responses).xlsx`. New responses append automatically. This file is what the script reads.
 
 Confirm the workbook path the first time you open it; the script's `$ResponsesPath` parameter must match.
 
@@ -169,18 +169,18 @@ For each new (unprocessed) response:
    - `Tools they came from`: **left blank** — filled by the PC themselves in Phase 4
    - `Previous role context`: blank
 5. Seed 30-60-90 tasks (sixteen-task starter set defined in the script's task array — first task is the Welcome/setup task; remaining fifteen are the standard onboarding plan).
-6. **Best-effort** create a Planner task in the MANTLE Team's `30-60-90` board, `Days 1-30` bucket, assigned to the user. This gives them a Teams notification AND introduces Planner. If the Planner cmdlets aren't available or the call fails, the script logs a friendly note and continues — the SharePoint welcome task still serves as the in-platform nudge.
+6. **Best-effort** create a Planner task in the KITCHEN Team's `30-60-90` board, `Days 1-30` bucket, assigned to the user. This gives them a Teams notification AND introduces Planner. If the Planner cmdlets aren't available or the call fails, the script logs a friendly note and continues — the SharePoint welcome task still serves as the in-platform nudge.
 7. Append the response ID to the processed-state file.
 
 **Notification design (today, no PA, no email):**
-- The user's first 30-60-90 task ("Welcome to MANTLE — review your profile and complete setup") is the persistent in-platform welcome. They see it whenever they open MANTLE.
+- The user's first 30-60-90 task ("Welcome to KITCHEN — review your profile and complete setup") is the persistent in-platform welcome. They see it whenever they open KITCHEN.
 - The Planner task (best-effort) gives them a Teams "task assigned to you" notification AND surfaces Planner as a tool they can use.
 - **Email confirmation is intentionally NOT implemented.** That's a Power Automate enhancement — see Phase 3.
 
 ### Script location and parameters
 
 ```
-C:\Users\cjtucke3\Documents\Personal\Career\MANTLE\scripts\process-welcome-responses.ps1
+C:\Users\cjtucke3\Documents\Personal\Career\KITCHEN\scripts\process-welcome-responses.ps1
 ```
 
 Parameters (defined in the script header — see the script itself for current signatures):
@@ -205,11 +205,11 @@ Preserved as design reference. When IT enables Power Automate on this tenant —
 ### Trigger
 
 `make.powerautomate.com` → **+ Create** → **Automated cloud flow**.
-Name: **MANTLE — Welcome Form Intake**. Trigger: **When a new response is submitted** (Microsoft Forms). Form Id: **MANTLE — Welcome** (pick from dropdown — don't paste an ID).
+Name: **KITCHEN — Welcome Form Intake**. Trigger: **When a new response is submitted** (Microsoft Forms). Form Id: **KITCHEN — Welcome** (pick from dropdown — don't paste an ID).
 
 ### Step 1 — Get response details
 
-**Microsoft Forms → Get response details.** Form Id: **MANTLE — Welcome**. Response Id: dynamic content `Response Id` from trigger.
+**Microsoft Forms → Get response details.** Form Id: **KITCHEN — Welcome**. Response Id: dynamic content `Response Id` from trigger.
 
 ### Step 2 — Resolve submitter to a PC row
 
@@ -248,7 +248,7 @@ Save profile ID into `varProfileId`.
 
 ### Step 6 — Confirmation email
 
-**Office 365 Outlook → Send an email (V2).** To: Responder's Email. Subject: `Welcome to MANTLE — your space is ready`. HTML body with deep links to Teams channel, Trainee Profile (`DispForm.aspx?ID=@{variables('varProfileId')}`), and the 30-60-90 list.
+**Office 365 Outlook → Send an email (V2).** To: Responder's Email. Subject: `Welcome to KITCHEN — your space is ready`. HTML body with deep links to Teams channel, Trainee Profile (`DispForm.aspx?ID=@{variables('varProfileId')}`), and the 30-60-90 list.
 
 ### Notes for the future admin
 
@@ -267,7 +267,7 @@ This is also seeded as the **first task** in the 30-60-90 plan ("Open your Train
 
 ### Step-by-step for the new PC
 
-1. Open the MANTLE Teams channel → **Trainee Profiles** tab (or the SharePoint List directly).
+1. Open the KITCHEN Teams channel → **Trainee Profiles** tab (or the SharePoint List directly).
 2. Find your row (search by your name or filter on `PC = [Me]`).
 3. Click your `Profile Name` to open the item.
 4. Click **Edit**.

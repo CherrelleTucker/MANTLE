@@ -1,11 +1,11 @@
-# Process MANTLE Welcome Form Responses
+# Process KITCHEN Welcome Form Responses
 # Reads an Excel export of Microsoft Forms responses, then for each unprocessed
 # row creates a Trainee Profile, seeds 16 starter 30-60-90 tasks (first one is
 # the welcome/setup task), and best-effort assigns a Planner task to the user
-# in the MANTLE Team's 30-60-90 board.
+# in the KITCHEN Team's 30-60-90 board.
 #
 # Notification approach (Power Automate is blocked on this tenant):
-#   1. The first 30-60-90 task ("Welcome to MANTLE - complete your profile")
+#   1. The first 30-60-90 task ("Welcome to KITCHEN - complete your profile")
 #      is the persistent in-platform welcome.
 #   2. A Planner task assigned to the user (best-effort) gives a Teams
 #      notification AND introduces Planner as a tool.
@@ -22,12 +22,12 @@
 # ---------------------------------------------------------------------------
 # Configurable parameters
 # ---------------------------------------------------------------------------
-$inboxPath = "C:\Users\cjtucke3\Documents\Personal\Career\MANTLE\inbox\welcome-responses.xlsx"
+$inboxPath = "C:\Users\cjtucke3\Documents\Personal\Career\KITCHEN\inbox\welcome-responses.xlsx"
 $siteUrl   = "https://nasa.sharepoint.com/teams/PCTransitionSandbox"
 
 # Planner integration (best-effort - if cmdlets/permissions fail, script
 # continues and the SharePoint task still serves as the welcome).
-# Group ID = the M365 Group behind the MANTLE Team. Found in the Teams
+# Group ID = the M365 Group behind the KITCHEN Team. Found in the Teams
 # channel link as the groupId= parameter.
 $mantleGroupId     = "c5daa449-8142-4179-a0a9-1cdfb9316ba3"
 $plannerPlanName   = "30-60-90"
@@ -47,14 +47,14 @@ $colNotes        = "Anything else we should know?"
 # Starter 30-60-90 tasks (copied from design/welcome-form-build-guide.md Phase 3)
 # ---------------------------------------------------------------------------
 $starterTasks = @(
-    @{ title = "Welcome to MANTLE - review your profile and complete setup";                        phase = "Days 1-30";  lane = "Quick Wins";    offsetDays = 1;  notes = "Open your Trainee Profile and fill in 'Tools they came from' (multi-select Lookup). This is your first task." },
+    @{ title = "Welcome to KITCHEN - review your profile and complete setup";                        phase = "Days 1-30";  lane = "Quick Wins";    offsetDays = 1;  notes = "Open your Trainee Profile and fill in 'Tools they came from' (multi-select Lookup). This is your first task." },
     @{ title = "Meet your Barrios manager 1:1 and confirm expectations";                            phase = "Days 1-30";  lane = "Relationships"; offsetDays = 5;  notes = "Bring your draft 30-60-90 to this meeting." },
     @{ title = "Meet your NASA customer (PC Customer) and ask how they prefer to communicate";      phase = "Days 1-30";  lane = "Relationships"; offsetDays = 7;  notes = "Cadence, channel, what 'urgent' means to them." },
-    @{ title = "Read the role baseline document end-to-end";                                        phase = "Days 1-30";  lane = "Knowledge";     offsetDays = 3;  notes = "Tier 1 universal PC content - link on MANTLE home." },
+    @{ title = "Read the role baseline document end-to-end";                                        phase = "Days 1-30";  lane = "Knowledge";     offsetDays = 3;  notes = "Tier 1 universal PC content - link on KITCHEN home." },
     @{ title = "Walk the meeting catalog for your program and accept recurring invites";            phase = "Days 1-30";  lane = "Knowledge";     offsetDays = 4;  notes = "Open the Meetings list filtered to your program." },
     @{ title = "Browse the NASA acronyms list - search the ten you've already heard";               phase = "Days 1-30";  lane = "Quick Wins";    offsetDays = 2;  notes = "Acronyms list is search-first." },
     @{ title = "Add your first three stakeholders to the Stakeholders list";                        phase = "Days 1-30";  lane = "Deliverables";  offsetDays = 14; notes = "Name, role, why they matter - one sentence each." },
-    @{ title = "Schedule your 30-day supervisor check-in";                                          phase = "Days 1-30";  lane = "Quick Wins";    offsetDays = 1;  notes = "Use the Outlook template on MANTLE home." },
+    @{ title = "Schedule your 30-day supervisor check-in";                                          phase = "Days 1-30";  lane = "Quick Wins";    offsetDays = 1;  notes = "Use the Outlook template on KITCHEN home." },
     @{ title = "Identify the top three meetings where you need to make a deliverable contribution"; phase = "Days 31-60"; lane = "Deliverables";  offsetDays = 35; notes = "Move from Observer to Participant where appropriate." },
     @{ title = "Map the equivalencies from your previous tools to NASA's stack";                    phase = "Days 31-60"; lane = "Knowledge";     offsetDays = 32; notes = "Open Equivalency Map filtered to your previous tools." },
     @{ title = "Build your stakeholder map - influence vs. interest";                               phase = "Days 31-60"; lane = "Relationships"; offsetDays = 45; notes = "Use the By Influence view in Stakeholders." },
@@ -254,7 +254,7 @@ try {
                         Write-Host "  (Planner: bucket '$plannerBucketName' not found - skipping)" -ForegroundColor DarkGray
                     } else {
                         Add-PnPPlannerTask -Plan $plan.Id -Bucket $bucket.Id `
-                            -Title "Welcome to MANTLE - complete your profile setup" `
+                            -Title "Welcome to KITCHEN - complete your profile setup" `
                             -AssignedTo $email `
                             -ErrorAction Stop | Out-Null
                         Write-Host "  Planner task assigned to $email" -ForegroundColor Green

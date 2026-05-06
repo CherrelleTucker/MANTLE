@@ -46,7 +46,7 @@ Run through each list, verify column names, types, choices, and descriptions. Bu
 - [ ] **30-60-90** — Planner tab
   - *Visual Kanban for the new coordinator's onboarding tasks, organized by phase.*
   - Buckets: `Days 1-30`, `Days 31-60`, `Days 61-90`
-- [ ] **MANTLE Notes** — OneNote tab
+- [ ] **KITCHEN Notes** — OneNote tab
   - *Free-form personal notebook for things that don't fit a structured List.*
   - Section: `Things I'm Learning`
 
@@ -107,7 +107,7 @@ Run through each list, verify column names, types, choices, and descriptions. Bu
   - *Whether the PC is currently active in the role or has departed. Used to filter the catalog to currently-active PCs.*
   - Choices: `Active`, `Departed`
 - [ ] **Contract** — Choice **with allow fill-in** (default `CPSS`)
-  - *The Barrios contract vehicle assigning the PC to NASA. Useful for filtering when MANTLE eventually scales across multiple Barrios contracts.*
+  - *The Barrios contract vehicle assigning the PC to NASA. Useful for filtering when KITCHEN eventually scales across multiple Barrios contracts.*
   - Choices: `CPSS`, `Other`
 - [ ] **Hire date** — Date
   - *When the PC joined the contract. Anchors tenure analytics.*

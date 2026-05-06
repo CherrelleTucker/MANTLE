@@ -38,7 +38,7 @@ Add a Text web part to the right column. Click the Text web part > pencil icon >
 <table style='border-collapse:separate;border-spacing:0 4px;margin:0;'>
 <tr><td style='background:#F5F7FA;padding:4px 8px;border-radius:3px;color:#333333;font-size:12px;'>You</td></tr>
 <tr><td style='background:#F5F7FA;padding:4px 8px;border-radius:3px;color:#333333;font-size:12px;'>Your Barrios manager</td></tr>
-<tr><td style='background:#F5F7FA;padding:4px 8px;border-radius:3px;color:#333333;font-size:12px;'>MANTLE administrators</td></tr>
+<tr><td style='background:#F5F7FA;padding:4px 8px;border-radius:3px;color:#333333;font-size:12px;'>KITCHEN administrators</td></tr>
 </table>
 <p style='margin:10px 0 0 0;color:#333333;font-size:12px;'>Stakeholder records you create are visible to other PCs <strong>only if</strong> you tag them with shared scope.</p>
 </td></tr></table>

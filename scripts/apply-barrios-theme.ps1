@@ -1,5 +1,5 @@
 # apply-barrios-theme.ps1
-# Applies a Barrios-branded custom theme to the MANTLE SharePoint site.
+# Applies a Barrios-branded custom theme to the KITCHEN SharePoint site.
 #
 # Requires:
 #   - Windows PowerShell 5.1
@@ -22,7 +22,7 @@
 
 $ErrorActionPreference = 'Stop'
 
-$ThemeName = 'Barrios MANTLE'
+$ThemeName = 'Barrios KITCHEN'
 
 # ---------------------------------------------------------------------------
 # Color palette

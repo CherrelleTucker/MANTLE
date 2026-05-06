@@ -1,4 +1,4 @@
-# Provision the MANTLE Home page using the one-time-bootstrap pattern:
+# Provision the KITCHEN Home page using the one-time-bootstrap pattern:
 # native section templates wherever possible, sanitizer-safe HTML for the
 # critical path-picker tiles (so they always render without manual setup),
 # and a Markdown paste-list emitted for the Column 2/3 content the legacy
@@ -9,7 +9,7 @@
 # future edits happen in the SharePoint GUI; this script is intended to be
 # discarded after the bootstrap.
 #
-# Assumes: Connect-PnPOnline -UseWebLogin already run against the MANTLE site:
+# Assumes: Connect-PnPOnline -UseWebLogin already run against the KITCHEN site:
 #   Connect-PnPOnline -Url https://nasa.sharepoint.com/teams/PCTransitionSandbox -UseWebLogin
 #
 # Module: legacy SharePointPnPPowerShellOnline (Windows PowerShell 5.1)
@@ -41,8 +41,8 @@
 $siteUrl  = "https://nasa.sharepoint.com/teams/PCTransitionSandbox"
 $siteRoot = "/teams/PCTransitionSandbox"
 
-$pageName  = "MANTLE Home"
-$pageTitle = "MANTLE Home"
+$pageName  = "KITCHEN Home"
+$pageTitle = "KITCHEN Home"
 
 # Server-relative URLs for the path-picker tiles + secondary destinations.
 $onboardingUrl       = "$siteRoot/SitePages/Onboarding.aspx"
@@ -193,7 +193,7 @@ function Add-ManualBlock {
 #                    (kept as ONE Text web part since both tiles MUST render
 #                    without manual setup; TwoColumn would put one tile in
 #                    the paste list which is unacceptable for path nav)
-#   S3 TwoColumn   - L: What MANTLE is (text)  | R: Stats panel (paste list)
+#   S3 TwoColumn   - L: What KITCHEN is (text)  | R: Stats panel (paste list)
 #   S4 ThreeColumn - L: Working styles card    | C: Cookbooks (paste list)
 #                                               | R: Equivalencies (paste list)
 #   S5 TwoColumn   - L: Quick links list       | R: Recent activity (paste list)
@@ -207,7 +207,7 @@ $heroHtml = @"
 <table style='width:100%;border-collapse:separate;border-spacing:0;'>
 <tr><td style='background:#182039;padding:48px 32px;border-radius:8px;text-align:center;'>
 <p style='color:#E8B86A;margin:0 0 12px 0;font-size:11px;font-weight:bold;letter-spacing:2.5px;'>MANUAL &middot; ACRONYMS &middot; NOTES &middot; TRANSITION &middot; LOGISTICS &middot; ENGAGEMENT</p>
-<h2 style='color:#FFFFFF;margin:0 0 12px 0;font-size:34px;font-weight:300;'>Welcome to MANTLE</h2>
+<h2 style='color:#FFFFFF;margin:0 0 12px 0;font-size:34px;font-weight:300;'>Welcome to KITCHEN</h2>
 <p style='color:#FFFFFF;margin:0;font-size:16px;'>Knowledge collected by every coordinator who has done this role before you. Capture working styles, document meetings, generate cookbooks.</p>
 </td></tr></table>
 "@
@@ -242,16 +242,16 @@ $pathPickerHtml = @"
 "@
 if ($res.Ok) { Add-TextPart -Page $page -Section 2 -Column 1 -Html $pathPickerHtml -Label "S2 path picker tiles" }
 
-# --- S3: WHAT MANTLE IS + STATS (TwoColumn) --------------------------------
-$res = Add-Section -Page $page -Index 3 -Template TwoColumn -Label "What MANTLE is + stats"
+# --- S3: WHAT KITCHEN IS + STATS (TwoColumn) --------------------------------
+$res = Add-Section -Page $page -Index 3 -Template TwoColumn -Label "What KITCHEN is + stats"
 $page = $res.Page
 $whatHtml = @"
-<p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>WHAT MANTLE IS</p>
+<p style='color:#4961A3;margin:0 0 4px 0;font-size:11px;font-weight:bold;letter-spacing:1.5px;'>WHAT KITCHEN IS</p>
 <h3 style='color:#182039;margin:0 0 12px 0;font-size:22px;'>A platform for coordinator-to-coordinator knowledge transfer</h3>
-<p style='color:#333333;margin:0 0 12px 0;'>PCs leave, contracts shift, and institutional knowledge vanishes. MANTLE captures the relationships, meetings, decisions, and unwritten rules that make a working team actually work &mdash; and packages it for the next person.</p>
+<p style='color:#333333;margin:0 0 12px 0;'>PCs leave, contracts shift, and institutional knowledge vanishes. KITCHEN captures the relationships, meetings, decisions, and unwritten rules that make a working team actually work &mdash; and packages it for the next person.</p>
 <p style='color:#333333;margin:0;'>Built by coordinators, for coordinators. Maintained by every PC who uses it.</p>
 "@
-if ($res.Ok) { Add-TextPart -Page $page -Section 3 -Column 1 -Html $whatHtml -Label "S3 what MANTLE is" }
+if ($res.Ok) { Add-TextPart -Page $page -Section 3 -Column 1 -Html $whatHtml -Label "S3 what KITCHEN is" }
 
 $statsHtml = @"
 <table style='width:100%;border-collapse:separate;border-spacing:0;'>
@@ -293,7 +293,7 @@ $cookbookCardHtml = @"
 <td style='background:#FFFFFF;padding:20px;border-radius:0 6px 6px 0;'>
 <h3 style='color:#182039;margin:0 0 8px 0;font-size:16px;'>Generate cookbooks</h3>
 <p style='color:#615E5E;margin:0 0 12px 0;font-size:13px;'>One-click generation pulls everything you have documented into a Word document handoff. Your replacement reads it on day one.</p>
-<p style='margin:0;font-size:13px;'><a href='$mantleActionsUrl' style='color:#4961A3;text-decoration:none;font-weight:bold;'>MANTLE Actions &rarr;</a></p>
+<p style='margin:0;font-size:13px;'><a href='$mantleActionsUrl' style='color:#4961A3;text-decoration:none;font-weight:bold;'>KITCHEN Actions &rarr;</a></p>
 </td></tr></table>
 "@
 if ($s4Ok) { Add-ManualBlock -SectionIndex 4 -Column 2 -Label "Generate cookbooks card" -Html $cookbookCardHtml -Type "Text" -Instruction "Add a Text web part to the middle column. Edit source. Paste HTML." }
@@ -321,7 +321,7 @@ $quickLinksHtml = @"
 <tr><td style='padding:10px 0;border-bottom:1px solid #F0F0F0;'><a href='$acronymsListUrl' style='color:#4961A3;text-decoration:none;font-size:14px;'>Acronym glossary</a></td></tr>
 <tr><td style='padding:10px 0;border-bottom:1px solid #F0F0F0;'><a href='$decisionsListUrl' style='color:#4961A3;text-decoration:none;font-size:14px;'>Decisions log</a></td></tr>
 <tr><td style='padding:10px 0;border-bottom:1px solid #F0F0F0;'><a href='$toolsListUrl' style='color:#4961A3;text-decoration:none;font-size:14px;'>Tools inventory</a></td></tr>
-<tr><td style='padding:10px 0;'><a href='$mantleActionsUrl' style='color:#4961A3;text-decoration:none;font-size:14px;'>MANTLE Actions (admin)</a></td></tr>
+<tr><td style='padding:10px 0;'><a href='$mantleActionsUrl' style='color:#4961A3;text-decoration:none;font-size:14px;'>KITCHEN Actions (admin)</a></td></tr>
 </table>
 "@
 if ($res.Ok) { Add-TextPart -Page $page -Section 5 -Column 1 -Html $quickLinksHtml -Label "S5 quick links" }
@@ -345,7 +345,7 @@ $recentActivityHtml = @"
 <td style='background:#E8B86A;width:3px;padding:0;border-radius:3px 0 0 3px;'>&nbsp;</td>
 <td style='background:#F5F7FA;padding:10px 14px;border-radius:0 4px 4px 0;'>
 <p style='color:#182039;margin:0 0 2px 0;font-size:13px;font-weight:bold;'>Devon R. generated cookbook for IMPACT</p>
-<p style='color:#888;margin:0;font-size:11px;'>yesterday &middot; MANTLE Actions</p>
+<p style='color:#888;margin:0;font-size:11px;'>yesterday &middot; KITCHEN Actions</p>
 </td></tr></table>
 </td></tr>
 <tr><td style='padding:0 0 10px 0;'>
@@ -376,7 +376,7 @@ $page = $res.Page
 $footerHtml = @"
 <table style='width:100%;border-collapse:separate;border-spacing:0;margin:8px 0 0 0;'>
 <tr><td style='background:#E8B86A;padding:14px 20px;border-radius:6px;'>
-<p style='margin:0;color:#182039;font-size:13px;'><strong>Internal use only.</strong> MANTLE contains contract-sensitive context. Do not share pages or list exports outside Barrios or your contract team.</p>
+<p style='margin:0;color:#182039;font-size:13px;'><strong>Internal use only.</strong> KITCHEN contains contract-sensitive context. Do not share pages or list exports outside Barrios or your contract team.</p>
 </td></tr></table>
 "@
 if ($res.Ok) { Add-TextPart -Page $page -Section 6 -Column 1 -Html $footerHtml -Label "S6 footer" }
@@ -474,7 +474,7 @@ $encodedRelative = $actualUrlRelative -replace ' ', '%20'
 $publishedUrl    = "https://nasa.sharepoint.com$encodedRelative"
 
 $md = New-Object System.Text.StringBuilder
-[void]$md.AppendLine("# Manual paste list -- MANTLE Home")
+[void]$md.AppendLine("# Manual paste list -- KITCHEN Home")
 [void]$md.AppendLine("")
 [void]$md.AppendLine("Generated by ``provision-home-native.ps1`` on $(Get-Date -Format 'yyyy-MM-dd HH:mm').")
 [void]$md.AppendLine("")
@@ -535,7 +535,7 @@ Write-Host ""
 Write-Host "Sections built (in order):" -ForegroundColor Cyan
 Write-Host "  S1  OneColumn   - Hero band (navy w/ gold eyebrow)" -ForegroundColor Gray
 Write-Host "  S2  OneColumn   - Path picker: 2 big tiles (HTML table, both render)" -ForegroundColor Gray
-Write-Host "  S3  TwoColumn   - L: What MANTLE is             | R: Stats panel (paste-list)" -ForegroundColor Gray
+Write-Host "  S3  TwoColumn   - L: What KITCHEN is             | R: Stats panel (paste-list)" -ForegroundColor Gray
 Write-Host "  S4  ThreeColumn - L: Working styles card        | C: Cookbooks (paste-list)" -ForegroundColor Gray
 Write-Host "                                                   | R: Equivalencies (paste-list)" -ForegroundColor Gray
 Write-Host "  S5  TwoColumn   - L: Quick links list           | R: Recent activity (paste-list)" -ForegroundColor Gray

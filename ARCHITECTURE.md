@@ -1,6 +1,6 @@
 # Architecture
 
-MANTLE is organized as a three-tier knowledge model implemented across a small set of related SharePoint Lists. The model is multi-tenant from day one (one row in the PCs catalog today, room for thousands tomorrow) but the deployment is single-user.
+KITCHEN is organized as a three-tier knowledge model implemented across a small set of related SharePoint Lists. The model is multi-tenant from day one (one row in the PCs catalog today, room for thousands tomorrow) but the deployment is single-user.
 
 ---
 
@@ -99,7 +99,7 @@ The cookbook artifact each PC eventually produces is roughly the *union* of thei
 The platform's defining output is a Word document that resembles a traditional NASA Project Coordinator cookbook in style and structure — but is assembled from structured List data rather than typed by hand.
 
 The export flow:
-1. PC opens MANTLE and clicks "Export my cookbook"
+1. PC opens KITCHEN and clicks "Export my cookbook"
 2. Power Automate flow queries: their Trainee Profile + assigned Program(s) + Meetings + Stakeholders + Decisions + their personal annotations + relevant Tier 1 content
 3. Word document is composed from a template, with sections matching the conventions seen in existing cookbook examples (role description, recurring tasks, meeting catalog, project portfolio, resources, acronyms, personal annotations)
 4. Document is delivered to the PC's OneDrive

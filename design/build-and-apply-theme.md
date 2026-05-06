@@ -1,4 +1,4 @@
-# Build and apply the Barrios theme on the MANTLE site
+# Build and apply the Barrios theme on the KITCHEN site
 
 You already opened the **Branding theme builder** earlier (the screen showing
 Primary theme color + Secondary colors, with Add color buttons). This file
@@ -58,7 +58,7 @@ Once you are in the builder (the one you saw earlier with Add color buttons):
 
 ## Step 3 -- Name and save
 
-1. Theme name field: `MANTLE - Barrios`
+1. Theme name field: `KITCHEN - Barrios`
 2. Description (optional): `Barrios Technology brand palette: navy primary, gold accent, muted blue, charcoal text`
 3. Click **Save** (or **Create**)
 
@@ -68,7 +68,7 @@ The theme should now appear in your site's theme picker.
 
 1. Gear -> **Change the look**
 2. Click **Theme**
-3. Scroll the theme list -- your `MANTLE - Barrios` theme should appear
+3. Scroll the theme list -- your `KITCHEN - Barrios` theme should appear
    (usually at the top of custom themes, or the bottom of the full list)
 4. Click it
 5. Click **Save**
@@ -102,7 +102,7 @@ Tell me which step failed:
 
 ## Hub site caveat
 
-If the MANTLE site is associated to a SharePoint hub, the hub's theme can
+If the KITCHEN site is associated to a SharePoint hub, the hub's theme can
 override the site theme. To check: Gear -> **Site information**. If you see
 "Hub site association: <some hub>", the hub theme wins. Either disassociate
 or change the hub theme.

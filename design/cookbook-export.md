@@ -4,7 +4,7 @@
 **Owner:** PC-as-builder
 **Related:** D4 (centerpiece), D5 (never frame as replacement), `data-model/schemas.md`
 
-The Cookbook Export is MANTLE's defining output: a Word document assembled from SharePoint List data that reads like a hand-written PC cookbook. The build below targets a single click from the PC's home page producing a `.docx` in their OneDrive in under 60 seconds.
+The Cookbook Export is KITCHEN's defining output: a Word document assembled from SharePoint List data that reads like a hand-written PC cookbook. The build below targets a single click from the PC's home page producing a `.docx` in their OneDrive in under 60 seconds.
 
 ---
 
@@ -20,7 +20,7 @@ Drawn from the Tucker (NSITE MO) and Chung (OCSDO) cookbooks, both follow the sa
 | 4 | Job duties / responsibilities | Tier 1 baseline + per-program additions stored in a free-form `Programs.PC responsibilities` field (add to schema if not present) | `jobDuties` (rich text content control) | Allows formatting carry-over. |
 | 5 | Daily / Weekly / Monthly / Quarterly tasks | `30-60-90 Tasks` filtered to `Phase = Ongoing` and grouped by a new `Cadence` field (add: Daily, Weekly, Monthly, Quarterly, Annual) | Repeating Section content controls per cadence: `dailyTasks`, `weeklyTasks`, `monthlyTasks`, `quarterlyTasks` | Each repeating section contains nested controls: `taskTitle`, `taskNotes`. |
 | 6 | Meeting catalog | `Meetings` filtered to current program | Repeating Section `meetings` containing `meetingName`, `meetingCadence`, `meetingDayTime`, `meetingType`, `meetingOwner`, `pcRole`, `pcResponsibilities`, `meetingResources` | The single largest section in both example cookbooks. Group by `Cadence` in the flow before populating. |
-| 7 | Stakeholders / contacts | `Stakeholders` filtered to current program AND `Sensitive? = No` (sensitive contacts get a stub note: "See MANTLE for restricted contacts") | Repeating Section `stakeholders` containing `contactName`, `contactRole`, `contactOrg`, `contactNotes` | Optionally split by Influence. |
+| 7 | Stakeholders / contacts | `Stakeholders` filtered to current program AND `Sensitive? = No` (sensitive contacts get a stub note: "See KITCHEN for restricted contacts") | Repeating Section `stakeholders` containing `contactName`, `contactRole`, `contactOrg`, `contactNotes` | Optionally split by Influence. |
 | 8 | Tools & resources | `Tools` joined via `Program↔Tool` for current program | Repeating Section `tools` with `toolName`, `toolCategory`, `toolDescription` | One-line per tool. |
 | 9 | Equivalency map | `Equivalency Map` filtered where `From-Tool ∈ Trainee Profile.Tools they came from` | Repeating Section `equivalencies` with `mappingTitle`, `whatsTheSame`, `gotchas`, `maturity` | Skip section entirely if the trainee has no prior-tool data. |
 | 10 | Reports & cadences | Tier 1 boilerplate (MTR, ST Reporting) + `Programs.Reports notes` field | `reportsSection` (rich text) | Static template text with one optional override. |
@@ -34,7 +34,7 @@ Drawn from the Tucker (NSITE MO) and Chung (OCSDO) cookbooks, both follow the sa
 
 ## 2. Power Automate flow design
 
-**Flow name:** `MANTLE — Generate Cookbook`
+**Flow name:** `KITCHEN — Generate Cookbook`
 **Trigger:** *Manually trigger a flow* (button), with one input — `Program ID` (Number). v1.1 may swap for a Forms trigger if a self-service form is preferred.
 
 **Steps (in order):**
@@ -82,13 +82,13 @@ Drawn from the Tucker (NSITE MO) and Chung (OCSDO) cookbooks, both follow the sa
    - Rich content → **Rich Text Content Control.**
    - Repeating list → wrap the row/paragraph in a **Repeating Section Content Control**, then nest plain-text controls inside for each field. Set the repeating section's Title to the plural name (`meetings`).
 4. Save as `.docx` (NOT `.dotx`). Name it `Cookbook_Template_v1.docx`.
-5. Upload to a SharePoint document library `Cookbook Templates` on the MANTLE site.
+5. Upload to a SharePoint document library `Cookbook Templates` on the KITCHEN site.
 
 ### B. Build the Power Automate flow
 
 1. Go to `https://make.powerautomate.com` (NASA tenant — sign in with NASA SSO).
-2. **+ Create → Instant cloud flow.** Name it `MANTLE — Generate Cookbook`. Trigger: *Manually trigger a flow*. Add input `programId` (Number).
-3. Add each action listed in section 2, in order. For every SharePoint `Get items`, set Site Address to the MANTLE site and List Name from the dropdown — never type the GUID.
+2. **+ Create → Instant cloud flow.** Name it `KITCHEN — Generate Cookbook`. Trigger: *Manually trigger a flow*. Add input `programId` (Number).
+3. Add each action listed in section 2, in order. For every SharePoint `Get items`, set Site Address to the KITCHEN site and List Name from the dropdown — never type the GUID.
 4. For each List with Lookup or Choice columns, expand **Advanced options** and set **Limit Columns by View** to a view that flattens lookups (faster + smaller payloads).
 5. The `Populate a Microsoft Word template` action is under the **Word Online (Business)** connector. Point it at the template file in the `Cookbook Templates` library. Power Automate will read the content controls and render an input field per control — fill them with dynamic content from earlier steps.
 6. Save. Test by clicking **Run** and supplying a known `programId`.
@@ -104,7 +104,7 @@ Drawn from the Tucker (NSITE MO) and Chung (OCSDO) cookbooks, both follow the sa
 - **Word template content controls are case-sensitive.** A control titled `meetingName` will not bind to a flow input labeled `MeetingName`. Establish naming convention once, enforce it everywhere.
 - **Repeating sections require an array of objects with key names exactly matching the inner control titles.** Mismatched keys silently skip — the section repeats N times but cells are blank. If you see empty rows in the output, key mismatch is the first place to check.
 - **Word template file size:** keep under 10 MB. Strip example images from the template; styling alone gets you 90% of the visual fidelity.
-- **No predecessor data:** wrap each repeating section's surrounding heading inside a `Repeating Section` of length 0 or 1 driven by an `if(empty(...), null, ...)` expression. Cleaner alternative: use Word's IF field around the heading. Simplest v1: always render the section heading; if the array is empty, populate with a single placeholder row reading "No entries yet — see MANTLE to add."
+- **No predecessor data:** wrap each repeating section's surrounding heading inside a `Repeating Section` of length 0 or 1 driven by an `if(empty(...), null, ...)` expression. Cleaner alternative: use Word's IF field around the heading. Simplest v1: always render the section heading; if the array is empty, populate with a single placeholder row reading "No entries yet — see KITCHEN to add."
 - **Trainee Profile may be missing.** Guard step 4 with a Condition: if no profile, fall back to defaults (program-only cookbook with no personalization sections).
 - **Personally identifying info:** per D9, never let a generated cookbook leave the NASA tenant via a connector that lands outside it. The Create file step targets OneDrive for Business — confirm the user is signed in to the NASA-tenant OneDrive, not personal.
 - **Run history retains the document** for 28 days. For audit hygiene, do not log filter values that include personal email addresses outside the user's own.

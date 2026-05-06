@@ -1,4 +1,4 @@
-# Wave 1 schema refactor for MANTLE.
+# Wave 1 schema refactor for KITCHEN.
 #
 # What this script DOES:
 #   * Stakeholders list:

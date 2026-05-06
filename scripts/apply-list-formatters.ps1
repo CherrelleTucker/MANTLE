@@ -1,11 +1,11 @@
-# Apply SharePoint JSON column and view formatters to the MANTLE lists:
+# Apply SharePoint JSON column and view formatters to the KITCHEN lists:
 # Stakeholders, Meetings, Acronyms.
 #
 # Goal: make the lists themselves the user-facing browsers (replaces the
 # need for separate Team Directory / Meeting Catalog / Acronym Glossary
 # rollup pages).
 #
-# Assumes: Connect-PnPOnline -UseWebLogin already run against the MANTLE site.
+# Assumes: Connect-PnPOnline -UseWebLogin already run against the KITCHEN site.
 # Target site: https://nasa.sharepoint.com/teams/PCTransitionSandbox
 #
 # Cmdlet versions: legacy SharePointPnPPowerShellOnline (PS 5.1).

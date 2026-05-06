@@ -1,6 +1,6 @@
-# MANTLE Update / Offboarding Page -- GUI Build Recipe
+# KITCHEN Update / Offboarding Page -- GUI Build Recipe
 
-Manual, drag-and-drop SharePoint Modern build recipe for the MANTLE Update / Offboarding page. Target persona: a PC who is either (a) doing **quarterly maintenance** of their handoff data so the cookbook stays 80%+ ready, or (b) executing a **final handoff** before leaving the role or contract.
+Manual, drag-and-drop SharePoint Modern build recipe for the KITCHEN Update / Offboarding page. Target persona: a PC who is either (a) doing **quarterly maintenance** of their handoff data so the cookbook stays 80%+ ready, or (b) executing a **final handoff** before leaving the role or contract.
 
 - **Site**: https://nasa.sharepoint.com/teams/PCTransitionSandbox
 - **Site type**: Group-connected. OneColumn / TwoColumn / ThreeColumn / Vertical sections available.
@@ -293,7 +293,7 @@ Reference materials. Surface the Word templates and one-pagers a PC needs while 
    - `Stakeholder handoff template` -> direct URL of the Word file in your Documents library.
    - `Meeting cheat-sheet` -> direct URL.
    - `Decisions one-pager` -> direct URL.
-   - `Cookbook generator script (reference)` -> URL to `scripts/generate-cookbook.ps1` if mirrored to a Documents library, or to the MANTLE Actions page.
+   - `Cookbook generator script (reference)` -> URL to `scripts/generate-cookbook.ps1` if mirrored to a Documents library, or to the KITCHEN Actions page.
 
 **Why this works**: Highlighted Content gives a self-maintaining list when the documents library is tagged correctly; Quick Links is the reliable fallback when tagging is not yet set up.
 
@@ -318,16 +318,16 @@ The unique closing action. The Onboarding page does not have this; the Update/Of
    - Normal: `Once you have refreshed your data in Phases 1-3, generate the Word document that hands everything off to your replacement. The cookbook pulls Stakeholders, Meetings, Acronyms, and your Working Styles into one file.`
    - Normal: `Recommended completeness rule: aim for 60%+ of your stakeholders to have working-style profiles (PrimaryChannel filled at minimum) before generating. Below that threshold the cookbook is mostly skeleton.`
 3. **Button** below the Text:
-   - **Label**: `Open MANTLE Actions`
-   - **Link**: paste the URL of your MANTLE Actions page (the page that documents the cookbook generator). Format example: `https://nasa.sharepoint.com/teams/PCTransitionSandbox/SitePages/MANTLE-Actions.aspx`.
+   - **Label**: `Open KITCHEN Actions`
+   - **Link**: paste the URL of your KITCHEN Actions page (the page that documents the cookbook generator). Format example: `https://nasa.sharepoint.com/teams/PCTransitionSandbox/SitePages/MANTLE-Actions.aspx`.
    - **Alignment**: Left.
-4. **Alternative wording** if you (the owner) run the generator script directly from your laptop and there is no MANTLE Actions page yet, replace the Button label and add a second Text block:
+4. **Alternative wording** if you (the owner) run the generator script directly from your laptop and there is no KITCHEN Actions page yet, replace the Button label and add a second Text block:
    - Button label: `View generator script`
-   - Button link: URL to `scripts/generate-cookbook.ps1` in the MANTLE GitHub repo (`https://github.com/CherrelleTucker/MANTLE/blob/main/scripts/generate-cookbook.ps1`).
+   - Button link: URL to `scripts/generate-cookbook.ps1` in the KITCHEN GitHub repo (`https://github.com/CherrelleTucker/KITCHEN/blob/main/scripts/generate-cookbook.ps1`).
    - Add a Text block below the button with the exact PowerShell command in a code block (Heading 4 `RUN LOCALLY`, then Normal):
      - `Connect-PnPOnline -Url https://nasa.sharepoint.com/teams/PCTransitionSandbox -UseWebLogin`
      - `.\generate-cookbook.ps1`
-     - `(omit -PCName to auto-resolve to the current Windows user; cookbook saves to C:\Users\<you>\Documents\Personal\Career\MANTLE\cookbooks\)`
+     - `(omit -PCName to auto-resolve to the current Windows user; cookbook saves to C:\Users\<you>\Documents\Personal\Career\KITCHEN\cookbooks\)`
 
 **Why this works**: Strong navy section with a single prominent Button is the visual anchor of the page. The user does not have to scroll past clutter to find the closing action.
 
@@ -399,7 +399,7 @@ A PC will return to this page each quarter for maintenance. Tell them how. Mirro
    - Heading 3: `How to find this page again`
    - Normal: `You will refer back to this page every quarter and again when handoff is imminent. Three ways to come back fast:`
    - Numbered list:
-     - `Bookmark this page in your browser as "MANTLE Update / Offboarding".`
+     - `Bookmark this page in your browser as "KITCHEN Update / Offboarding".`
      - `Pin this URL to your favorites bar.`
      - `Use the Quick Launch nav on the left -- "Update-Offboarding" is listed there.`
    - Normal: `Each list also has a "My ..." view, so you can hop straight to your own records:`
@@ -408,7 +408,7 @@ A PC will return to this page each quarter for maintenance. Tell them how. Mirro
    - `My Meetings` -> URL of `My Meetings` view from Onboarding P2b.
    - `My Acronyms` -> URL of `My Acronyms` view from Pre-work P2.
    - `My PC Record (Working Styles)` -> `/Lists/PCs/EditForm.aspx?ID=N` (your ID from P3).
-   - `MANTLE Actions (cookbook generator)` -> URL of MANTLE Actions page.
+   - `KITCHEN Actions (cookbook generator)` -> URL of KITCHEN Actions page.
 
 **Why this works**: a soft-tinted recap section explicitly reinforces "this page is durable, here is how to come back" -- which is the entire point of the quarterly maintenance frame.
 
@@ -431,7 +431,7 @@ Trust signal. Same as Home recipe Section 7 and Onboarding Section 8.
    - Bold: `Internal use only.`
    - Normal: ` Stakeholder relationship notes and internal decisions on this page are not for external sharing under any circumstance. Cookbooks generated from this data are also internal-only.`
 
-**Why this works**: visual consistency with Home and Onboarding footers signals that the same trust posture applies across MANTLE.
+**Why this works**: visual consistency with Home and Onboarding footers signals that the same trust posture applies across KITCHEN.
 
 **Time**: ~3 min.
 
@@ -445,7 +445,7 @@ Trust signal. Same as Home recipe Section 7 and Onboarding Section 8.
    - [ ] Add a stakeholder opens the Stakeholders NewForm.
    - [ ] Add a meeting opens the Meetings NewForm.
    - [ ] Add an acronym opens the Acronyms NewForm.
-   - [ ] Open MANTLE Actions opens the actions page (or the generator script).
+   - [ ] Open KITCHEN Actions opens the actions page (or the generator script).
 4. Verify each embedded List web part loads rows (or shows the expected empty state).
 5. Click a row in the Stakeholders embedded list -> verify the item's display form opens, then click Edit -> verify the Working Styles Matrix fields render.
 6. Confirm the Highlighted Content (Section 6) shows tagged Offboarding documents, OR that the Quick Links fallback resolves to real document URLs.
@@ -457,7 +457,7 @@ Trust signal. Same as Home recipe Section 7 and Onboarding Section 8.
 
 ## OPEN QUESTIONS FOR THE OWNER
 
-1. **MANTLE Actions page**: Section 7's primary CTA assumes a MANTLE Actions page exists that documents how to run `generate-cookbook.ps1`. If no such page exists yet, use the alternative wording (link straight to the GitHub-hosted script and inline the PowerShell command). Decide before publishing.
+1. **KITCHEN Actions page**: Section 7's primary CTA assumes a KITCHEN Actions page exists that documents how to run `generate-cookbook.ps1`. If no such page exists yet, use the alternative wording (link straight to the GitHub-hosted script and inline the PowerShell command). Decide before publishing.
 2. **Acronyms Contract scoping**: `My Acronyms` filters by a single Contract. If the user works across multiple contracts, change the filter to `Contract IN (a, b, c)` or `Contract is empty OR Contract = {yours}` to include universal acronyms.
 3. **Stakeholder Status field**: Section 3's "mark as Inactive" guidance assumes a Status column on Stakeholders. If it does not exist, either add it (Wave 2) or change the guidance to "add `[INACTIVE]` to the Title".
 4. **Meeting Status field**: same question for Meetings -- does a Status (or Deprecated) column exist? Adjust Section 4 wording accordingly.

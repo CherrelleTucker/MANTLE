@@ -2,7 +2,7 @@
 # Reads the Meetings list and renders it as a visual, cadence-grouped catalog
 # that replaces the raw SharePoint list view as the user-facing browse surface.
 #
-# Assumes: Connect-PnPOnline -UseWebLogin already run against the MANTLE site.
+# Assumes: Connect-PnPOnline -UseWebLogin already run against the KITCHEN site.
 # Target site: https://nasa.sharepoint.com/teams/PCTransitionSandbox
 #
 # Cmdlet versions:
@@ -267,7 +267,7 @@ $sectionIndex = 1
 # --- Section: Header (navy gradient) ---
 $headerHtml = @"
 <div style='background: linear-gradient(135deg, $navy 0%, $blue 100%); color: white; padding: 56px 32px 48px; text-align: center; border-radius: 8px;'>
-  <div style='font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; opacity: 0.85; margin-bottom: 12px;'>MANTLE</div>
+  <div style='font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; opacity: 0.85; margin-bottom: 12px;'>KITCHEN</div>
   <h1 style='font-size: 36px; font-weight: 300; margin: 0 0 12px 0; color: white;'>Meeting Catalog</h1>
   <div style='font-size: 16px; opacity: 0.95; max-width: 640px; margin: 0 auto;'>Your recurring meetings, by cadence.</div>
 </div>

@@ -1,5 +1,5 @@
 # Refresh the "Acronym Glossary" SharePoint page from the Acronyms list.
-# Assumes: Connect-PnPOnline -UseWebLogin already run against the MANTLE site.
+# Assumes: Connect-PnPOnline -UseWebLogin already run against the KITCHEN site.
 # Target site: https://nasa.sharepoint.com/teams/PCTransitionSandbox
 #
 # Cmdlet versions:
@@ -262,7 +262,7 @@ $sectionIndex = 1
 # --- Section 1: Hero header (navy gradient) ---
 $heroHtml = @"
 <div style='background: linear-gradient(135deg, $navy 0%, $blue 100%); padding: 48px 32px 40px; text-align: center; border-radius: 8px;'>
-  <div style='font-size: 12px; letter-spacing: 2.5px; text-transform: uppercase; color: #FFFFFF; margin-bottom: 12px; text-shadow: 0 1px 2px rgba(0,0,0,0.3);'>MANTLE Reference</div>
+  <div style='font-size: 12px; letter-spacing: 2.5px; text-transform: uppercase; color: #FFFFFF; margin-bottom: 12px; text-shadow: 0 1px 2px rgba(0,0,0,0.3);'>KITCHEN Reference</div>
   <h1 style='font-size: 40px; font-weight: 600; line-height: 1.1; margin: 0 0 12px 0; color: #FFFFFF; text-shadow: 0 2px 4px rgba(0,0,0,0.4);'>Acronym Glossary</h1>
   <div style='font-size: 16px; color: #FFFFFF; max-width: 720px; margin: 0 auto; font-weight: 400; text-shadow: 0 1px 3px rgba(0,0,0,0.35);'>$totalCount acronyms across NASA</div>
 </div>

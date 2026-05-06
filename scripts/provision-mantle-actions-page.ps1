@@ -1,5 +1,5 @@
-# Provision the "MANTLE Actions" SharePoint page.
-# Assumes: Connect-PnPOnline -UseWebLogin already run against the MANTLE site.
+# Provision the "KITCHEN Actions" SharePoint page.
+# Assumes: Connect-PnPOnline -UseWebLogin already run against the KITCHEN site.
 # Target site: https://nasa.sharepoint.com/teams/PCTransitionSandbox
 #
 # Cmdlet versions:
@@ -10,8 +10,8 @@
 #   Add-PnPPage, Add-PnPPageSection, Add-PnPPageTextPart, Set-PnPPage, Get-PnPPage.
 #   If a cmdlet is missing, see the alias note next to each call.
 
-$pageName  = "MANTLE Actions"
-$pageTitle = "MANTLE Actions"
+$pageName  = "KITCHEN Actions"
+$pageTitle = "KITCHEN Actions"
 # SharePoint converts spaces in the page name to a hyphen in the URL:
 $pageUrlRelative = "/teams/PCTransitionSandbox/SitePages/MANTLE-Actions.aspx"
 
@@ -116,8 +116,8 @@ function Add-MantleSection {
 
 # --- Section 1: Page intro ---
 $introHtml = @"
-<h2>MANTLE Actions</h2>
-<p>This page is the entry point for administrative actions on the MANTLE platform. It is intended for the Project Coordinator (PC) acting as the platform owner / HR-grade admin, not for incoming or outgoing trainees.</p>
+<h2>KITCHEN Actions</h2>
+<p>This page is the entry point for administrative actions on the KITCHEN platform. It is intended for the Project Coordinator (PC) acting as the platform owner / HR-grade admin, not for incoming or outgoing trainees.</p>
 <p>Each action below is something that today requires running a PowerShell script from a terminal, because Power Automate is not yet enabled on this tenant. Each entry tells you what the action does, when to use it, and the exact command to copy and paste. Once Power Automate is enabled, each one becomes a one-click button on this page.</p>
 <p><strong>Prerequisite for every action:</strong> a PowerShell session connected to this site via <code>Connect-PnPOnline -Url $siteUrl -UseWebLogin</code>.</p>
 "@
@@ -127,10 +127,10 @@ Add-MantleSection -SectionIndex 1 -TextBlocks @($introHtml)
 # Emoji fallback: [COOKBOOK]
 $cookbookHtml = @"
 <h2>&#128214; Generate My Cookbook</h2>
-<p><strong>What it does:</strong> Assembles a Word-style cookbook document for the current PC by pulling Trainee Profile, assigned Programs, Meetings, Stakeholders, Decisions, Acronyms, Tools, and Equivalency Map data from the MANTLE Lists.</p>
+<p><strong>What it does:</strong> Assembles a Word-style cookbook document for the current PC by pulling Trainee Profile, assigned Programs, Meetings, Stakeholders, Decisions, Acronyms, Tools, and Equivalency Map data from the KITCHEN Lists.</p>
 <p><strong>When to use it:</strong> On demand when you want a polished snapshot of your role for handoff, for a supervisor review, or to share with a replacement.</p>
 <p><strong>How to run today (PowerShell):</strong></p>
-<pre style='font-family:Consolas,monospace;background:#f3f2f1;padding:8px;border:1px solid #d2d0ce;'>. "C:\Users\cjtucke3\Documents\Personal\Career\MANTLE\scripts\generate-cookbook.ps1"</pre>
+<pre style='font-family:Consolas,monospace;background:#f3f2f1;padding:8px;border:1px solid #d2d0ce;'>. "C:\Users\cjtucke3\Documents\Personal\Career\KITCHEN\scripts\generate-cookbook.ps1"</pre>
 <p><em>Future state:</em> When Power Automate is enabled, this becomes a one-click button on this page. See <code>design/pa-replacement-cookbook.md</code> for the flow design.</p>
 "@
 Add-MantleSection -SectionIndex 2 -TextBlocks @($cookbookHtml)
@@ -139,10 +139,10 @@ Add-MantleSection -SectionIndex 2 -TextBlocks @($cookbookHtml)
 # Emoji fallback: [INBOX]
 $welcomeHtml = @"
 <h2>&#128229; Process Welcome Responses</h2>
-<p><strong>What it does:</strong> Reads new submissions from the MANTLE Welcome Form, resolves the submitter to a row in the PCs list (auto-creating one if missing), creates or updates a Trainee Profile, and seeds the standard 30-60-90 starter tasks.</p>
+<p><strong>What it does:</strong> Reads new submissions from the KITCHEN Welcome Form, resolves the submitter to a row in the PCs list (auto-creating one if missing), creates or updates a Trainee Profile, and seeds the standard 30-60-90 starter tasks.</p>
 <p><strong>When to use it:</strong> Run after any new PC submits the Welcome Form. Safe to re-run; it only acts on responses it has not yet processed.</p>
 <p><strong>How to run today (PowerShell):</strong></p>
-<pre style='font-family:Consolas,monospace;background:#f3f2f1;padding:8px;border:1px solid #d2d0ce;'>. "C:\Users\cjtucke3\Documents\Personal\Career\MANTLE\scripts\process-welcome-responses.ps1"</pre>
+<pre style='font-family:Consolas,monospace;background:#f3f2f1;padding:8px;border:1px solid #d2d0ce;'>. "C:\Users\cjtucke3\Documents\Personal\Career\KITCHEN\scripts\process-welcome-responses.ps1"</pre>
 <p><em>Future state:</em> When Power Automate is enabled, this becomes a one-click button on this page. See <code>design/pa-replacement-welcome-intake.md</code> for the flow design.</p>
 "@
 Add-MantleSection -SectionIndex 3 -TextBlocks @($welcomeHtml)
@@ -154,7 +154,7 @@ $staleHtml = @"
 <p><strong>What it does:</strong> Scans the Stakeholders list for entries whose <em>Last contact</em> date is older than the cadence implies (for example, a Weekly contact with no touch in 30+ days). Prints a report; optionally writes a flag column.</p>
 <p><strong>When to use it:</strong> Weekly, as part of your own cadence review, or before a supervisor 1:1 to surface relationships that need attention.</p>
 <p><strong>How to run today (PowerShell):</strong></p>
-<pre style='font-family:Consolas,monospace;background:#f3f2f1;padding:8px;border:1px solid #d2d0ce;'>. "C:\Users\cjtucke3\Documents\Personal\Career\MANTLE\scripts\check-stale-stakeholders.ps1"</pre>
+<pre style='font-family:Consolas,monospace;background:#f3f2f1;padding:8px;border:1px solid #d2d0ce;'>. "C:\Users\cjtucke3\Documents\Personal\Career\KITCHEN\scripts\check-stale-stakeholders.ps1"</pre>
 <p><em>Future state:</em> When Power Automate is enabled, this becomes a scheduled flow that emails you the report weekly. See <code>design/pa-replacement-stale-stakeholders.md</code> for the flow design.</p>
 "@
 Add-MantleSection -SectionIndex 4 -TextBlocks @($staleHtml)
@@ -168,7 +168,7 @@ Add-MantleSection -SectionIndex 4 -TextBlocks @($staleHtml)
 $quickLinksHtml = @"
 <h2>&#128640; Quick links</h2>
 <ul>
-  <li><a href="$siteUrl/Lists/MANTLE%20Welcome%20Form/NewForm.aspx">Welcome Form</a> &mdash; intake for incoming and outgoing PCs</li>
+  <li><a href="$siteUrl/Lists/KITCHEN%20Welcome%20Form/NewForm.aspx">Welcome Form</a> &mdash; intake for incoming and outgoing PCs</li>
   <li><a href="$siteUrl/Lists/Trainee%20Profiles/AllItems.aspx">Trainee Profiles</a> &mdash; per-PC personalization (Tier 3)</li>
   <li><a href="$siteUrl/Lists/30609090%20Tasks/AllItems.aspx">30-60-90 Tasks</a> &mdash; onboarding and ongoing task plan</li>
   <li><a href="$siteUrl/Lists/Equivalency%20Map/AllItems.aspx">Equivalency Map</a> &mdash; cross-tool translations (Slack to Teams, etc.)</li>
@@ -184,8 +184,8 @@ Add-MantleSection -SectionIndex 5 -TextBlocks @($quickLinksHtml)
 # Emoji fallback: [TOOLS]
 $adminHtml = @"
 <h2>&#128736; Admin notes</h2>
-<p>These actions today require a PowerShell terminal connected to the MANTLE site. They are designed to become one-click buttons when Power Automate is enabled on this tenant. Until then, the scripts are the source of truth: each one is small, idempotent, and safe to re-run.</p>
-<p>For the migration plans &mdash; what each script does, which Power Automate connectors will replace it, and the flow design &mdash; see the <code>design/</code> folder in the MANTLE repository (<code>C:\Users\cjtucke3\Documents\Personal\Career\MANTLE\design\</code>). Filenames follow the pattern <code>pa-replacement-&lt;name&gt;.md</code>.</p>
+<p>These actions today require a PowerShell terminal connected to the KITCHEN site. They are designed to become one-click buttons when Power Automate is enabled on this tenant. Until then, the scripts are the source of truth: each one is small, idempotent, and safe to re-run.</p>
+<p>For the migration plans &mdash; what each script does, which Power Automate connectors will replace it, and the flow design &mdash; see the <code>design/</code> folder in the KITCHEN repository (<code>C:\Users\cjtucke3\Documents\Personal\Career\KITCHEN\design\</code>). Filenames follow the pattern <code>pa-replacement-&lt;name&gt;.md</code>.</p>
 <p>If a script fails, the most common cause is a stale PnP connection. Re-run <code>Connect-PnPOnline -Url $siteUrl -UseWebLogin</code> and retry.</p>
 "@
 Add-MantleSection -SectionIndex 6 -TextBlocks @($adminHtml)

@@ -1,12 +1,12 @@
 # Cookbook Export — Build Guide (v1)
 
-**Audience:** the PC building MANTLE in the NASA tenant (single-user deployment).
+**Audience:** the PC building KITCHEN in the NASA tenant (single-user deployment).
 **Companion to:** `design/cookbook-export.md` (design intent), `data-model/schemas.md` (List schemas).
-**Output of this guide:** a working `MANTLE — Generate Cookbook` flow that produces a `.docx` in the MANTLE site's `Cookbooks` library when triggered.
+**Output of this guide:** a working `KITCHEN — Generate Cookbook` flow that produces a `.docx` in the KITCHEN site's `Cookbooks` library when triggered.
 
 This is a click-by-click implementation guide. It assumes the design is settled and turns it into actions. Decisions made for you (and locked in for v1):
 
-- **Output destination:** SharePoint document library on the MANTLE site at `/Documents/Cookbooks/` — *not* OneDrive. Reason: stays inside the tenant boundary (D9), is discoverable to a future second user, and survives the PC's departure.
+- **Output destination:** SharePoint document library on the KITCHEN site at `/Documents/Cookbooks/` — *not* OneDrive. Reason: stays inside the tenant boundary (D9), is discoverable to a future second user, and survives the PC's departure.
 - **Schema gaps:** v1 builds against the schema as it exists today. Anything the design doc calls out as "add to schema" (e.g., `Programs.PC responsibilities`, `30-60-90 Tasks.Cadence`) is a **v2 enhancement — leave the corresponding content control blank in v1**. The flow still binds it; the value is just an empty string.
 - **Excel-imported lists** use generic internal names. Crosswalk inline below.
 
@@ -106,7 +106,7 @@ For each repeating section (`meetings`, `stakeholders`, `tools`, `equivalencies`
 1. Browse to `https://make.powerautomate.com` → sign in with NASA SSO.
 2. Confirm the environment selector (top right) shows the correct NASA tenant environment.
 3. **+ Create → Instant cloud flow.**
-4. **Flow name:** `MANTLE — Generate Cookbook`. **Trigger:** *Manually trigger a flow*. Click **Create**.
+4. **Flow name:** `KITCHEN — Generate Cookbook`. **Trigger:** *Manually trigger a flow*. Click **Create**.
 5. On the trigger card, click **+ Add an input → Number**. Name it `programId`.
 
 ### 2.2 Initialize variables
@@ -122,7 +122,7 @@ Click **+ New step**:
 ### 2.4 Get the trainee profile
 
 - **+ New step → SharePoint → Get items.**
-  - **Site Address:** select the MANTLE site from the dropdown (do not paste the URL).
+  - **Site Address:** select the KITCHEN site from the dropdown (do not paste the URL).
   - **List Name:** `Trainee Profiles`.
   - **Filter Query:** `PC/EMail eq '@{outputs('Get_my_profile_(V2)')?['body/mail']}'`
   - **Top Count:** `1`.
@@ -131,7 +131,7 @@ Click **+ New step**:
 ### 2.5 Get the program
 
 - **+ New step → SharePoint → Get item.**
-  - Site Address: MANTLE site. List Name: `Programs`.
+  - Site Address: KITCHEN site. List Name: `Programs`.
   - **Id:** click the field, then **Dynamic content → programId** (from the trigger).
   - Rename: "Get_Program".
 
@@ -204,13 +204,13 @@ Repeat for each repeating section. Critical mappings:
     - `customer` ← `outputs('Get_Program')?['body/Customer']`
     - `coverDate` ← `formatDateTime(utcNow(),'MMMM d, yyyy')`
     - `programDescription` ← `outputs('Get_Program')?['body/Description']`
-  - v2-enhancement plain controls (`programLongName`, `positionPurpose`, `jobDuties`, `reportsSection`, `personalNotes`) — pass an empty string `''` or a placeholder like `'(See MANTLE to populate)'`.
+  - v2-enhancement plain controls (`programLongName`, `positionPurpose`, `jobDuties`, `reportsSection`, `personalNotes`) — pass an empty string `''` or a placeholder like `'(See KITCHEN to populate)'`.
   - Repeating-section controls — bind to the corresponding **Select** body, e.g., `body('Select_Meetings')`. Power Automate will surface the inner controls as keys; verify they match what the Select emits.
 
 ### 2.9 Save the file to SharePoint
 
 - **+ New step → SharePoint → Create file.**
-  - **Site Address:** MANTLE site.
+  - **Site Address:** KITCHEN site.
   - **Folder Path:** `/Shared Documents/Cookbooks`.
   - **File Name:** `@{outputs('Get_my_profile_(V2)')?['body/displayName']}_@{outputs('Get_Program')?['body/Title']}_Cookbook_@{variables('runId')}.docx`
   - **File Content:** dynamic content → **Microsoft Word Document** (the body output of the Populate step).
@@ -219,7 +219,7 @@ Repeat for each repeating section. Critical mappings:
 
 - **+ New step → Office 365 Outlook → Send an email (V2).**
   - **To:** `outputs('Get_my_profile_(V2)')?['body/mail']`.
-  - **Subject:** `Your MANTLE cookbook is ready — @{outputs('Get_Program')?['body/Title']}`.
+  - **Subject:** `Your KITCHEN cookbook is ready — @{outputs('Get_Program')?['body/Title']}`.
   - **Body:** include the link from the Create file step's `Link to item` output.
 
 Click **Save** at the top right.

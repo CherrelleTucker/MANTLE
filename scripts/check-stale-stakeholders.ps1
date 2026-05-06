@@ -121,7 +121,7 @@ switch ($OutputFormat) {
         }
     }
     "File" {
-        $reportDir = "C:\Users\cjtucke3\Documents\Personal\Career\MANTLE\reports"
+        $reportDir = "C:\Users\cjtucke3\Documents\Personal\Career\KITCHEN\reports"
         if (-not (Test-Path $reportDir)) { New-Item -ItemType Directory -Path $reportDir | Out-Null }
         $datestamp = (Get-Date).ToString("yyyy-MM-dd")
         $reportPath = Join-Path $reportDir "stale-stakeholders-$datestamp.md"

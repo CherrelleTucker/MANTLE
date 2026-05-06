@@ -570,7 +570,7 @@ if ($railOk) {
 <li>You</li>
 <li>Your replacement (when assigned)</li>
 <li>Your Barrios manager</li>
-<li>MANTLE administrators</li>
+<li>KITCHEN administrators</li>
 </ul>
 <p style='color:#333333;margin:0;font-size:12px;'><strong>Confidential</strong>-tagged items are restricted to admins plus you.</p>
 </td></tr></table>

@@ -1,6 +1,6 @@
-# MANTLE Home Page -- GUI Build Recipe
+# KITCHEN Home Page -- GUI Build Recipe
 
-Manual, drag-and-drop SharePoint Modern build recipe for the MANTLE site home page. Target: approximate the design in `design/onboarding-offboarding-native-mockup.html` (Home panel) using ONLY native section templates and native web parts. No HTML hacks, no PowerShell, no SPFx.
+Manual, drag-and-drop SharePoint Modern build recipe for the KITCHEN site home page. Target: approximate the design in `design/onboarding-offboarding-native-mockup.html` (Home panel) using ONLY native section templates and native web parts. No HTML hacks, no PowerShell, no SPFx.
 
 - **Site**: https://nasa.sharepoint.com/teams/PCTransitionSandbox
 - **Site type**: Group-connected (Teams-backed). OneColumn / TwoColumn / ThreeColumn / Vertical section are available; OneColumnFullWidth is NOT.
@@ -17,7 +17,7 @@ Manual, drag-and-drop SharePoint Modern build recipe for the MANTLE site home pa
 - Per-office views in lists (one-time, optional but recommended): ~10 min
 - Section 1 -- Hero: ~7 min
 - Section 2 -- Path picker: ~7 min
-- Section 3 -- What MANTLE is + Quick Stats: ~10 min
+- Section 3 -- What KITCHEN is + Quick Stats: ~10 min
 - Section 4 -- Three feature cards: ~10 min
 - Section 5 -- Quick links + Recent activity: ~12 min
 - Section 6 -- Trust / visibility callout: ~5 min
@@ -33,13 +33,13 @@ Manual, drag-and-drop SharePoint Modern build recipe for the MANTLE site home pa
 | Pre | -- | -- | (Theme + new page) | -- |
 | 1 | OneColumn | Strong (Navy) | Hero (1 tile, Layers) | S1 -- Welcome / acronym tagline |
 | 2 | TwoColumn | None | Call to Action x2 (or Hero, 2 tiles) | S2 -- Onboarding vs Offboarding tiles |
-| 3 | TwoColumn | Neutral | Text + Quick Links (Compact) OR Highlighted Content | S3 -- What MANTLE is + Stats |
+| 3 | TwoColumn | Neutral | Text + Quick Links (Compact) OR Highlighted Content | S3 -- What KITCHEN is + Stats |
 | 4 | ThreeColumn | None | Quick Links x1 (Tiles, 3 links) OR three Text web parts | S4 -- Three feature cards |
 | 5 | TwoColumn | None | Quick Links (List) + List (Stakeholders / Recent) | S5 -- Quick links + Recent activity |
 | 6 | OneColumn | Soft | Text | Visibility / who-can-see callout |
 | 7 | OneColumn | Soft (gold-ish via theme) | Text | S6 -- Internal-use-only footer |
 
-After all sections, also add a **Vertical section** on the right (optional) for People web part of "MANTLE admins" -- skip if you want a cleaner page.
+After all sections, also add a **Vertical section** on the right (optional) for People web part of "KITCHEN admins" -- skip if you want a cleaner page.
 
 ---
 
@@ -57,14 +57,14 @@ After all sections, also add a **Vertical section** on the right (optional) for 
 ### P2. Scrap the existing Home page (~3 min)
 
 1. Gear -> **Site contents** -> **Site Pages** library.
-2. Find the current "MANTLE Home" (or "Home.aspx"). Right-click -> **Rename** to `[ARCHIVED] MANTLE Home` (do NOT delete yet -- you may want a fallback while building).
+2. Find the current "KITCHEN Home" (or "Home.aspx"). Right-click -> **Rename** to `[ARCHIVED] KITCHEN Home` (do NOT delete yet -- you may want a fallback while building).
 3. Stay in Site Pages.
 
 ### P3. Create the new blank page (~3 min)
 
 1. In Site Pages, click **+ New** -> **Site page**.
 2. Template chooser: pick **Blank**. Click **Create page**.
-3. Top of page, click the title placeholder. Type: `MANTLE Home`.
+3. Top of page, click the title placeholder. Type: `KITCHEN Home`.
 4. Click the small banner area below the title. In the title-area panel on the right:
    - **Layout**: Plain (smallest header).
    - **Show published date**: Off.
@@ -109,7 +109,7 @@ For the Stakeholders list (repeat for any list that has the new Office multi-Cho
 
 ## SECTION 1 -- Hero band
 
-**Mockup reference**: S1 of Home page -- navy band, gold tagline `MANUAL . ACRONYMS . NOTES . TRANSITION . LOGISTICS . ENGAGEMENT`, large white "Welcome to MANTLE" headline, descriptive paragraph below.
+**Mockup reference**: S1 of Home page -- navy band, gold tagline `KNOWLEDGE . INTERVIEWS . TRANSITIONS . COOKBOOKS . HANDOFFS . EQUIVALENCIES . NETWORK`, large white "Welcome to KITCHEN" headline, descriptive paragraph below.
 
 - **Section template**: OneColumn
 - **Section emphasis**: **Strong** (this gives the dark navy fill that survives in published view; with a Barrios or NASA-blue theme, Strong renders as the deep brand color)
@@ -129,14 +129,14 @@ For the Stakeholders list (repeat for any list that has the new Office multi-Cho
    - **Number of layers**: **1**.
 7. Click on the single hero tile -> Details pane opens.
    - **Image source**: click **Change** -> choose **From a link** -> paste a sourced banner image URL (a wide, dark, low-detail image works best -- the Hero overlay will darken it). Alternative: **Upload** a Barrios-branded banner you sourced separately.
-   - **Title**: `Welcome to MANTLE`
-   - **Subtitle (alt text or caption)**: `Manual . Acronyms . Notes . Transition . Logistics . Engagement`
+   - **Title**: `Welcome to KITCHEN`
+   - **Subtitle (alt text or caption)**: `Knowledge . Interviews . Transitions . Cookbooks . Handoffs . Equivalencies . Network`
    - **Link**: leave blank (the hero is decorative -- no click target).
    - **Call to action**: toggle **Off** (the path picker in Section 2 is the CTA; we don't want a duplicate button on the hero).
    - **Show topic**: optional. If on, type `Knowledge collected by every coordinator who has done this role before you.`
 8. Close the panel.
 
-**Visual outcome**: A full-width banner with a dark image, large "Welcome to MANTLE" headline, the six-word tagline as subtitle, and (optionally) a one-line topic. No call-to-action button on the hero itself.
+**Visual outcome**: A full-width banner with a dark image, large "Welcome to KITCHEN" headline, the six-word tagline as subtitle, and (optionally) a one-line topic. No call-to-action button on the hero itself.
 
 **Time**: ~7 min.
 
@@ -181,7 +181,7 @@ Native Modern has a **Call to Action** web part that does exactly this: image ba
 
 ---
 
-## SECTION 3 -- What MANTLE is (left) + Quick stats (right)
+## SECTION 3 -- What KITCHEN is (left) + Quick stats (right)
 
 **Mockup reference**: S3 -- left column has a small uppercase eyebrow, a heading, and two paragraphs of body text. Right column has a soft-grey panel with five rows of "label + big number".
 
@@ -196,9 +196,9 @@ Native web parts cannot do animated counters. The closest faithful render is a T
 1. Below Section 2, **+** -> **Two columns** -> emphasis **Neutral**.
 2. **Left column**: **+** -> **Text**.
    - In the inline editor, type:
-     - On line 1, set the style dropdown to "small text" or use the eyebrow style: type `WHAT MANTLE IS` (then bold it; consider an em-dash divider after).
+     - On line 1, set the style dropdown to "small text" or use the eyebrow style: type `WHAT KITCHEN IS` (then bold it; consider an em-dash divider after).
      - On line 2, switch to **Heading 3**: type `A platform for coordinator-to-coordinator knowledge transfer`.
-     - Switch to **Normal**: paragraph 1: `PCs leave, contracts shift, and institutional knowledge vanishes. MANTLE captures the relationships, meetings, decisions, and unwritten rules that make a working team actually work -- and packages it for the next person.`
+     - Switch to **Normal**: paragraph 1: `PCs leave, contracts shift, and institutional knowledge vanishes. KITCHEN captures the relationships, meetings, decisions, and unwritten rules that make a working team actually work -- and packages it for the next person.`
      - New paragraph: `Built by coordinators, for coordinators. Maintained by every PC who uses it.`
    - No HTML, no custom colors. Just headings, paragraphs, bold.
 3. **Right column**: **+** -> **Text**.
@@ -239,7 +239,7 @@ The native **Quick Links** web part with Button layout gives one button per "lin
 3. **Middle column** -> **+** -> **Text**:
    - **Heading 3**: `Generate cookbooks`
    - **Normal**: `One-click generation pulls everything you have documented into a Word document handoff. Your replacement reads it on day one.`
-   - **Bold link**: `MANTLE Actions ->` -> link to admin actions page (or `#` placeholder).
+   - **Bold link**: `KITCHEN Actions ->` -> link to admin actions page (or `#` placeholder).
 4. **Right column** -> **+** -> **Text**:
    - **Heading 3**: `Browse equivalencies`
    - **Normal**: `Cross-tool translations: Slack to Teams, Drive to OneDrive, Asana to Planner. Find the local equivalent of what you already know.`
@@ -278,7 +278,7 @@ The colored left stripe in the mockup cannot be reproduced by native Text. It is
      5. Title: `Equivalency Map` -- URL: Equivalency Map list URL.
      6. Title: `Trainee Profiles` -- URL: Trainee Profiles list URL.
      7. Title: `30-60-90 Tasks` -- URL: 30-60-90 Tasks list URL.
-     8. Title: `MANTLE Actions (admin)` -- URL: admin actions page or `#` placeholder.
+     8. Title: `KITCHEN Actions (admin)` -- URL: admin actions page or `#` placeholder.
    - Per-office filtering: also add the per-office filtered Stakeholder views you created in PRE-WORK as separate links here. For example:
      - `Stakeholders -- NSITE MO`
      - `Stakeholders -- ODSI`
@@ -315,12 +315,12 @@ The colored left stripe in the mockup cannot be reproduced by native Text. It is
 1. Below Section 5, **+** -> **One column** -> emphasis **Soft**.
 2. **+** -> **Text**.
    - **Heading 3**: `Who can see what's on this site`
-   - **Normal**: `MANTLE is internal to Barrios and your contract team. Stakeholder records, working styles, and decisions are visible to:`
+   - **Normal**: `KITCHEN is internal to Barrios and your contract team. Stakeholder records, working styles, and decisions are visible to:`
    - Bulleted list:
      - `You`
      - `Other PCs assigned to the same contract`
      - `Your Barrios manager`
-     - `MANTLE administrators`
+     - `KITCHEN administrators`
    - New paragraph: `Items tagged Confidential are personal observations and never appear in public reports or external slides.`
 
 **Visual outcome**: A soft-tinted band of text reassuring the viewer about the data audience. No fancy styling needed -- emphasis carries it.
@@ -343,7 +343,7 @@ The colored left stripe in the mockup cannot be reproduced by native Text. It is
 2. **+** -> **Text**.
    - All on one line, **Normal** style, mixing bold:
      - Bold: `Internal use only.`
-     - Then non-bold: ` MANTLE contains contract-sensitive context. Do not share pages or list exports outside Barrios or your contract team.`
+     - Then non-bold: ` KITCHEN contains contract-sensitive context. Do not share pages or list exports outside Barrios or your contract team.`
 3. Center-align the paragraph.
 
 **Visual outcome**: A modest, slightly-tinted full-width band at the bottom of the page that reads as a footer disclaimer.
@@ -373,7 +373,7 @@ After publishing:
 - [ ] List web part in Section 5 actually loads rows. If blank, check the view permission and the chosen view's filters.
 - [ ] Per-office view links open the correctly filtered list view for at least NSITE MO and ODSI.
 - [ ] Page is set as site home (URL `/teams/PCTransitionSandbox/` lands on this page, not on the old one).
-- [ ] Old page is renamed `[ARCHIVED] MANTLE Home`, not deleted.
+- [ ] Old page is renamed `[ARCHIVED] KITCHEN Home`, not deleted.
 - [ ] No section emphasis is "Strong" except Section 1 (the hero band) -- protects readability.
 
 ---

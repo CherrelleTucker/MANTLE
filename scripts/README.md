@@ -1,6 +1,6 @@
-# MANTLE Scripts
+# KITCHEN Scripts
 
-PowerShell scripts that automate provisioning and maintenance of MANTLE's SharePoint Lists.
+PowerShell scripts that automate provisioning and maintenance of KITCHEN's SharePoint Lists.
 
 All scripts assume you're running in a PowerShell session that has already connected to your SharePoint site via:
 

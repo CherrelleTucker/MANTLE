@@ -8,7 +8,7 @@ Two user modes — incoming and outgoing — share a common landing page and div
 
 Calm, single hero message. *"Welcome. You're in the right place."*
 
-Subtitle: *"MANTLE — Manual, Acronyms, Notes, Transition, Logistics, Engagement. Knowledge collected by every coordinator who's done this role before you, so you don't have to start cold."*
+Subtitle: *"KITCHEN — Knowledge, Interviews, Transitions, Cookbooks, Handoffs, Equivalencies, Network. Knowledge collected by every coordinator who's done this role before you, so you don't have to start cold."*
 
 Two large primary cards (soft choice — not a hard modal):
 - 🚀 **I'm starting a new role** → Scenario A
